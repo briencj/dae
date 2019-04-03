@@ -2,7 +2,7 @@
 \title{News for Package dae}
 \section{Changes in dae version 3.0-31 (2019-04-04)}{
   \itemize{
-    \item{Update the Author field of the DESCRIPTION to include an ORCID.}
+    \item{Update the Author field to include an ORCID and the Description field of the DESCRIPTION.}
     \item{Add new function designTwophaseAnatomies.}
 }}
 \section{Changes in dae version 3.0-30 (2019-03-29)}{

@@ -1,10 +1,19 @@
-# dae
+---
+title: "dae"
+output:
+  html_document:
+    keep_md: yes
+  pdf_document: default
+---
+
+
+
 
 [![Project Status: Active:  The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-2.10.0-6666ff.svg)](https://cran.r-project.org/)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/dae)](https://cran.r-project.org/package=dae)
 [![packageversion](https://img.shields.io/badge/Package%20version-3.0--31-orange.svg?style=flat-square)](/commits/master)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2019--04--03-yellowgreen.svg)](/commits/master)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2019--04--04-yellowgreen.svg)](/commits/master)
 [![Licence](https://img.shields.io/badge/license-GPL%20(%3E%3D2)-green.svg)](http://choosealicense.com/licenses/gpl-2.0/)
 [![Downloads](https://cranlogs.r-pkg.org/badges/last-week/dae)](commits/master)
 
@@ -13,9 +22,9 @@
 
 ## More information
 
-For more information install the package and run the R command `news(package = “dae”)` or consult the [manual](./vignettes/dae-manual.pdf). 
+For more information install the package and run the R command `news(package = “dae”)` or consult the [manual](./vignettes/dae-manual.pdf) via `vignette("Manual", package = "dae")`. 
 
-An overview can be obtained using `?dae`. 
+An overview can be obtained using `?dae`. A [vignette](./vignettes/DesignNotes.pdf) is also available via `vignette("DesignNotes", package = "dae")`.
 
 ## Installing the package
 
@@ -44,7 +53,7 @@ If you have not previously installed `dae` then you will need to install it depe
 
 ## What is does
 
-It is described in the manual, which can be found using `vignette("Manual", package = "dae")`. Also found using `vignette("DesignNotes", package = "dae")` is a vignette describing how to use `designRandomize` to produce randomized layouts for experiments and `designAnatomy` to assessing the properties of designs. It covers both standard and multiphase experimental designs. The data sets that go with the vignette are available in `dae`.
+Its most general facilties are those for randomizing systematic designs to produce randomized layouts for experiments and for assessing their properties by producing their efficiency factors. The  randomized layouts are produced using the function `designRandomize` and a number of functions whose names start with `design`, as well as functions for manipulating factors whose names begin with `fac`. The efficiency factors are obtained using `designAnatomy`. The use of `designRandomize` and `designAnatomy` is exemplified in the  [vignette](./vignettes/DesignNotes.pdf), which is also found using `vignette("DesignNotes", package = "dae")`. It covers both standard and multiphase experimental designs. The data sets that go with the [vignette](./vignettes/DesignNotes.pdf) are available in `dae`. The package is documented in the [manual](./vignettes/dae-manual.pdf), which can be found using `vignette("Manual", package = "dae")`. 
 
 The content falls into the following natural groupings: 
 

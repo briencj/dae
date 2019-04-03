@@ -3,3 +3,7 @@
 ^.archive$
 ^.tests$
 ^.vignettes$
+^CRANlogs$
+^README.*$
+^LICENSE.md$
+^LICENSE.html$
