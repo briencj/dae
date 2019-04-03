@@ -1,0 +1,133 @@
+<html><head><title>Plots an interaction plot for three factors.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>interaction.ABC.plot(dae)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   interaction.ABC.plot">
+<param name="keyword" value=" Plots an interaction plot for three factors.">
+</object>
+
+
+<h2>Plots an interaction plot for three factors.</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Plots a function (the mean by default) of the <code>response</code> for
+the combinations of the three factors specified as the <code>x.factor</code>
+(plotted on the x axis of each plot), the <code>groups.factor</code> (plotted
+as separate lines in each plot) and the <code>trace.factor</code> (its levels
+are plotted in different plots). Interaction plots for more than three
+factors can be produced by using <code>fac.combine</code> to combine all but
+two of them into a single factor that is specified as the
+<code>trace.factor</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>interaction.ABC.plot(response, x.factor, groups.factor, trace.factor,
+       data, fun="mean", title="A:B:C Interaction Plot", xlab, ylab, key.title,
+       lwd=4, columns=2, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>response</code></td>
+<td>
+The response variable from which a function (the mean by
+default) is computed for plotting on the y-axis.</td></tr>
+<tr valign="top"><td><code>x.factor</code></td>
+<td>
+The factor to be plotted on the x-axis of each plot.</td></tr>
+<tr valign="top"><td><code>groups.factor</code></td>
+<td>
+The factor plotted as separate lines in each plot.</td></tr>
+<tr valign="top"><td><code>trace.factor</code></td>
+<td>
+The factor for whose levels there are separate plots.</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+A data frame containing the three factors and the response.</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+The function to be computed from the <code>response</code> for each
+combination of the three factors <code>x.factor</code>,
+<code>groups.factor</code> and <code>trace.factor</code>. By default, the mean
+is computed for each combination.</td></tr>
+<tr valign="top"><td><code>title</code></td>
+<td>
+Title for plot window. By default it is "A:B:C Interaction Plot".</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+Label for the x-axis. By default it is the name of the
+<code>x.factor</code>.</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+Label for the y-axis. By default it is the name of the
+<code>response</code>.</td></tr>
+<tr valign="top"><td><code>key.title</code></td>
+<td>
+Label for the xkey to the lines in each plot. By default it
+is the name of the <code>groups.factor</code>.</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+The width of the lines. By default it is 4.</td></tr>
+<tr valign="top"><td><code>columns</code></td>
+<td>
+The number of columns for arranging the several plots for the
+levels of the <code>groups.factor</code>. By default it is 2.</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+Other arguments that are passed down to the function <code>xyplot</code>.</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+An object of class lattice, which is automatically plotted by
+print.trellis.</p>
+
+<h3>Note</h3>
+
+<p>
+A data frame called <code>data.means</code> is created, attached and detached
+during execution of this function.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code><a onclick="findlink('stats', 'interaction.plot.html')" style="text-decoration: underline; color: blue; cursor: hand">interaction.plot</a></code>, <code><a href="fac.combine.html">fac.combine</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  interaction.ABC.plot(MOE, A, B, C, data=ABC.Interact)
+  interaction.ABC.plot(Main.Grass, x.factor=Period,
+                       groups.factor=Spring, trace.factor=Summer,
+                       data=SPLGrass.dat,
+                       title="Effect of Period, Spring and Summer on Main Grass")
+</pre>
+
+<script Language="JScript">
+function findlink(pkg, fn) {
+var Y, link;
+Y = location.href.lastIndexOf("\\") + 1;
+link = location.href.substring(0, Y);
+link = link + "../../" + pkg + "/chtml/" + pkg + ".chm::/" + fn;
+location.href = link;
+}
+</script>
+
+
+<hr><div align="center">[Package <em>dae</em> version 0.3-1 <a href="00Index.html">Index]</a></div>
+
+</body></html>

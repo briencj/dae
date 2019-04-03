@@ -1,0 +1,80 @@
+<html><head><title>Performs Tukey's one-degree-of-freedom-test-for-nonadditivity</title>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>tukey.1df(dae)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   tukey.1df">
+<param name="keyword" value=" Performs Tukey's one-degree-of-freedom-test-for-nonadditivity">
+</object>
+
+
+<h2>Performs Tukey's one-degree-of-freedom-test-for-nonadditivity</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Performs Tukey's one-degree-of-freedom-test-for-nonadditivity 
+on a set of residuals from an analysis of variance
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>tukey.1df(aov.obj, data, error.term="Within")</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>aov.obj</code></td>
+<td>
+An aov object or aovlist object created from a call to aov.</td></tr>
+<tr valign="top"><td><code>error.term</code></td>
+<td>
+The error.term whose residuals are to be tested for 
+nonadditivity.</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+A data.frame containing the original response variable and 
+factors used in the call to aov.</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+A list containing Tukey.SS, Tukey.F, Tukey.p, Devn.SSq being the SSq 
+for the 1df test, F value for test and the p-value for the test 
+for the 1df test, F value for test and the p-value for the test.</p>
+
+<h3>Note</h3>
+
+<p>
+Only terms in the linear model will be included in the fitted values 
+and so will not be excluded from the residuals. In partiicular, terms 
+in an Error function, but not in the model external to the Error 
+function, will not be included. To include them, put them in both.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="resid.errors.html">resid.errors</a></code>, <code><a href="fitted.errors.html">fitted.errors</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+        rcbd.aov - aov(Y ~ Blocks + Treats + Error(Blocks/Plots))
+        tukey.1df(rcbd.aov, rcbd, error.term = "Blocks:Plots")
+</pre>
+
+
+
+<hr><div align="center">[Package <em>dae</em> version 0.3-1 <a href="00Index.html">Index]</a></div>
+
+</body></html>

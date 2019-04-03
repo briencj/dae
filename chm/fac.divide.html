@@ -1,0 +1,93 @@
+<html><head><title>Divides a factor into several individual factors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>fac.divide(dae)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   fac.divide">
+<param name="keyword" value=" Divides a factor into several individual factors">
+</object>
+
+
+<h2>Divides a factor into several individual factors</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Takes a factor and divides it into several individual factors as 
+if the levels in the combined factor correspond to the numbering of the levels 
+combinations of the individual factors when these are arranged in standard or 
+Yates order.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>fac.divide(combined.factor, factor.names, order="standard")</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>combined.factor</code></td>
+<td>
+A factor that is to be divided into the individual 
+factors listed in factor.names.</td></tr>
+<tr valign="top"><td><code>factor.names</code></td>
+<td>
+A list of factors to be formed. The names in the list are 
+the names of the factors and the component of a name is either a) a 
+single numeric value that is the number of levels, b) a 
+numeric vector that contains the levels of the factor, or 
+c) a character vector that contains the labels of the 
+levels of the factor.</td></tr>
+<tr valign="top"><td><code>order</code></td>
+<td>
+The order in which the levels combinations of the factors in 
+factor.names are to be considered as numbered; standard numbers them 
+as if they are arranged in standard order, that is with the first factor 
+moving slowest and the last factor moving fastest; yates numbers them 
+as if they are arranged in Yates order, that is with the first factor 
+moving fastest and last factor moving slowest.</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+A data frame whose columns consist of the factors listed in 
+<code>factor.names</code> and whose values have been computed from the combined 
+factor. All the factors will be of the same length.</p>
+
+<h3>Note</h3>
+
+<p>
+A single factor name may be supplied in the list in which case a data 
+frame is produced that contains the single factor computed from the 
+numeric vector. This may be particularly useful when calling this function 
+from others.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="fac.combine.html">fac.combine</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+        b &lt;- 4
+        t &lt;- 4
+        RCBDPen.Design &lt;- fac.divide(Random.Order, 
+                         factor.names = list(Blocks = b, Plots = t))
+</pre>
+
+
+
+<hr><div align="center">[Package <em>dae</em> version 0.3-2 <a href="00Index.html">Index]</a></div>
+
+</body></html>

@@ -1,0 +1,32 @@
+[OPTIONS]
+Auto Index=Yes
+Contents file=dae.toc
+Compatibility=1.1 or later
+Compiled file=dae.chm
+Default topic=00Index.html
+Display compile progress=No
+Full-text search=Yes
+Full text search stop list file=..\..\..\gnuwin32\help\R.stp
+Title=R Help for package dae
+
+
+[FILES]
+00Index.html
+as.numfac.html
+extab.html
+fac.combine.html
+fac.divide.html
+fac.gen.html
+fac.layout.html
+fac.nested.html
+fac.recode.html
+fitted.errors.html
+interaction.ABC.plot.html
+mpone.html
+no.reps.html
+power.exp.html
+qqnorm.yeffects.html
+resid.errors.html
+strength.html
+tukey.1df.html
+yates.effects.html

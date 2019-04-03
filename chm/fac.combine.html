@@ -1,0 +1,78 @@
+<html><head><title>Combines several factors into one</title>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>fac.combine(dae)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   fac.combine">
+<param name="keyword" value=" Combines several factors into one">
+</object>
+
+
+<h2>Combines several factors into one</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Combines several factors into one whose levels are the combinations 
+of the used levels of the individual factors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>fac.combine(factors, order="standard", combine.levels=FALSE, sep=",")</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>factors</code></td>
+<td>
+A list of factors all of the same length.</td></tr>
+<tr valign="top"><td><code>order</code></td>
+<td>
+The order in which the levels combinations of the factors are to 
+be considered as numbered when forming the levels of the combined factor; 
+standard numbers them as if they are arranged in 
+standard order, that is with the first factor moving slowest and the last 
+factor moving fastest; yates numbers them as if they are arranged in Yates 
+order, that is with the first factor moving fastest and last factor moving 
+slowest.</td></tr>
+<tr valign="top"><td><code>combine.levels</code></td>
+<td>
+A logical specifying whether the levels labels of the new factor 
+are to be combined from those of the factors being combined. The default is to 
+use the integers from 1 to the product of the numbers of combinations 
+of used levels of the individual factors.</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+A character string to separate the levels when combine.levels=TRUE.</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+A factor whose levels are formed form the observed combinations of the levels 
+of the individual factors.</p>
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="fac.divide.html">fac.divide</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+        AB &lt;- fac.combine(list(A, B))
+</pre>
+
+
+
+<hr><div align="center">[Package <em>dae</em> version 0.4-1 <a href="00Index.html">Index]</a></div>
+
+</body></html>

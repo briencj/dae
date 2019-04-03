@@ -1,0 +1,106 @@
+<html><head><title>Half or full normal plot of Yates effects.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>qqnorm.yeffects(dae)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   qqnorm.yeffects">
+<param name="keyword" value=" Half or full normal plot of Yates effects.">
+</object>
+
+
+<h2>Half or full normal plot of Yates effects.</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Produces a half or full normal plot of the Yates effects from a
+<i>2^k</i> factorial experiment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>qqnorm.yeffects(aov.obj, error.term="Within", data=NULL, pch=16, full=FALSE, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>aov.obj</code></td>
+<td>
+An aov object or aovlist object created from a call to aov.</td></tr>
+<tr valign="top"><td><code>error.term</code></td>
+<td>
+The error.term from which the Yates effects are estimated.
+Only required when <code>Error</code> used in call to aov.</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+A data frame in which the variables specified in the <code>aov.obj</code>
+will be found. If missing, the variables are searched for in
+the standard way.</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+the number of a plotting symbol to be drawn when plotting points
+(use <code>help(points)</code> for details).</td></tr>
+<tr valign="top"><td><code>full</code></td>
+<td>
+whether a full or half normal plot is to be produced. The
+default is for a half-normal plot; <code>full=TRUE</code> produces a full normal
+plot.</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+Further graphical parameters may be specified (use
+<code>help(par)</code> for possibilities.</td></tr>
+</table>
+
+<h3>Details</h3>
+
+<p>
+A half or full normal plot of the Yates effects is produced.
+You will be able to interactively select effects to be labelled (click on 
+the side of the point where you want the label placed).
+<B>Right click on the graph and select Stop when you have finished
+labelling effects.</B> A regression line fitted to the unselected effects
+and constrained to go through the origin is plotted. Also, a list of the
+labelled effects, if any, are printed to standard ouptut.
+</p>
+
+
+<h3>Value</h3>
+
+<p>
+returns, invisibly, a list with components x and y, giving coordinates
+of the plotted points.</p>
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="yates.effects.html">yates.effects</a></code>, <code><a onclick="findlink('stats', 'qqnorm.html')" style="text-decoration: underline; color: blue; cursor: hand">qqnorm</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  Fac4Proc.aov &lt;- aov(Conv ~ Catal * Temp * Press * Conc + Error(Runs),
+                                                            Fac4Proc.dat)
+  qqnorm.yeffects(Fac4Proc.aov, error.term="Runs", data=Fac4Proc.dat)
+</pre>
+
+<script Language="JScript">
+function findlink(pkg, fn) {
+var Y, link;
+Y = location.href.lastIndexOf("\\") + 1;
+link = location.href.substring(0, Y);
+link = link + "../../" + pkg + "/chtml/" + pkg + ".chm::/" + fn;
+location.href = link;
+}
+</script>
+
+
+<hr><div align="center">[Package <em>dae</em> version 0.3-4 <a href="00Index.html">Index]</a></div>
+
+</body></html>

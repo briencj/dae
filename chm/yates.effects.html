@@ -1,0 +1,92 @@
+<html><head><title>Extract Yates effects.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>yates.effects(dae)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   yates.effects">
+<param name="keyword" value=" Extract Yates effects.">
+</object>
+
+
+<h2>Extract Yates effects.</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Extracts Yates effects from an aov or aovlist object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>yates.effects(aov.obj, error.term="Within", data=NULL)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>aov.obj</code></td>
+<td>
+An aov object or aovlist object created from a call to aov.</td></tr>
+<tr valign="top"><td><code>error.term</code></td>
+<td>
+The error.term from which the Yates effects are estimated.
+Only required when <code>Error</code> used in call to aov.</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+A data frame in which the variables specified in the <code>aov.obj</code>
+will be found. If missing, the variables are searched for in
+the standard way.</td></tr>
+</table>
+
+<h3>Details</h3>
+
+<p>
+Yates effects are specific to <i>2^k</i> experiments, where Yates
+effects are conventionally defined as the difference between the upper
+and lower levels of a factor. We follow the convention used in
+Box, Hunter and Hunter (1978) for scaling of higher order interactions:
+all the Yates effects are on the same scale, and represent the average
+difference due to the interaction between two different levels.
+Effects are estimated only from the error term supplied to the
+<code>error.term</code> argument.
+</p>
+
+
+<h3>Value</h3>
+
+<p>
+a vector of the Yates effects.</p>
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="qqnorm.yeffects.html">qqnorm.yeffects</a></code>, <code><a onclick="findlink('stats', 'aov.html')" style="text-decoration: underline; color: blue; cursor: hand">aov</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  Fac4Proc.aov &lt;- aov(Conv ~ Catal * Temp * Press * Conc + Error(Runs),
+                                                            Fac4Proc.dat)
+  yates.effects(Fac4Proc.aov, error.term="Runs", data=Fac4Proc.dat)
+</pre>
+
+<script Language="JScript">
+function findlink(pkg, fn) {
+var Y, link;
+Y = location.href.lastIndexOf("\\") + 1;
+link = location.href.substring(0, Y);
+link = link + "../../" + pkg + "/chtml/" + pkg + ".chm::/" + fn;
+location.href = link;
+}
+</script>
+
+
+<hr><div align="center">[Package <em>dae</em> version 0.3-4 <a href="00Index.html">Index]</a></div>
+
+</body></html>

@@ -1,0 +1,99 @@
+<html><head><title>Computes the number of replicates for an experiment.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>no.reps(dae)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   no.reps">
+<param name="keyword" value=" Computes the number of replicates for an experiment.">
+</object>
+
+
+<h2>Computes the number of replicates for an experiment.</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Computes the number of pure replicates required in an experiment
+to achieve a specified power.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>no.reps(multiple=1., df.num=1.,
+               df.denom=expression((df.num + 1.) * (r - 1.)), delta=1.,
+               sigma=1., alpha=0.05, power=0.8, tol=0.025, print=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>multiple</code></td>
+<td>
+The multiplier, m, which when multiplied by the number of
+pure replicates of a treatment, r, gives the number of
+observations rm used in computing means for some, not
+necessarily proper, subset of the treatment factors;
+m is the replication arising from other treatment factors.
+However, for single treatment factor experiments the
+subset can only be the treatment factor and m = 1.</td></tr>
+<tr valign="top"><td><code>df.num</code></td>
+<td>
+The degrees of freedom of the numerator of the F for testing
+the term involving the treatment factor subset.</td></tr>
+<tr valign="top"><td><code>df.denom</code></td>
+<td>
+The degrees of freedom of the denominator of the F for
+testing the term involving the treatment factor subset.</td></tr>
+<tr valign="top"><td><code>delta</code></td>
+<td>
+The true difference between a pair of means for some, not
+necessarily proper, subset of the treatment factors.</td></tr>
+<tr valign="top"><td><code>sigma</code></td>
+<td>
+The population standard deviation.</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+The significance level to be used.</td></tr>
+<tr valign="top"><td><code>power</code></td>
+<td>
+The minimum power to be achieved.</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+The maximum difference tolerated between the power required and
+the power computed in determining the number of replicates.</td></tr>
+<tr valign="top"><td><code>print</code></td>
+<td>
+TRUE or FALSE to have or not have a table of power calculation
+details printed out.</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+A scalar containing the computed number of pure replicates</p>
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="power.exp.html">power.exp</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+        no.reps(multiple = 1, df.num = 3,
+         df.denom = expression(df.num * (r - 1)), delta = 5,
+               sigma = sqrt(20), print = TRUE)
+</pre>
+
+
+
+<hr><div align="center">[Package <em>dae</em> version 0.3-1 <a href="00Index.html">Index]</a></div>
+
+</body></html>

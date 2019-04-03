@@ -1,0 +1,109 @@
+<html><head><title>Generate all combinations of several factors.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>fac.gen(dae)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   fac.gen">
+<param name="keyword" value=" Generate all combinations of several factors.">
+</object>
+
+
+<h2>Generate all combinations of several factors.</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Generate all combinations of several factors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>fac.gen(generate, each=1, times=1, order="standard")</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>generate</code></td>
+<td>
+list named objects and numbers that specify the factors whose 
+levels are to be generated and the pattern in these levels.
+If a component of the list is named, then the component 
+should be either a) a single numeric value that is the 
+number of levels, b) a numeric vector that contains the 
+levels of the factor, or c) a character vector that 
+contains the labels of the levels of the factor.</td></tr>
+<tr valign="top"><td><code>each</code></td>
+<td>
+the number of times to replicate consecutively the elements of the 
+levels generated according to pattern specified by the 
+<code>generate</code> argument.</td></tr>
+<tr valign="top"><td><code>times</code></td>
+<td>
+the number of times to repeat the whole generated pattern of 
+levels generated according to pattern specified by the 
+<code>generate</code> argument.</td></tr>
+<tr valign="top"><td><code>order</code></td>
+<td>
+Either <code>standard</code> or <code>yates</code>. The order in which the 
+speed of cycling through the levels is to move;
+combinations of the factors are to be considered as numbered; 
+<code>standard</code> cycles through the levels of the first 
+factor slowest and the last factor moving fastest; 
+<code>yates</code> cycles through the levels of the first factor 
+fastest and last factor moving slowest.</td></tr>
+</table>
+
+<h3>Details</h3>
+
+<p>
+The levels of each factor are generated in a hierarchical pattern where
+the levels of one factor are held constant while those of the adjacent 
+factor are cycled through the complete set once. If a number is supplied 
+instead of a name, the pattern is generated as if a factor with that 
+number of levels had been supplied in the same position as the number. 
+However, no levels are stored for this unamed factor.
+</p>
+
+
+<h3>Value</h3>
+
+<p>
+A data frame of generated levels with columns corresponding to the 
+factors in the <code>generate</code> list.</p>
+
+<h3>Warning</h3>
+
+<p>
+Avoid using factor names F and T as these can get confused
+with FALSE and TRUE.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="fac.combine.html">fac.combine</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+mp &lt;- c("-", "+")
+fnames &lt;- list(Catal = mp, Temp = mp, Press = mp, Conc = mp)
+Fac4Proc.Treats &lt;- fac.gen(generate = fnames, order="yates")
+
+gen &lt;- list(A = 3, 3, B = c(0,100,200), 4, D = c("0","1"))
+fac.gen(gen, times=2, each=2)
+</pre>
+
+
+
+<hr><div align="center">[Package <em>dae</em> version 0.3-2 <a href="00Index.html">Index]</a></div>
+
+</body></html>

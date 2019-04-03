@@ -1,0 +1,97 @@
+<html><head><title>creates a factor whose values are generated within those of the factor 
+nesting.fac</title>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>fac.nested(dae)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   fac.nested">
+<param name="keyword" value=" creates a factor whose values are generated within those of the factor 
+nesting.fac">
+</object>
+
+
+<h2>creates a factor whose values are generated within those of the factor 
+nesting.fac</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Creates a factor whose levels are generated within those of the 
+factor <code>nesting.fac</code>. All elements of <code>nesting.fac</code> having the same 
+level are numbered from 1 to the number of different elements having that 
+level.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>fac.nested(nesting.fac, levels=NA, labels=NA)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>nesting.fac</code></td>
+<td>
+The factor within each of whose levels the created factor 
+is to be generated.</td></tr>
+<tr valign="top"><td><code>levels</code></td>
+<td>
+Optional vector of levels for the factor. Any data value that 
+does not match a value in levels will be NA in the factor. The default 
+value of <code>levels</code> is the the list of numbers from 1 to the maximum 
+replication of the levels of <code>nesting.fac</code>, represented as 
+characters.</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+Optional vector of values to use as labels for the levels of the 
+factor. The default is <code>as.character(levels)</code>.</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+A factor that is a character vector with class attribute factor and a 
+levels attribute which determines what character strings may be included 
+in the vector.</p>
+
+<h3>Note</h3>
+
+<p>
+The levels of <code>nesting.fac</code> do not have to be equally replicated.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code><a onclick="findlink('base', 'factor.html')" style="text-decoration: underline; color: blue; cursor: hand">factor</a></code>, <code><a href="fac.gen.html">fac.gen</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ A &lt;- factor(c(1, 1, 1, 2, 2))
+ B &lt;- fac.nested(A)
+ B
+[1] 1 2 3 1 2
+</pre>
+
+<script Language="JScript">
+function findlink(pkg, fn) {
+var Y, link;
+Y = location.href.lastIndexOf("\\") + 1;
+link = location.href.substring(0, Y);
+link = link + "../../" + pkg + "/chtml/" + pkg + ".chm::/" + fn;
+location.href = link;
+}
+</script>
+
+
+<hr><div align="center">[Package <em>dae</em> version 0.3-1 <a href="00Index.html">Index]</a></div>
+
+</body></html>

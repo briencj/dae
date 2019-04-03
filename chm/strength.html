@@ -1,0 +1,84 @@
+<html><head><title>Generate paper strength values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>strength(dae)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   strength">
+<param name="keyword" value=" Generate paper strength values">
+</object>
+
+
+<h2>Generate paper strength values</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Generates paper strength values for an experiment with different
+temperatures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>strength(nodays, noruns, temperature, ident)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>nodays</code></td>
+<td>
+The number of days over which the experiment is to be run.</td></tr>
+<tr valign="top"><td><code>noruns</code></td>
+<td>
+The number of runs to be performed on each day of the experiment.</td></tr>
+<tr valign="top"><td><code>temperature</code></td>
+<td>
+A factor that encapsulates the layout by giving the
+temperature to be investigated for each run on each day.
+These must be ordered so that the temperatures for the
+first day are given in the order in which they are to be
+investigated on that day. These must be followed by the
+noruns temperatures for the second day and so on.
+Consequently, the factor temperature will have nodays*noruns
+values.</td></tr>
+<tr valign="top"><td><code>ident</code></td>
+<td>
+The digits of your student identity number. That is, leave out
+any letters.</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+A data.frame object containing the factors day, run and temperature and
+the generated strengths.</p>
+
+<h3>Examples</h3>
+
+<pre>
+        library(dae)
+        temperature &lt;- factor( ... )
+        exp.strength &lt;- strength(nodays = 4, noruns = 5,
+                           temperature = temperature, ident = 0123456)
+
+  Here temperature is a factor with 4*5 = 20 values whose
+  first 5 values specify the temperatures to be applied in
+  the 5 runs on the first day, values 6 to 10 specify the
+  temperatures for the 5 runs on day 2, and so on.
+
+        exp.strength &lt;- strength(nodays = 4, noruns = 5,
+                           temperature = Design$temperature, ident = 0123456)
+
+  In the second example, Design is the name of a data.frame object
+  that includes the factor temperature.
+</pre>
+
+
+
+<hr><div align="center">[Package <em>dae</em> version 0.1-1 <a href="00Index.html">Index]</a></div>
+
+</body></html>

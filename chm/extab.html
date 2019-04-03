@@ -1,0 +1,70 @@
+<html><head><title>Expands the values in table to a vector.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>extab(dae)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   extab">
+<param name="keyword" value=" Expands the values in table to a vector.">
+</object>
+
+
+<h2>Expands the values in table to a vector.</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Expands the values in table to a vector according to the index.factors 
+that are considered to index the table, either in standard or yates order.  The order 
+of the values in the vector is determined by the order of the values of the 
+index.factors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>extab(table, index.factors, order="standard")</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>table</code></td>
+<td>
+A numeric vector containing the values to be expanded. Its length
+must equal the product of the number of used levels for the factors in index.factors 
+and the values in it correspond to all levels combinations of these factors. 
+That is, the values of the index.factors are irrelevant to table.</td></tr>
+<tr valign="top"><td><code>index.factors</code></td>
+<td>
+A list of factors that index the the table. All the factors 
+must be the same length.</td></tr>
+<tr valign="top"><td><code>order</code></td>
+<td>
+The order in which the levels combinations of the index.factors are to 
+be considered as numbered in indexing table; standard numbers them as if they are arranged in 
+standard order, that is with the first factor moving slowest and the last 
+factor moving fastest; yates numbers them as if they are arranged in Yates 
+order, that is with the first factor moving fastest and last factor moving 
+slowest.</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+A vector of length equal to the factors in index.factor whose values are  
+taken from table.</p>
+
+<h3>Examples</h3>
+
+<pre>
+        AB.effects &lt;- extab(table=AB.tab, index.factors=list(A, B))
+</pre>
+
+
+
+<hr><div align="center">[Package <em>dae</em> version 0.4-1 <a href="00Index.html">Index]</a></div>
+
+</body></html>

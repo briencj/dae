@@ -1,0 +1,76 @@
+<html><head><title>Extract the fitted values for a fitted model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>fitted.errors(dae)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   fitted.errors">
+<param name="keyword" value=" Extract the fitted values for a fitted model">
+</object>
+
+
+<h2>Extract the fitted values for a fitted model</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Extracts the fitted values as the sum of the effects 
+for all the fitted terms in the model, stopping at error.term 
+if this is specified.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>fitted.errors(aov.obj, error.term=NULL)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>aov.obj</code></td>
+<td>
+An aov object or aovlist object created from a call to aov</td></tr>
+<tr valign="top"><td><code>error.term</code></td>
+<td>
+The error.term down to which effects are extracted for 
+adding to the fitted values</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+A numeric vector of fitted values</p>
+
+<h3>Note</h3>
+
+<p>
+Only terms in the linear model will be included in the fitted 
+values when computing the residuals. Terms in an Error function, 
+but not in the model external to the Error function, will not be 
+included. If you want them included, put them in both.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="resid.errors.html">resid.errors</a></code>, <code><a href="tukey.1df.html">tukey.1df</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+        fit  &lt;- fitted.errors(crd.aov)
+        rcbd.aov - aov(Y ~ Blocks + Treats + Error(Blocks/Plots))
+        fit &lt;- fitted.errors(rcbd.aov, error.term = "Blocks:Plots")
+</pre>
+
+
+
+<hr><div align="center">[Package <em>dae</em> version 0.3-1 <a href="00Index.html">Index]</a></div>
+
+</body></html>

@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HEAD></HEAD><HTML><BODY>
+<UL>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Package dae:  Contents">
+<param name="Local" value="00Index.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Package dae:  R objects">
+</OBJECT>
+<UL>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="as.numfac">
+<param name="Local" value="as.numfac.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="extab">
+<param name="Local" value="extab.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="fac.combine">
+<param name="Local" value="fac.combine.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="fac.divide">
+<param name="Local" value="fac.divide.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="fac.gen">
+<param name="Local" value="fac.gen.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="fac.layout">
+<param name="Local" value="fac.layout.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="fac.nested">
+<param name="Local" value="fac.nested.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="fac.recode">
+<param name="Local" value="fac.recode.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="fitted.errors">
+<param name="Local" value="fitted.errors.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="interaction.ABC.plot">
+<param name="Local" value="interaction.ABC.plot.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="mpone">
+<param name="Local" value="mpone.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="no.reps">
+<param name="Local" value="no.reps.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="power.exp">
+<param name="Local" value="power.exp.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="qqnorm.yeffects">
+<param name="Local" value="qqnorm.yeffects.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="resid.errors">
+<param name="Local" value="resid.errors.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="strength">
+<param name="Local" value="strength.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="tukey.1df">
+<param name="Local" value="tukey.1df.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="yates.effects">
+<param name="Local" value="yates.effects.html">
+</OBJECT>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Package dae:  Titles">
+</OBJECT>
+<UL>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Combines several factors into one">
+<param name="Local" value="fac.combine.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Computes the number of replicates for an experiment.">
+<param name="Local" value="no.reps.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Computes the power for an experiment.">
+<param name="Local" value="power.exp.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Convert a factor to a numeric vector.">
+<param name="Local" value="as.numfac.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Converts the first two levels of a factor into the numeric values        -1 and +1.">
+<param name="Local" value="mpone.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="creates a factor whose values are generated within those of the factor     nesting.fac">
+<param name="Local" value="fac.nested.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Divides a factor into several individual factors">
+<param name="Local" value="fac.divide.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Expands the values in table to a vector.">
+<param name="Local" value="extab.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Extract the fitted values for a fitted model">
+<param name="Local" value="fitted.errors.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Extract the residuals for a fitted model">
+<param name="Local" value="resid.errors.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Extract Yates effects.">
+<param name="Local" value="yates.effects.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Generate a randomized layout for an experiment.">
+<param name="Local" value="fac.layout.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Generate all combinations of several factors.">
+<param name="Local" value="fac.gen.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Generate paper strength values">
+<param name="Local" value="strength.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Half or full normal plot of Yates effects. ">
+<param name="Local" value="qqnorm.yeffects.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Performs Tukey's one-degree-of-freedom-test-for-nonadditivity">
+<param name="Local" value="tukey.1df.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Plots an interaction plot for three factors.">
+<param name="Local" value="interaction.ABC.plot.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Recodes the values of a factor using each value in a supplied vector to          replace the corresponding level of the factor.">
+<param name="Local" value="fac.recode.html">
+</OBJECT>
+</UL>
+</UL>
+</BODY></HTML>
