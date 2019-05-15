@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.0-32 (2019-05-15)}{
+  \itemize{
+    \item{Rebuild under version 3.6.0 prior to resubmission to CRAN.}
+    }}
 \section{Changes in dae version 3.0-31 (2019-04-04)}{
   \itemize{
     \item{Update the Author field to include an ORCID and the Description field of the DESCRIPTION.}
