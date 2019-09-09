@@ -99,8 +99,8 @@ function(generate, each=1, times=1, order="standard")
     keach <- keach*levels[i] 
     }
   }
-  genframe <- data.frame(genlist)
+  genframe <- as.data.frame(genlist)
   names(genframe) <- names(fnames) 
- 	genframe
+ 	return(genframe)
 }
 
