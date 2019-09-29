@@ -1,12 +1,12 @@
 Package: dae
-Version: 3.0-32
-Date: 2019-05-15
+Version: 3.1-10
+Date: 2019-09-29
 Title: Functions Useful in the Design and ANOVA of Experiments
 Authors@R: person("Chris","Brien", role = c("aut","cre"),
          comment = c(ORCID = "0000-0003-0581-1817"),
          email = "chris.brien@unisa.edu.au")
 Depends:
-    R (>= 3.1.0),
+    R (>= 3.5.0),
     ggplot2
 Imports: graphics, methods, plyr, stats
 Suggests: testthat, R.rsp

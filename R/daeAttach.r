@@ -13,3 +13,4 @@
   tip <- sample(tips, 1)
   packageStartupMessage(paste(strwrap(tip), collapse = "\n"))
 }
+

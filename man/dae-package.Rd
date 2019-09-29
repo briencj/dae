@@ -89,6 +89,10 @@
   \tab Given the layout for a design, obtain its anatomy via \cr 
   \tab the canonical analysis of its projectors to show the \cr
   \tab confounding and aliasing inherent in the design.\cr
+\code{\link{designBlocksGGPlot}}
+  \tab Adds block boundaries to a plot produced by \code{\link{designGGPlot}}. \cr
+\code{\link{designGGPlot}}
+  \tab Plots labels on a two-way grid of coloured cells using \code{ggplot2}. \cr
 \code{\link{designLatinSqrSys}}
   \tab Generate a systematic plan for a Latin Square design.\cr
 \code{\link{designPlot}}

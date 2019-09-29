@@ -1,5 +1,10 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-10 (2019-09-29)}{
+  \itemize{
+    \item{Merge features of designPlot and designPlotlabels into a new function designGGPlot and replace blockboundaryPlot with designBlocksGGPlot. The functions designPlot, blockboundaryPlot and designPlotlabels have been marked for future deprecation.}
+    \item{Update the DesignNotes vignette.}
+    }}
 \section{Changes in dae version 3.0-32 (2019-05-15)}{
   \itemize{
     \item{Rebuild under version 3.6.0 prior to resubmission to CRAN.}

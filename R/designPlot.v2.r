@@ -4,6 +4,7 @@
                                xlab, ylab, title, printPlot = TRUE, ggplotFuncs = NULL, ...)
   ## Function that uses ggplot to plot labels on a grid
 {
+  warning("designPlotlabels has been superseded by designGGPlot and will be deprecated in a future version")
   if (missing(xlab)) xlab <- grid.x
   if (missing(ylab)) ylab <- grid.y
   if (missing(title)) title <- paste("Plot of",labels,sep = " ")
@@ -85,6 +86,8 @@
   #Similarly, a single value for a column specifies a repetition of blocks of that size
   #     across the columns of the design, while several column values specifies a
   #     sequence of blocks across the columns of the size specified.
+  warning("blockboundaryPlot has been superseded by designBlocksGGPlot and will be deprecated in a future version")
+  
   if (!is.null(blockdefinition))
   { dims <- dim(blockdefinition)
   xi <- c(-0.5, -0.5, 0.5, 0.5, -0.5)
@@ -184,6 +187,7 @@
   #Added blocksequence on 9/5/2013
   #It determines whether block numbers are repetitions or sequences of block numbers 
 {
+  warning("designPlot has been superseded by designGGPlot and may be deprecated in a future version")
   if (is.null(labels)) 
     labels <- unique(as.vector(designMatrix))
   if (rcellpropn > 1 | rcellpropn <= 0 | ccellpropn > 1 | ccellpropn <=0 )
