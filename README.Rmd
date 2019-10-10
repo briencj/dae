@@ -1,4 +1,11 @@
-#  dae
+---
+title: dae"
+output:
+  html_document:
+    keep_md: yes
+  pdf_document: default
+---
+
 
 ```{r, echo = FALSE}
 description <- read.dcf('DESCRIPTION')
