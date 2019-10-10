@@ -65,7 +65,7 @@ designRandomize(allocated = NULL, recipient, nested.recipients = NULL,
                        It is emphasized that the nesting is a property of the 
                        design that is being employed (it is only partly based 
                        on the intrinsic nesting).}
- \item{except}{A \code{\link{character} vector} containing the names 
+ \item{except}{A \code{\link{character} vector} containing the names of 
                \code{recipient} \code{\link{factor}s} that are to be excepted 
                from the permutation; any \code{allocated} \code{\link{factor}s} 
                whose values differ between the levels 
@@ -116,31 +116,31 @@ designRandomize(allocated = NULL, recipient, nested.recipients = NULL,
 \author{Chris Brien}
 \seealso{\code{\link{fac.gen}}, \code{\link{designLatinSqrSys}}, \code{\link{designPlot}}, \code{\link{designAnatomy}} in package \pkg{dae}.}
 \examples{
-## generate a randomized layout for a 4 x 4 Latin square
-## (the nested.recipients agument is not needed here as none of the 
+## Generate a randomized layout for a 4 x 4 Latin square
+## (the nested.recipients argument is not needed here as none of the 
 ## factors are nested)
-LS.unit <- data.frame(row = ordered(rep(c("I","II","III","IV"), times=4)), 
-                      col = factor(rep(c(0,2,4,6), each=4)))
-LS.trt <- data.frame(treat = factor(designLatinSqrSys(4), label = LETTERS[1:4]))
-data.frame(LS.unit, LS.trt)
-LS.lay <- designRandomize(allocated = LS.trt, recipient = LS.unit, 
+## Firstly, generate a systematic layout
+LS.sys <- cbind(fac.gen(list(row = c("I","II","III","IV"), 
+                             col = c(0,2,4,6))),
+                treat = factor(designLatinSqrSys(4), label = LETTERS[1:4]))
+## obtain randomized layout
+LS.lay <- designRandomize(allocated = LS.sys["treat"], 
+                          recipient = LS.sys[c("row","col")], 
                           seed = 7197132, unit.permutation = TRUE) 
 LS.lay[LS.lay$.Permutation,]
 
-## generate a randomized layout for a replicated randomized complete 
+## Generate a randomized layout for a replicated randomized complete 
 ## block design, with the block factors arranged in standard order for 
 ## rep then plot and then block
-RCBD.unit <- list(rep = 2, plot=1:3, block = c("I","II"))
-## specify that plot is nested in block and rep and that block is nested
-## in rep
-RCBD.nest <- list(plot = c("block","rep"), block="rep")
-## generate treatment factor in systematic order so that its values correspond
-## to plot
-tr <- factor(rep(1:3, each=2, times=2))
+## Firstly, generate a systematic order such that levels of the 
+## treatment factor coincide with plot
+RCBD.sys <- cbind(fac.gen(list(rep = 2, plot=1:3, block = c("I","II"))),
+                  tr = factor(rep(1:3, each=2, times=2)))
 ## obtain randomized layout
-RCBD.lay <- designRandomize(allocated = tr, 
-                            recipient = RCBD.unit, 
-                            nested.recipients = RCBD.nest, 
+RCBD.lay <- designRandomize(allocated = RCBD.sys["tr"], 
+                            recipient = RCBD.sys[c("rep", "block", "plot")], 
+                            nested.recipients = list(plot = c("block","rep"), 
+                                                     block="rep"), 
                             seed = 9719532, 
                             unit.permutation = TRUE)
 #sort into the original standard order
@@ -148,12 +148,16 @@ RCBD.perm <- RCBD.lay[RCBD.lay$.Permutation,]
 #resort into randomized order
 RCBD.lay <- RCBD.perm[order(RCBD.perm$.Units),]
 
-## generate a layout for a split-unit experiment in which: 
+## Generate a layout for a split-unit experiment in which: 
 ## - the main-unit factor is A with 4 levels arranged in 
 ##   a randomized complete block design with 2 blocks;
 ## - the split-unit factor is B with 3 levels.
-SPL.lay <- designRandomize(allocated = fac.gen(list(A = 4, B = 3), times = 2), 
-                           recipient = list(block = 2, main.unit = 4, split.unit = 3), 
+## Firstly, generate a systematic layout
+SPL.sys <- cbind(fac.gen(list(block = 2, main.unit = 4, split.unit = 3)),
+                 fac.gen(list(A = 4, B = 3), times = 2))
+## obtain randomized layout
+SPL.lay <- designRandomize(allocated = SPL.sys[c("A","B")], 
+                           recipient = SPL.sys[c("block", "main.unit", "split.unit")], 
                            nested.recipients = list(main.unit = "block", 
                                                     split.unit = c("block", "main.unit")), 
                            seed=155251978)

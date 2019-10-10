@@ -65,7 +65,7 @@
         n <- length(allocated)
     }
     which.unr <- 0
-    if(is.data.frame(recipient)) #for data.frame
+    if (is.data.frame(recipient)) #for data.frame
     { 
       which.unr <- 1
       facgen <- recipient
@@ -293,7 +293,7 @@
   if (!is.null(seed))
     set.seed(seed)
   #process recipient argument and form recipient factor list 
-  if(is.data.frame(recipient)) #for data.frame
+  if (is.data.frame(recipient)) #for data.frame
   { 
     if(!all(sapply(recipient, FUN=is.factor)))
       stop("All columns in the recipient data.frame must be factors")
@@ -370,40 +370,36 @@
   #recipient factors supplied in recipient i.e. in rec.names order
   if (is.data.frame(recipient)) #get into recipient data.frame order
   { 
-    perm.derand <- do.call(order, facrecip)
-    perm.recip <- do.call(order, recipient)
     #on the right of an expression perm.derand (perm.recip)
     #puts facrecip (recipient) into standard order.
     #on the left of an expression perm.derand (perm.recip)
     #puts standard order into the same order as facrecip (recipient),
     #i.e. a random permutation of standard order (data frame order).
+    perm.derand <- do.call(order, facrecip)
+    perm.recip <- do.call(order, recipient)
     #put facrecip into data.frame order
     for (i in 1:nunr)
       attributes(facrecip[[i]]) <- attributes(recipient[[i]])
-    faclay <- facrecip
-    faclay[perm.recip, ] <- facrecip
+    faclay <- facrecip  #facrecip is in data.frame order
     #compute randomization for data.frame order
     perm.dat <- vector("numeric", length=n)
-    #order to put permuted data frame into standard order
-    perm.dat[perm.derand] <- perm.recip
-    #order to get from recipient data frame to permuted data frame
-    perm.dat[perm.recip] <- perm.dat
-    perm.derand.dat <- vector("numeric", length=n)
-    perm.derand.dat[perm.dat] <- 1:n
+    #order to permute facrecip into data.frame order
+    perm.dat[perm.recip] <- perm.derand
+    
     #join facrecip with allocated factors
     if (is.null(allocated))
     {
       if (unit.permutation)
-        faclay <- data.frame(.Units = 1:n, .Permutation = order(perm.derand.dat), faclay)
+        faclay <- data.frame(.Units = 1:n, .Permutation = order(perm.dat), faclay)
     }
     else
     {
       faclay <- data.frame(faclay, allocated)
       if (unit.permutation)
-        faclay <- data.frame(.Units = 1:n, .Permutation = order(perm.derand.dat),
-                             faclay[perm.derand.dat, ])
+        faclay <- data.frame(.Units = 1:n, .Permutation = order(perm.dat),
+                             faclay[perm.dat, ])
       else
-        faclay <- faclay[perm.derand.dat, ]
+        faclay <- faclay[perm.dat, ]
     }
   }
   else  #get in standard order for rec.names

@@ -1,5 +1,11 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-11 (2019-10-10)}{
+  \itemize{
+    \item{Fix bug in designRandomize that occurs when a supplied data.frame is not in standard order.}
+    \item{Deprecate fac.layout}
+    \item{Update the DesignNotes vignette.}
+    }}
 \section{Changes in dae version 3.1-10 (2019-09-29)}{
   \itemize{
     \item{Merge features of designPlot and designPlotlabels into a new function designGGPlot and replace blockboundaryPlot with designBlocksGGPlot. The functions designPlot, blockboundaryPlot and designPlotlabels have been marked for future deprecation.}

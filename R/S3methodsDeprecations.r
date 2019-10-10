@@ -29,6 +29,12 @@ design.plot <- function(...)
   invisible()
 }
 
+fac.layout <- function(...)
+{ 
+  .Deprecated(new = "designRandomize", package = "dae")
+  invisible()
+}
+
 proj2.decomp <- function(...)
 { 
   .Deprecated(new = "proj2.eigen", package = "dae")
