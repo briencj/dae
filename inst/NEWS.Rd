@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-12 (2019-10-20)}{
+  \itemize{
+    \item{Include check for names supplied in \code{nested.recipients} are in the names in  \code{recipients}.}
+}}
 \section{Changes in dae version 3.1-11 (2019-10-10)}{
   \itemize{
     \item{Fix bug in designRandomize that occurs when a supplied data.frame is not in standard order.}

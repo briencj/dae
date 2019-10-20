@@ -100,21 +100,28 @@
   { 
     nnested <- length(nested.recipients)
     names.nested <- names(nested.recipients)
+    if (!all(names.nested %in% names(rec.names)))
+      stop("The following nested recipients are not in the set of recipient factors: ",
+           names.nested[!(names.nested %in% names(rec.names))],"\n\n")
     #check nested factors for transitivity
     for (i in 1:nnested)
-    { nnest <- length(nested.recipients[[i]])
-    for (j in 1:nnest)
     { 
-      knested <- match(nested.recipients[[i]][j], names.nested)
-      if(!is.na(knested))
+      if (!all(nested.recipients[[i]] %in% names(rec.names)))
+        stop("The following nesting recipients are not in the set of recipient factors: ",
+             nested.recipients[[i]][!(nested.recipients[[i]] %in% names(rec.names))],"\n\n")
+      nnest <- length(nested.recipients[[i]])
+      for (j in 1:nnest)
       { 
-        if(!all(nested.recipients[[knested]] %in% nested.recipients[[i]]))
-        {  
-          stop(names.nested[i]," is nested in ",nested.recipients[[i]][j],
-               " but is not nested in all those that ",nested.recipients[[i]][j]," is.")
+        knested <- match(nested.recipients[[i]][j], names.nested)
+        if(!is.na(knested))
+        { 
+          if(!all(nested.recipients[[knested]] %in% nested.recipients[[i]]))
+          {  
+            stop(names.nested[i]," is nested in ",nested.recipients[[i]][j],
+                 " but is not nested in all those that ",nested.recipients[[i]][j]," is.")
+          }
         }
       }
-    }
     }
     #order the recipient factors so that any subsets of the generalized factor
     #formed from the nesting factors of a nested factor are to the left of the 
