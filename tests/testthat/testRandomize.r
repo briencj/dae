@@ -75,7 +75,7 @@ test_that("randomize", {
 
   #recipient factors in standard order in data frame instead of list
   Exp.std.dat <- designRandomize(recipient=Exp.unit.dat, 
-                                 nested.recipient=Exp.nest,
+                                 nested.recipients=Exp.nest,
                                  allocated=Exp.alloc.dat, 
                                  seed = 78125, unit.permutation = TRUE)
   testthat::expect_equal(nrow(Exp.std.dat), 72)
@@ -98,7 +98,7 @@ test_that("randomize", {
   Exp.unit.perm.dat <- Exp.unit.dat[Exp.std.dat$.Permutation,]
   Exp.alloc.perm.dat <- Exp.alloc.dat[Exp.std.dat$.Permutation,]
   Exp.perm.dat <- designRandomize(recipient=Exp.unit.perm.dat, 
-                                  nested.recipient=Exp.nest,
+                                  nested.recipients=Exp.nest,
                                   allocated=Exp.alloc.perm.dat, 
                                   seed = 64614, unit.permutation = TRUE)
   testthat::expect_equal(nrow(Exp.perm.dat), 72)
@@ -120,7 +120,7 @@ test_that("randomize", {
                                             other.fac <- lay2[facname][1]
                                             all(fac == other.fac)
                                           }, lay1 = Exp.alloc.perm.dat, lay2 = Exp.derand.dat))))
-  testthat::expect_equal(as.numfac(Exp.perm.dat$Trellis)[1:12], rep(c(2,3,1), each=4))
+  testthat::expect_equal(as.numfac(Exp.perm.dat$Trellis)[1:12], rep(c(1,3,2), each=4))
   Exp.perm.canon <- designAnatomy(list(unit = ~ ((Squares/Columns)*Rows)/Halfplots/Reps,
                                       trt = ~ Trellis*Method),
                                  data = Exp.perm.dat)
@@ -128,23 +128,52 @@ test_that("randomize", {
   testthat::expect_equivalent(na.omit(summ.perm$decomp$aefficiency), c(1,1,1))
 
   
-  
-  
-  #Test factors when not in standard order for rep, block, plot 
+  #Test factors when not in order of columns does not match nesting 
   RCBD.sys <- cbind(fac.gen(list(rep = 2, plot=1:3, block = c("I","II"))),
                      tr = factor(rep(1:3, each=2, times=2)))
-  ## obtain randomized layout
+  ## obtain randomized layout, speciying 
   RCBD.lay <- designRandomize(allocated = RCBD.sys["tr"], 
                               recipient = RCBD.sys[c("rep", "block", "plot")], 
-                              nested.recipients = list(plot = c("block","rep"), block="rep"), 
+                              nested.recipients = list(plot = c("block","rep"), 
+                                                       block="rep"), 
                               seed = 9719532, 
                               unit.permutation = TRUE)
-  RCBD.lay <- designRandomize(recipient=RCBD.unit, nested.recipients=RCBD.nest, 
-                              allocated=tr, seed=7197132)
   RCBD.canon <- designAnatomy(list(unit = ~ rep/block/plot, trt = ~ tr),
                               data = RCBD.lay)
   summ.RCBD <- summary(RCBD.canon)
   testthat::expect_equal(summ.RCBD$decomp$aefficiency[3], 1)
+  #Test that the order of unit factors are the same in RCBD.sys and RCBD.lay
+  testthat::expect_true(all(unlist(lapply(c("rep", "block", "plot"), 
+                                          function(facname, lay1, lay2)
+                                          {
+                                            fac <- lay1[facname]
+                                            other.fac <- lay2[facname][1]
+                                            all(fac == other.fac)
+                                          }, lay1 = RCBD.sys, lay2 = RCBD.lay))))
+  #Test derandomized treatments the same as in RCBD.sys
+  testthat::expect_true(all(RCBD.lay[RCBD.lay$.Permutation, "tr"] == RCBD.sys$tr))
+  
+  # Test with recipient columns listed in the same order as nesting, tr a factor 
+  tr = factor(rep(1:3, each=2, times=2))
+  RCBD.unit <- list(rep = 2, plot=c(0,2,4), block = c("I","II"))
+  RCBD.unit <- fac.gen(RCBD.unit)
+  RCBD.nest <- list(plot = c("block","rep"), block="rep")
+  RCBD.lay <- designRandomize(recipient=RCBD.unit, nested.recipients=RCBD.nest, 
+                             allocated=tr, seed=7197132)
+  RCBD.canon <- designAnatomy(list(unit = ~ rep/block/plot, trt = ~ tr),
+                              data = RCBD.lay)
+  summ.RCBD <- summary(RCBD.canon)
+  testthat::expect_equal(summ.RCBD$decomp$aefficiency[3], 1)
+  #Test that the order of unit factors are the same in RCBD.sys and RCBD.lay
+  testthat::expect_true(all(unlist(lapply(c("rep", "block", "plot"), 
+                                          function(facname, lay1, lay2)
+                                          {
+                                            fac <- lay1[facname]
+                                            other.fac <- lay2[facname][1]
+                                            all(fac == other.fac)
+                                          }, lay1 = RCBD.unit, lay2 = RCBD.lay))))
+  #Test derandomized treatments the same as in RCBD.sys
+  testthat::expect_true(all(RCBD.lay[RCBD.lay$.Permutation, "tr"] == tr))
   
   #Test except
   LS.std.unit <- list(row = c("I","II","III","IV"), col = 4)

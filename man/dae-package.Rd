@@ -25,7 +25,7 @@
 \code{\link{Casuarina.dat}}
   \tab Data for an experiment with rows and columns from \cr
   \tab Williams (2002) \cr
-\code{\link{Exp249.mplot.des}}
+\code{\link{Exp249.munit.des}}
  \tab Systematic, main-plot design for an experiment to be \cr
  \tab run in a greenhouse \cr
 \code{\link{Fac4Proc.dat}}

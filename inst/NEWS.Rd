@@ -1,12 +1,18 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-13 (2019-10-27)}{
+  \itemize{
+    \item{Revise DesignNotes vignette.}
+    \item{Further debug designRandomize for either \code{data.frame} not in standard order or column order inconsistencies.}
+    \item{Rename name of data set \code{Exp249.mplot.des} to \code{Exp249.munit.des}.}
+}}
 \section{Changes in dae version 3.1-12 (2019-10-20)}{
   \itemize{
     \item{Include check for names supplied in \code{nested.recipients} are in the names in  \code{recipients}.}
 }}
 \section{Changes in dae version 3.1-11 (2019-10-10)}{
   \itemize{
-    \item{Fix bug in designRandomize that occurs when a supplied data.frame is not in standard order.}
+    \item{Fix bug in designRandomize that occurs when a supplied \code{data.frame} is not in standard order.}
     \item{Deprecate fac.layout}
     \item{Update the DesignNotes vignette.}
     }}
