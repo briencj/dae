@@ -18,7 +18,7 @@
              does not allow for the use of \code{\link{formula}}e.}
 \usage{
 mat.Vpredicts(target, Gt = 0, fixed = ~ 1, random, G, R, design, 
-              eliminate, keep.order = TRUE)}
+              eliminate, keep.order = TRUE, result = "variance.matrix")}
 \arguments{
  \item{target}{The \code{n x w} incidence \code{\link{matrix}} for the \code{w} 
           effects targetted for prediction, or a \code{\link{formula}} from which 
@@ -60,9 +60,10 @@ mat.Vpredicts(target, Gt = 0, fixed = ~ 1, random, G, R, design,
                    reordered so that main effects precede two-factor 
                    interactions, which precede three-factor interactions and 
                    so on.}
+ \item{result}{A \code{\link{character}} indicating which matrix is to be returned: \code{variance.matrix} or \code{information.matrix}.}
 }
 \value{A \code{w x w} \code{\link{matrix}} containing the variances and covariances of the 
-       predicted effects.}
+       predicted effects or the information matrix for the effects, depending on the setting of \code{result}. The matrix has its rank as an attribute.}
 \details{The mixed model for which the predictions are to be obtained is of the form 
          \eqn{\bold{Y} = \bold{X\beta} + \bold{Ww} + \bold{Zu} + \bold{e}}{Y = X\beta + Ww + Zu + e}, 
         where   \eqn{\bold{W}}{W} is the incidence matrix for the \code{target} predicted 
@@ -90,8 +91,9 @@ mat.Vpredicts(target, Gt = 0, fixed = ~ 1, random, G, R, design,
          fixed then the reduced information matrix is calculated as 
          \code{A <- (I - eliminate) Vinv (I - eliminate)}.
          
-         Finally, the variance of the predicted effects is calculated: 
-         \code{Vpred <- ginv(A)}.}
+         Finally, if \code{result} is set to \code{variance.matrix},  the variance of the predicted effects is calculated: 
+         \code{Vpred <- ginv(A)} and returned; otherwise the information matrix A is returned. The rank of the matrix to be returned is obtain via a singular value decomposition of the information matrix, it being the number of nonzero eigenvalues. An eigenvalue is regarded as zero if it is less than 
+\code{daeTolerance}, which is initially set to.Machine$double.eps ^ 0.5 (about 1.5E-08). The function \code{\link{set.daeTolerance}} can be used to change \code{daeTolerance}.}
 \author{Chris Brien}
 \seealso{\code{\link{designAmeasures}}, \code{\link{mat.Vpred}}.}
 \references{Hooks, T., Marx, D., Kachman, S., and Pedersen, J. (2009). Optimality 

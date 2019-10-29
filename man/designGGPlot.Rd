@@ -39,7 +39,7 @@ designGGPlot(design, labels = NULL,
  \item{reverse.y}{A \code{logical} which, if true, causes the order of values on the 
               y-axis to be reversed.}
  \item{cellfillcolour.column}{A \code{character} giving the name of the column in 
-               \code{data} that is to be used to vaary the colour the used to fill a cell.}
+               \code{data} that is to be used to vary the colour the used to fill a cell.}
  \item{colour.values}{A \code{character} giving the name or names of the colours to be used 
                in filling the cell. If cellfillcolour.column is not \code{NULL} then the 
                number of colours sepcified needs to match the number of unique values in 

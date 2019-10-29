@@ -123,13 +123,14 @@ remove.repeats <- function(x, tolerance = 1E-06)
   return(vars)
 }
 
-"ginv" <- function(x, tol = .Machine$double.eps ^ 0.5)
+"ginv" <- function(x) #, tol = .Machine$double.eps ^ 0.5)
 { 
+  daeTolerance <- get("daeTolerance", envir=daeEnv)
   # computes Moore-Penrose inverse of a matrix
   if (!is.matrix(x) | length(dim(x)) != 2 )
     stop("x must be a matrix")
   svd.x <- svd(x)
-  nonzero.x <- (svd.x$d > svd.x$d[1] * tol)
+  nonzero.x <- (svd.x$d > svd.x$d[1] * daeTolerance[["eigen.tol"]])
   rank.x <- sum(nonzero.x)
   geninv.x <- matrix(0, dim(x)[1], dim(x)[2])
   if (rank.x)
@@ -141,5 +142,6 @@ remove.repeats <- function(x, tolerance = 1E-06)
       geninv.x <- svd.x$v[, nonzero.x] %*% geninv.x[nonzero.x, nonzero.x] %*% 
       t(svd.x$u[, nonzero.x])
   }
+  attr(geninv.x, which = "rank") <- rank.x
   geninv.x
 }

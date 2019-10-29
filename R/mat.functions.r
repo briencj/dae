@@ -339,7 +339,8 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
 
 ### Function to calculate the variance of predictions for Genotypes 
 ### based on Hookes (2009, Equation 17)
-"mat.Vpred" <- function(W, Gg = 0, X = matrix(1, nrow = nrow(W), ncol = 1), Vu = 0, R, eliminate)
+"mat.Vpred" <- function(W, Gg = 0, X = matrix(1, nrow = nrow(W), ncol = 1), Vu = 0, R, 
+                        eliminate)
 { #set W or X to a column vector of 0s and Gg or Vu to a matrix of 0s if not effects for them not random
   warning("mat.Vpred is superseded by mat.Vpredicts, being retained for backwards compatibility; it may be deprecated in future versions")
   Gg.zero <- all(Gg < 1e-08)
@@ -370,14 +371,18 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
 }
 
 "mat.Vpredicts" <- function(target, Gt = 0, fixed = ~ 1, random, G, R, design, 
-                            eliminate, keep.order = TRUE)
+                            eliminate, keep.order = TRUE, result = "variance.matrix")
   #Gt is the component for the target factor; if zero the target treated as fixed, otherwise it is random
   #G is a list with a component for each random term; 
   #it can be a single value for the component value of a diagonal matrix, or
   #a matrix that is the same size as the number of levels in the model term;
   #the order in the list must correspond to the order of terms in the expanded formula
 {
-  method <- "onestep" #else twostep (as in Butler, 2013)
+  method <- "onestep" #else twostep (as in Butler, 2013) - inaccessible but kept in case
+  daeTolerance <- get("daeTolerance", envir=daeEnv)
+  options <- c("variance.matrix", "information.matrix")
+  res.opt <- options[check.arg.values(result, options)]
+  
   #Generate the target matrix
   if (inherits(target, what = "matrix"))
     W <- target
@@ -525,13 +530,12 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
       Vinv <- eliminate %*% Vinv %*% eliminate
     }
     A <- t(W)%*%Vinv 
-    Vpred <- A%*%W + Gtinv
+    Cadj <- A%*%W + Gtinv
     if (!all(X < 1e-08))
     {
       AX <- A%*%X
-      Vpred <- Vpred - AX%*%ginv(t(X)%*%Vinv%*%X)%*%t(AX)
+      Cadj <- Cadj - AX%*%ginv(t(X)%*%Vinv%*%X)%*%t(AX)
     }
-    Vpred <- ginv(Vpred)
   } else #twostep
   {
     target.cols <- ncol(W)
@@ -566,9 +570,16 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
     C22 <- C[cols.nonT, cols.nonT]
     C12 <- C[subcols, cols.nonT]
     Cadj <- C11 - (C12 %*% ginv(C22) %*% t(C12))
-    Vpred <- ginv(Cadj)
   }
-  return(Vpred)
+  if (res.opt == "variance.matrix")
+    Cadj <- ginv(Cadj)
+  else #information matrix
+  {
+    svd.Cadj <- svd(Cadj)
+    nonzero.Cadj <- (svd.Cadj$d > svd.Cadj$d[1] * daeTolerance[["eigen.tol"]])
+    attr(Cadj, which = "rank") <- sum(nonzero.Cadj)
+  }
+  return(Cadj)
 }
 
 ### Function to calculate 

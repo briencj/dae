@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-14 (2019-10-29)}{
+  \itemize{
+    \item{Add the capability to mat.Vpredicts to return either the variance or the information matrix. Also, add the rank of the matrix as an attribute of the matrix.}
+}}
 \section{Changes in dae version 3.1-13 (2019-10-27)}{
   \itemize{
     \item{Revise DesignNotes vignette.}

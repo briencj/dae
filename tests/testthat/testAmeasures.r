@@ -157,8 +157,12 @@ test_that("SmithSmallVpredicts", {
   
   ## Calculate variance matrix
   Vp <- mat.Vpredicts(target = W, random = Vu, R = R)
+  testthat::expect_equal(attr(Vp, which = "rank"), 5)
              
-             
+  ## Calculate information matrix
+  C <- mat.Vpredicts(target = W, random = Vu, R = R, result = "inform")
+  testthat::expect_equal(attr(C, which = "rank"), 5)
+  
   #'## Calculate A measures
   AVpred <- designAmeasures(Vp)
   testthat::expect_true(all(abs(AVpred - 1.521905) < 1e-6))
