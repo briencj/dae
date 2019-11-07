@@ -1,5 +1,13 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-16 (2019-11-07)}{
+  \itemize{
+    \item{Correct type and re-upload to CRAN.}
+}}
+\section{Changes in dae version 3.1-15 (2019-11-07)}{
+  \itemize{
+    \item{Prepare for upload to CRAN.}
+}}
 \section{Changes in dae version 3.1-14 (2019-10-29)}{
   \itemize{
     \item{Add the capability to mat.Vpredicts to return either the variance or the information matrix. Also, add the rank of the matrix as an attribute of the matrix.}

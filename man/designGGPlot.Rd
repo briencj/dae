@@ -35,9 +35,9 @@ designGGPlot(design, labels = NULL,
                direction, based on all but the last name. The \code{\link{factor}} 
                corresponding to the last name will index the columns in each \code{facet}.}
  \item{reverse.x}{A \code{logical} which, if true, causes the order of values on the 
-              x-axis to be reversed.}
+              x-axis to be reversed, the natural order being to increase from left to right.}
  \item{reverse.y}{A \code{logical} which, if true, causes the order of values on the 
-              y-axis to be reversed.}
+              y-axis to be reversed, the natural order being to increase from bottom to top.}
  \item{cellfillcolour.column}{A \code{character} giving the name of the column in 
                \code{data} that is to be used to vary the colour the used to fill a cell.}
  \item{colour.values}{A \code{character} giving the name or names of the colours to be used 
