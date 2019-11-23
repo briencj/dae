@@ -1,12 +1,23 @@
 #devtools::test("dae")
 context("design")
 
+compareColumns <- function(columnNames, dat1, dat2)
+{
+  all(unlist(lapply(columnNames, 
+                    function(colname, dat1, dat2)
+                    {
+                      col <- dat1[colname]
+                      other.col <- dat2[colname][1]
+                      all(col == other.col)
+                    }, dat1 = dat1, dat2 = dat2)))
+}
+
 cat("#### Test for designRandomize\n")
 test_that("randomize", {
  skip_on_cran()
  library(dae)
  
-  #Generate 5 x 5 Latin square
+  #Generate 5 x 5 RCBD and Latin square
   Treatments <- factor(rep(1:5, times=5))
   RCBD.lay <- designRandomize(allocated = Treatments, 
                               recipient = list(Rows=5, Columns=5), 
@@ -26,32 +37,19 @@ test_that("randomize", {
   testthat::expect_equal(as.numfac(LSD.lay$Treatments),  
                          c(5,4,2,3,1,2,1,4,5,3,3,2,5,1,4,4,3,1,2,5,1,5,3,4,2))
  
- 
-  #'## Generate a layout for a standard athlete training experiment
-  eg1.lay <- designRandomize(allocated = fac.gen(list(Intensities = 3, Surfaces = 3), 
-                                                 times = 4),
-                             recipient = list(Months = 4, Athletes = 3, Tests = 3), 
-                             nested.recipients = list(Athletes = "Months", 
-                                                      Tests = c("Months", "Athletes")),
-                             seed = 2598)
-  testthat::expect_equal(nrow(eg1.lay), 36)
-  testthat::expect_equal(ncol(eg1.lay), 5)
-  #'## Generate a layout for a simple two-phase athlete training experiment
-  #'## Phase 1 - the split-plot design that has already been generated. 
-  #'## Phase 2 - randomize tests (and training conditions) to locations, 
-  #'##           but Months assigned systematicaly to Batches 
-  #'##           so except Batches from the randomization
-  eg2.lay <- designRandomize(allocated = eg1.lay,
-                             recipient = list(Batches = 4, Locations = 9), 
-                             nested.recipients = list(Locations = "Batches"),
-                             except = "Batches", 
-                             seed = 71230)
-  testthat::expect_equal(nrow(eg2.lay), 36)
-  testthat::expect_equal(ncol(eg2.lay), 7)
-  testthat::expect_equal(as.numfac(eg2.lay$Months), rep(1:4, each=9))
-  testthat::expect_equal(eg2.lay$Months,  eg2.lay$Batches)
+  #Simple example with allocated and recipient in a data.frame
+  RCBD.sys <- cbind(fac.gen(list(Blocks = 3, Plots = 4)),
+                    fac.gen(list(Trts = 4), times = 3))
+  RCBD.lay <- designRandomize(allocated = RCBD.sys["Trts"], 
+                              recipient = RCBD.sys[c("Blocks", "Plots")], 
+                              nested.recipients = list(Plots = "Blocks"), 
+                              seed = 521814, unit.permutation = TRUE)
+  #Test that all unit factors are the same before and after randomization
+  testthat::expect_true(compareColumns(c("Blocks", "Plots"), dat1 = RCBD.sys, dat2 = RCBD.lay))
+  #derandomize the allocated factors and check that have the same as before randomization
+  RCBD.derand <- RCBD.lay[RCBD.lay$.Permutation, ]
+  testthat::expect_true(compareColumns("Trts", dat1 = RCBD.sys, dat2 = RCBD.derand))
 
-  
   #A small example to test randomization
   Exp.unit <- list(Squares=2, Rows=3, Columns=3, Halfplots=2, Reps=2)
   Exp.nest <-  list(Columns="Squares", Halfplots=c("Squares","Rows","Columns"),
@@ -81,13 +79,7 @@ test_that("randomize", {
   testthat::expect_equal(nrow(Exp.std.dat), 72)
   testthat::expect_equal(ncol(Exp.std.dat), 9)
   #Test that all unit factors are the same before and after randomization
-  testthat::expect_true(all(unlist(lapply(names(Exp.unit.dat), 
-                                          function(facname, lay1, lay2)
-                                          {
-                                            fac <- lay1[facname]
-                                            other.fac <- lay2[facname][1]
-                                            all(fac == other.fac)
-                                          }, lay1 = Exp.unit.dat, lay2 = Exp.std.dat))))
+  testthat::expect_true(compareColumns(names(Exp.unit.dat), dat1 = Exp.unit.dat, dat2 = Exp.std.dat))
   Exp.std.canon <- designAnatomy(list(unit = ~ ((Squares/Columns)*Rows)/Halfplots/Reps,
                                       trt = ~ Trellis*Method),
                                  data = Exp.std.dat)
@@ -104,22 +96,12 @@ test_that("randomize", {
   testthat::expect_equal(nrow(Exp.perm.dat), 72)
   testthat::expect_equal(ncol(Exp.perm.dat), 9)
   #Test that all unit factors are the same before and after randomization
-  testthat::expect_true(all(unlist(lapply(names(Exp.unit.perm.dat), 
-                                          function(facname, lay1, lay2)
-                                          {
-                                            fac <- lay1[facname]
-                                            other.fac <- lay2[facname][1]
-                                            all(fac == other.fac)
-                                          }, lay1 = Exp.unit.perm.dat, lay2 = Exp.perm.dat))))
+  testthat::expect_true(compareColumns(names(Exp.unit.perm.dat), dat1 = Exp.unit.perm.dat, 
+                                       dat2 = Exp.perm.dat))
   #derandomize the allocated factors and check that have the same as before randomization
   Exp.derand.dat <- Exp.perm.dat[Exp.perm.dat$.Permutation, ]
-  testthat::expect_true(all(unlist(lapply(names(Exp.alloc.perm.dat), 
-                                          function(facname, lay1, lay2)
-                                          {
-                                            fac <- lay1[facname]
-                                            other.fac <- lay2[facname][1]
-                                            all(fac == other.fac)
-                                          }, lay1 = Exp.alloc.perm.dat, lay2 = Exp.derand.dat))))
+  testthat::expect_true(compareColumns(names(Exp.alloc.perm.dat), dat1 = Exp.alloc.perm.dat, 
+                                       dat2 = Exp.derand.dat))
   testthat::expect_equal(as.numfac(Exp.perm.dat$Trellis)[1:12], rep(c(1,3,2), each=4))
   Exp.perm.canon <- designAnatomy(list(unit = ~ ((Squares/Columns)*Rows)/Halfplots/Reps,
                                       trt = ~ Trellis*Method),
@@ -128,7 +110,7 @@ test_that("randomize", {
   testthat::expect_equivalent(na.omit(summ.perm$decomp$aefficiency), c(1,1,1))
 
   
-  #Test factors when not in order of columns does not match nesting 
+  #Columns in data.frame for the systematic design (rep, block, plot) not in nesting order
   RCBD.sys <- cbind(fac.gen(list(rep = 2, plot=1:3, block = c("I","II"))),
                      tr = factor(rep(1:3, each=2, times=2)))
   ## obtain randomized layout, speciying 
@@ -143,13 +125,7 @@ test_that("randomize", {
   summ.RCBD <- summary(RCBD.canon)
   testthat::expect_equal(summ.RCBD$decomp$aefficiency[3], 1)
   #Test that the order of unit factors are the same in RCBD.sys and RCBD.lay
-  testthat::expect_true(all(unlist(lapply(c("rep", "block", "plot"), 
-                                          function(facname, lay1, lay2)
-                                          {
-                                            fac <- lay1[facname]
-                                            other.fac <- lay2[facname][1]
-                                            all(fac == other.fac)
-                                          }, lay1 = RCBD.sys, lay2 = RCBD.lay))))
+  testthat::expect_true(compareColumns(c("rep", "block", "plot"), dat1 = RCBD.sys, dat2 = RCBD.lay))
   #Test derandomized treatments the same as in RCBD.sys
   testthat::expect_true(all(RCBD.lay[RCBD.lay$.Permutation, "tr"] == RCBD.sys$tr))
   
@@ -165,13 +141,7 @@ test_that("randomize", {
   summ.RCBD <- summary(RCBD.canon)
   testthat::expect_equal(summ.RCBD$decomp$aefficiency[3], 1)
   #Test that the order of unit factors are the same in RCBD.sys and RCBD.lay
-  testthat::expect_true(all(unlist(lapply(c("rep", "block", "plot"), 
-                                          function(facname, lay1, lay2)
-                                          {
-                                            fac <- lay1[facname]
-                                            other.fac <- lay2[facname][1]
-                                            all(fac == other.fac)
-                                          }, lay1 = RCBD.unit, lay2 = RCBD.lay))))
+  testthat::expect_true(compareColumns(c("rep", "block", "plot"), dat1 = RCBD.unit, dat2 = RCBD.lay))
   #Test derandomized treatments the same as in RCBD.sys
   testthat::expect_true(all(RCBD.lay[RCBD.lay$.Permutation, "tr"] == tr))
   
@@ -251,3 +221,94 @@ test_that("randomize", {
                          c(3,1,5,2,6,4,9,7,11,8,10,12))
   
 })
+
+
+
+cat("#### Test for AthleteRandomize\n")
+test_that("AthleteRandomize", {
+  skip_on_cran()
+  library(dae)
+  
+  #'## Generate a layout for a standard athlete training experiment
+  eg1.lay <- designRandomize(allocated = fac.gen(list(Intensities = 3, Surfaces = 3), 
+                                                 times = 4),
+                             recipient = list(Months = 4, Athletes = 3, Tests = 3), 
+                             nested.recipients = list(Athletes = "Months", 
+                                                      Tests = c("Months", "Athletes")),
+                             seed = 2598)
+  testthat::expect_equal(nrow(eg1.lay), 36)
+  testthat::expect_equal(ncol(eg1.lay), 5)
+  #'## Generate a layout for a simple two-phase athlete training experiment
+  #'## Phase 1 - the split-plot design that has already been generated. 
+  #'## Phase 2 - randomize tests (and training conditions) to locations, 
+  #'##           but Months assigned systematicaly to Batches 
+  #'##           so except Batches from the randomization
+  eg2.lay <- designRandomize(allocated = eg1.lay,
+                             recipient = list(Batches = 4, Locations = 9), 
+                             nested.recipients = list(Locations = "Batches"),
+                             except = "Batches", 
+                             seed = 71230)
+  testthat::expect_equal(nrow(eg2.lay), 36)
+  testthat::expect_equal(ncol(eg2.lay), 7)
+  testthat::expect_equal(as.numfac(eg2.lay$Months), rep(1:4, each=9))
+  testthat::expect_equal(eg2.lay$Months,  eg2.lay$Batches)
+  
+  #Use data.frames all the way
+  #'## Phase 1: Construct a systematic layout and generate a randomized layout for the first phase
+  split.sys <- cbind(fac.gen(list(Months = 4, Athletes = 3, Tests = 3)),
+                     fac.gen(list(Intensities = LETTERS[1:3], Surfaces = 3), 
+                             times = 4))
+  split.lay <- designRandomize(allocated         = split.sys[c("Intensities", "Surfaces")],
+                               recipient         = split.sys[c("Months", "Athletes", "Tests")], 
+                               nested.recipients = list(Athletes = "Months", 
+                                                        Tests = c("Months", "Athletes")),
+                               seed              = 2598)
+  split.lay
+  testthat::expect_equal(nrow(split.lay), 36)
+  testthat::expect_equal(ncol(split.lay), 5)
+  
+  
+  #'# Design for crossed Batches and Locations
+  eg2.phx.sys <- cbind(fac.gen(list(Batches = 4, Locations = 9)),
+                       data.frame(Intensities = factor(rep(c(designLatinSqrSys(3), c(3,1,2)), 
+                                                           each = 3), labels = LETTERS[1:3]),
+                                  Surfaces    = factor(c(rep(1:3, times = 3),
+                                                         rep(1:3, times = 3),
+                                                         rep(c(2,3,1), times = 3),
+                                                         rep(c(3,1,2), times = 3)))))
+  #'## Second phase design
+  #'## Generate a systematic two-phase design
+  eg2.phx.sys$Months <- eg2.phx.sys$Batches 
+  eg2.sys <- merge(split.lay, eg2.phx.sys) #merge on commmon factors Months, Intensities & Surfaces
+  #Currently bug for this example in that only works in standard order (not in merge order)
+  #(unlike RCBD with data.frame Columns in non-nestng order and 
+  # example with recipient factors in permuted order)
+  #The problem is that do not need to reorder allocated to match the recipient order 
+  #for this example, whereas you do for the other examples. 
+  #Yet, in merge order, the design seems OK, as a plot of eg.sys shows.
+  #eg2.sys <- with(eg2.sys, eg2.sys[order(Batches, Locations), ])
+  
+  #'## Allocate the second phase
+  eg2.lay <- designRandomize(allocated = eg2.sys[c("Months", "Athletes", "Tests", 
+                                                   "Intensities", "Surfaces")], 
+                             recipient = eg2.sys[c("Batches", "Locations")],
+                             except    = "Batches", 
+                             unit.permutation = TRUE, seed      = 243526)
+  
+  testthat::expect_equal(nrow(eg2.lay), 36)
+  testthat::expect_equal(ncol(eg2.lay), 9)
+  testthat::expect_equal(as.numfac(eg2.lay$Months), rep(1:4, each=9))
+  testthat::expect_equal(eg2.lay$Months,  eg2.lay$Batches)
+  testthat::expect_true(all(eg2.lay[eg2.lay$Locations==1, "Intensities"] ==  c("A", "B", "C", "C")))
+  testthat::expect_true(all(eg2.lay[eg2.lay$Locations==1, "Surfaces"] ==  c("2", "2", "3", "1")))
+  #Test that all unit factors are the same before and after randomization
+  testthat::expect_true(compareColumns(c("Batches", "Locations"), dat1 = eg2.sys, dat2 = eg2.lay))
+  #derandomize the allocated factors and check that have the same as before randomization
+  eg2.derand.dat <- eg2.lay[eg2.lay$.Permutation, ]
+  alloc.derand.dat <- eg2.lay[eg2.lay$.Permutation, c("Months", "Athletes", "Tests", 
+                                                      "Intensities", "Surfaces")]
+  testthat::expect_true(compareColumns(c("Months", "Athletes", "Tests"), dat1 = eg2.sys, 
+                                         dat2 = alloc.derand.dat))
+  
+})
+

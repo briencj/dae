@@ -1,8 +1,13 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-17 (2019-11-23)}{
+  \itemize{
+    \item{Revise the DesignNotes vignette.}
+    \item{Further debug designRandomize for some \code{data.frame}s not in standard order.}
+}}
 \section{Changes in dae version 3.1-16 (2019-11-07)}{
   \itemize{
-    \item{Correct type and re-upload to CRAN.}
+    \item{Correct typo and re-upload to CRAN.}
 }}
 \section{Changes in dae version 3.1-15 (2019-11-07)}{
   \itemize{

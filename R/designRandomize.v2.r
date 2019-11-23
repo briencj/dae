@@ -15,7 +15,7 @@
   kfac <- 0
   for(i in counter) 
   { 
-    if(!(names(generate[i]) == ""))
+    if (!(names(generate[i]) == ""))
     { 
       kfac=kfac+1
       if (kfac == 1)
@@ -50,6 +50,8 @@
   return(list(factors = fnames,reps = freps))
 }
 
+#Supply recipient in standard order
+#Returns a permutation of the standard order of the recipient factors
 "fac.recip.cross" <- 
   function(recipient, rec.names, rec.levels, nested.recipients=NULL, except=NULL, 
            allocated, seed=NULL)
@@ -65,7 +67,7 @@
         n <- length(allocated)
     }
     which.unr <- 0
-    if(is.data.frame(recipient)) #for data.frame
+    if (is.data.frame(recipient)) #for data.frame
     { 
       which.unr <- 1
       facgen <- recipient
@@ -82,7 +84,7 @@
         rno <- runif(rec.levels[i])[as.integer(facgen[[i]])]
       else
         rno <- as.integer(facgen[[i]])
-      if(i == 1)
+      if (i == 1)
         facrecip <- data.frame(rno)
       else
         facrecip <- data.frame(facrecip,rno)
@@ -91,9 +93,10 @@
     facrecip.ord <- 1:n
     facrecip.ord[do.call(order, facrecip)] <- facrecip.ord
     facrecip <- fac.divide(facrecip.ord, rec.names)
-    facrecip
+    return(facrecip)
   }
 
+#Supply recipient in standard order
 #Returns a permutation of the standard order of the recipient factors
 "fac.recip.nest" <- function(recipient, rec.names, rec.levels, nested.recipients=NULL, 
                              except=NULL, allocated, seed=NULL)
@@ -116,9 +119,9 @@
     for (j in 1:nnest)
     { 
       knested <- match(nested.recipients[[i]][j], names.nested)
-      if(!is.na(knested))
+      if (!is.na(knested))
       { 
-        if(!all(nested.recipients[[knested]] %in% nested.recipients[[i]]))
+        if (!all(nested.recipients[[knested]] %in% nested.recipients[[i]]))
         {  
           stop(names.nested[i]," is nested in ",nested.recipients[[i]][j],
                " but is not nested in all those that ",nested.recipients[[i]][j]," is.")
@@ -142,7 +145,7 @@
       n <- length(allocated)
   }
   which.unr <- 0
-  if(is.data.frame(recipient)) #for data.frame
+  if (is.data.frame(recipient)) #for data.frame
   { 
     which.unr <- 1
     nunr <- ncol(recipient)
@@ -154,12 +157,12 @@
   rec.denestord <- rep(NA, length=nunr)
   for(i in 1:nunr)
   { 
-    if(is.na(match(names(rec.names)[i], names.nested)))
+    if (is.na(match(names(rec.names)[i], names.nested)))
     { 
       kunr <- kunr+1
       rec.denestord[i] <- kunr
       rec.levels.nestord[kunr] <- rec.levels[i]
-      if(kunr == 1)
+      if (kunr == 1)
       { 
         rec.nestord <- list(rec.names[[i]])
         names(rec.nestord) <- names(rec.names)[i]
@@ -173,7 +176,7 @@
     }
   } 
   #now sort nested factors for number of nesting factors and add to list in this order
-  if(!is.null(nested.recipients))
+  if (!is.null(nested.recipients))
   { 
     nested.sort <- sort(sapply(nested.recipients, FUN=length))
     for (i in 1:nnested)
@@ -183,7 +186,7 @@
       kno <- match(krec.name, names(rec.names))
       rec.denestord[kno] <- kunr
       rec.levels.nestord[kunr] <- rec.levels[kno]
-      if(kunr == 1)
+      if (kunr == 1)
       { 
         rec.nestord <- list(rec.names[[kno]])
         names(rec.nestord) <- names(rec.names)[kno]
@@ -205,7 +208,7 @@
     else
     { 
       knest <- match(names(rec.nestord)[i], names.nested)
-      if(is.na(knest))   #nonnested factor
+      if (is.na(knest))   #nonnested factor
       { 
         rno <- runif(rec.levels.nestord[i])[as.integer(facgen[[i]])]
       }
@@ -217,7 +220,7 @@
         for (j in 1:(kfac-1))
         { 
           kfacnos[j+1] <- match(nested.recipients[[knest]][j], names(rec.nestord))
-          if(is.na(kfacnos[j+1]))
+          if (is.na(kfacnos[j+1]))
             stop("Nesting factor not in list of recipient factors.")
         }
         sort(kfacnos)
@@ -233,7 +236,7 @@
         rno <- runif(each)[radix]
       }
     }
-    if(i == 1)
+    if (i == 1)
       facrecip <- data.frame(rno)
     else
       facrecip <- data.frame(facrecip,rno)
@@ -291,7 +294,7 @@
   #process allocated argument
   if (!is.null(allocated))
   {
-    if(!is.data.frame(allocated) & !is.factor(allocated))
+    if (!is.data.frame(allocated) & !is.factor(allocated))
       stop("allocated must be a factor or data frame.")
     if (is.factor(allocated))
     {
@@ -305,10 +308,11 @@
   #process seed argument
   if (!is.null(seed))
     set.seed(seed)
-  #process recipient argument and form recipient factor list 
-  if(is.data.frame(recipient)) #for data.frame
+  #process recipient argument, form recipient factor list and, 
+  #if a data.frame, ensure in standard order  
+  if (is.data.frame(recipient)) #for data.frame
   { 
-    if(!all(sapply(recipient, FUN=is.factor)))
+    if (!all(sapply(recipient, FUN=is.factor)))
       stop("All columns in the recipient data.frame must be factors")
     nunr <- ncol(recipient)
     if (!is.null(allocated) & nrow(recipient) != n)
@@ -317,16 +321,22 @@
     names(rec.names) <- as.list(names(recipient))
     for (i in 1:nunr)
       rec.names[[i]] <- levels(recipient[[i]])
+    #Order recipient into standard order
+    perm.recip <- do.call(order, recipient)
+    recipient.ord <- recipient[perm.recip,]
   }
   else
   { 
     if (!is.list(recipient))  #for (generate) list
       stop("recipient must be a list or a data.frame.")
-    if(any(names(recipient) == ""))
+    if (any(names(recipient) == ""))
       stop("all components of recipient list must be named.")
     facs.reps <- factor.list(recipient, order="standard")
     rec.names <- facs.reps$factors
     nunr <- length(rec.names)
+    #recipient must be in standard order
+    perm.recip <- 1:n
+    recipient.ord <- recipient
   }
   #if except is not NULL, check that it contains only recipient factors
   if (!is.null(except))
@@ -361,77 +371,74 @@
       stop("The product of the numbers of levels of the recipient factors ", 
            "must equal the length of the allocated factors.")
   }
-  #process nested.factor argument
+  #process nested.factor argument to get randomized recipient factors
   if (is.null(nested.recipients))
-    facrecip <- fac.recip.cross(recipient=recipient, rec.names=rec.names, 
+    facrecip <- fac.recip.cross(recipient=recipient.ord, rec.names=rec.names, 
                                 rec.levels=rec.levels, nested.recipients=nested.recipients, 
                                 except=except, seed=seed, allocated=allocated)
   else
   { 
-    if(!is.list(nested.recipients))
+    if (!is.list(nested.recipients))
       stop("nested.recipients must be a list.")
     names.nested <- names(nested.recipients)
-    if(any(names.nested == ""))
+    if (any(names.nested == ""))
       stop("all components of nested.recipients must be named.")
-    if(!all(sapply(nested.recipients, FUN=is.character)) )
+    if (!all(sapply(nested.recipients, FUN=is.character)) )
       stop("All elements of the nested.recipients list must be of class character")
-    facrecip <- fac.recip.nest(recipient=recipient, rec.names=rec.names, 
+    facrecip <- fac.recip.nest(recipient=recipient.ord, rec.names=rec.names, 
                                rec.levels=rec.levels, nested.recipients=nested.recipients, 
                                except=except, seed=seed, allocated=allocated)
   }
-  #form layout which is to be in standard or data frame order for the 
+  
+  #Form layout which is to be in standard or data frame order for the 
   #recipient factors supplied in recipient i.e. in rec.names order
   if (is.data.frame(recipient)) #get into recipient data.frame order
   { 
-    perm.derand <- do.call(order, facrecip)
-    perm.recip <- do.call(order, recipient)
-    #on the right of an expression perm.derand (perm.recip)
-    #puts facrecip (recipient) into standard order.
-    #on the left of an expression perm.derand (perm.recip)
-    #puts standard order into the same order as facrecip (recipient),
-    #i.e. a random permutation of standard order (data frame order).
-    #put facrecip into data.frame order
     for (i in 1:nunr)
       attributes(facrecip[[i]]) <- attributes(recipient[[i]])
+
+    #perm.derand, on the right, puts facrecip order into standard order 
+    # and, on the left,  puts standard order into facrecip order
+    #perm.recip, on the right, puts recipient order into standard order 
+    # and, on the left,  puts standard order into recipient order
+    #Note: order(perm.xxxx) on the right is equivalent to perm.xxx on the left
+    perm.derand <- do.call(order, facrecip)
+
     faclay <- facrecip
-    faclay[perm.recip, ] <- facrecip
+    #change faclay from standard to recipient order (to correspond with allocated)
+    faclay[perm.recip, ] <- facrecip 
  
-    # Check that recipient is in data.frame order; if not put allocated into standard order
-    if (all(perm.recip == 1:length(perm.recip)))
-    {
-      if (is.data.frame(allocated))
-      {
-        allocnames <- names(allocated)
-        allocated <- as.data.frame(allocated[perm.recip, ])
-        names(allocated) <- allocnames
-      }
-       else
-         stop("allocated has not been converted to a data.frame")
-    }
-      
-    #compute randomization for data.frame order
-    perm.dat <- vector("numeric", length=n)
-    #order to put permuted data frame into standard order
-    perm.dat[perm.derand] <- perm.recip
-    #order to get from recipient data frame to permuted data frame
-    perm.dat[perm.recip] <- perm.dat
-    perm.derand.dat <- vector("numeric", length=n)
-    perm.derand.dat[perm.dat] <- 1:n
+    # #order to get from standard order to permuted data frame (perm.dat on the right)
+    # perm.dat <- vector("numeric", length=n)
+    # perm.dat[perm.recip] <- perm.derand
+    # #Order to unpermute the data (perm.derand.dat on the right)
+    # perm.derand.dat <- vector("numeric", length=n)
+    # perm.derand.dat[perm.recip] <- order(perm.dat)
     
-    #join facrecip with allocated factors
+    #order to get from recipient data frame to permuted data frame
+    #(perm.dat on the right)
+    perm.dat <- vector("numeric", length=n)
+    perm.dat <- perm.recip
+    perm.dat <- perm.dat[perm.derand]
+    perm.dat[perm.recip] <- perm.dat
+    #Order to unpermute the data (perm.derand.dat on the right)
+    perm.derand.dat <- vector("numeric", length=n)
+    perm.derand.dat <- order(perm.dat)
+
+    #join faclay with allocated factors and unpermute so that recipient factors are in data.frame order
     if (is.null(allocated))
     {
       if (unit.permutation)
-        faclay <- data.frame(.Units = 1:n, .Permutation = order(perm.derand.dat), faclay)
+        faclay <- data.frame(.Units = 1:n, .Permutation = perm.derand.dat, faclay)
     }
     else
     {
       faclay <- data.frame(faclay, allocated)
       if (unit.permutation)
-        faclay <- data.frame(.Units = 1:n, .Permutation = order(perm.derand.dat),
-                             faclay[perm.derand.dat, ])
+              faclay <- data.frame(.Units = 1:n, .Permutation = perm.derand.dat,
+                             faclay[perm.dat, ])
       else
-        faclay <- faclay[perm.derand.dat, ]
+        faclay <- faclay[perm.dat, ]
     }
   }
   else  #get in standard order for rec.names
