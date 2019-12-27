@@ -522,7 +522,8 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
     #Find all the factors
     facs <- unique(unlist(fac.list))
     if (!all(facs %in% names(data)))
-      stop("Some factor/covariates missing from data")
+      stop(paste("Some factor/covariates missing from data:", 
+                 paste0(facs[!(facs %in% names(data))], collapse = ", ")))
     
     #form mean operators for each term
     fac.modl <- model.frame(formula, data=data)

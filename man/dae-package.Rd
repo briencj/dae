@@ -65,9 +65,14 @@
   \tab Match, for each combination of a set of columns \cr
   \tab in 'x', the row that has the same combination\cr
   \tab in 'table'\cr
+\code{\link{fac.multinested}}
+  \tab Creates several factors, one for each level of a nesting.fac \cr
+  \tab and each of whose values are either generated within \cr 
+  \tab those of the level of nesting.fac or using the values \cr
+  \tab of a nested.fac\cr
 \code{\link{fac.nested}}
-  \tab Creates a factor whose values are generated \cr
-  \tab within those of the factor nesting.fac\cr
+  \tab Creates a factor, the nested factor, whose values are \cr
+  \tab generated within those of the factor nesting.fac\cr
 \code{\link{fac.recode}}
   \tab Recodes factor 'levels' using possibly nonunique \cr
   \tab values in a vector. \cr

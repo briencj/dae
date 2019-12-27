@@ -108,20 +108,25 @@
 	  nlev <- length(unique(combined.factor))
 	kombined.factor <- c(1:nlev)[combined.factor]
 	for (i in counter)
-	{ klev <- length(factor.names[[i]])
+	{ 
+	  klev <- length(factor.names[[i]])
     if (is.numeric(factor.names[[i]]))
-    { if (klev != 1)
-      { lev <- factor.names[[i]]
+    { 
+      if (klev != 1)
+      { 
+        lev <- factor.names[[i]]
         val <- (kombined.factor - 1) %% klev + 1
-		   factor.names[[i]] <- factor(lev[val])
+        factor.names[[i]] <- factor(lev[val])
       }
       else
-      {	klev <- factor.names[[i]]
+      {	
+        klev <- factor.names[[i]]
 		    factor.names[[i]] <- factor((kombined.factor - 1) %% klev + 1)
 	    }
     }
     else
-	  {	factor.names[[i]] <- factor((kombined.factor - 1) %% klev + 1, 
+	  {	
+	    factor.names[[i]] <- factor((kombined.factor - 1) %% klev + 1, 
                                           labels = factor.names[[i]])
 	  }
 		kombined.factor <- (kombined.factor - 1) %/% klev + 1
@@ -129,21 +134,90 @@
   new.factors <- data.frame(factor.names)
 }
 
-"fac.nested" <- function(nesting.fac, levels=NA, labels=NA, ...)
+"fac.nested" <- function(nesting.fac, nested.levs = NA, nested.labs = NA, ...)
 {
-	n <- length(nesting.fac)
+  #Deal with deprecated levels and labels function arguments
+  tempcall <- list(...)
+  if (length(tempcall))
+  {
+    if ("levels" %in% names(tempcall))
+      stop("levels has been deprecated in fac.nested - use nested.levs")
+    if ("labels" %in% names(tempcall))
+      stop("labels has been deprecated in fac.nested - use nested.labs")
+  }
+  n <- length(nesting.fac)
 	reps <- table(nesting.fac)
 	levs <- levels(nesting.fac)
 	no.lev.between <- length(levs)
 	no.lev.within <- max(table(nesting.fac))
 	nested.fac <- c(rep(1, n))
 	nested.fac[is.na(nesting.fac)] <-NA  #Line added
-	#Set levels if nested factor for ach levels of nested factor, avoinding missing values
+	#Set nested.levs if nested factor for each levels of nested factor, avoiding missing values
 	for(i in 1:no.lev.between)
 	  nested.fac[!is.na(nesting.fac)][nesting.fac[!is.na(nesting.fac)] == levs[i]] <- 1:reps[i]
-	if (length(levels) == 1 && is.na(levels)) levels <- 1:no.lev.within
-	if (length(labels) == 1 && is.na(labels)) labels <- as.character(levels)
-	nested.fac <- factor(nested.fac, levels=levels, labels=labels, ...)
+	if (length(nested.levs) == 1 && is.na(nested.levs)) nested.levs <- 1:no.lev.within
+	if (length(nested.labs) == 1 && is.na(nested.labs)) nested.labs <- as.character(nested.levs)
+	nested.fac <- factor(nested.fac, levels=nested.levs, labels=nested.labs, ...)
 	return(nested.fac)
+}
+
+"fac.multinested" <- function(nesting.fac, nested.fac = NULL, fac.prefix = NULL, 
+                              nested.levs = NA, nested.labs = NA, outlevel = 0, outlabel = "rest", ...)
+{
+  n <- length(nesting.fac)
+  levs <- na.omit(levels(nesting.fac))
+  levs <- levs[levs != outlabel]
+  no.lev.between <- length(levs)
+
+  if (is.null(nested.fac))
+  {
+    no.lev.within <- max(table(nesting.fac))
+    reps <- table(nesting.fac)[levs]
+    names(reps) <- levs
+    nest.facs <- lapply(levs, 
+                        function(lev, nesting.fac, reps, nested.levs, nested.labs, outlevel, outlabel) 
+                        {
+                          nest.fac <- rep(outlevel, n)
+                          nest.fac[is.na(nesting.fac)] <-NA
+                          #Set levels if nested factor for each levels of nested factor, avoiding missing values
+                          if (length(nested.levs) == 1 && is.na(nested.levs)) 
+                            klevs <- 0:reps[lev]
+                          else
+                            klevs <- c(outlevel,nested.levs[1:reps[lev]])
+                          if (length(nested.labs) == 1 && is.na(nested.labs)) 
+                            klabs <- as.character(c(outlabel, klevs[-1]))
+                          else
+                            klabs <- as.character(c(outlabel, nested.labs[1:reps[lev]]))
+                          nest.fac[!is.na(nesting.fac)][nesting.fac[!is.na(nesting.fac)] == lev] <- 
+                            klevs[-1][1:reps[lev]]
+                          nest.fac <- factor(nest.fac, levels=klevs, labels=klabs, ...)
+                          return(nest.fac)
+                        }, nesting.fac = nesting.fac, reps = reps, nested.levs=nested.levs, nested.labs=nested.labs, 
+                           outlevel = outlevel, outlabel = outlabel)
+  } else
+  {
+    nested.fac <- as.character(nested.fac)
+    nest.facs <- lapply(levs, 
+                        function(lev, nesting.fac, nested.fac, nested.labs, outlevel, outlabel) 
+                        {
+                          nest.fac <- rep(outlevel, n)
+                          nest.fac[is.na(nesting.fac) | is.na(nested.fac)] <-NA
+                          #Set levels if nested factor for each levels of nested factor, avoiding missing values
+                          nest.fac[!is.na(nesting.fac)][nesting.fac[!is.na(nesting.fac)] == lev] <- 
+                            nested.fac[!is.na(nesting.fac)][nesting.fac[!is.na(nesting.fac)] == lev]
+                          klevs <- nested.fac[!is.na(nesting.fac)][nesting.fac[!is.na(nesting.fac)] == lev]
+                          klevs <- c(outlevel,klevs)
+                          if (length(nested.labs) == 1 && is.na(nested.labs)) 
+                            klabs <- as.character(c(outlabel, klevs[-1]))
+                          else
+                            klabs <- as.character(c(outlabel, nested.labs))
+                          nest.fac <- factor(nest.fac, levels=klevs, labels=klabs, ...)
+                          return(nest.fac)
+                        }, nesting.fac = nesting.fac, nested.fac = nested.fac, nested.labs=nested.labs, 
+                           outlevel = outlevel, outlabel = outlabel)
+  }
+  nest.facs <- data.frame(nest.facs)
+  names(nest.facs) <- paste0(fac.prefix, levs)
+  return(nest.facs)
 }
 

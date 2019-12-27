@@ -1,5 +1,10 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-18 (2019-12-27)}{
+  \itemize{
+    \item{Add names of missing factor/covariate to error message in pstructure.}
+    \item{Add function fac.multinested}
+}}
 \section{Changes in dae version 3.1-17 (2019-11-23)}{
   \itemize{
     \item{Revise the DesignNotes vignette.}
