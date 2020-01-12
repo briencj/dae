@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-21 (2020-01-12)}{
+  \itemize{
+    \item{Reduce example for fac.multinested and build for CRAN resubmission.}
+}}
 \section{Changes in dae version 3.1-20 (2020-01-11)}{
   \itemize{
     \item{Rebuild for CRAN submission.}

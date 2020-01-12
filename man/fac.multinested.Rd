@@ -42,8 +42,10 @@ fac.multinested(nesting.fac, nested.fac = NULL, fac.prefix = NULL,
 
   #Add factors for B within each level of A, but with levels and outlabel given
   lay2 <- cbind(lay, fac.multinested(lay$A, nested.levs = seq(10,60,10), outlabel = "other"))
+  \donttest{
   canon2 <- designAnatomy(list(~A/(a+b+c)), data = lay2)
   summary(canon2)
+  }
 
   #Replicate the combinations of A and B three times and index them with the factor sample
   lay3 <- rbind(lay,lay,lay)
@@ -51,8 +53,10 @@ fac.multinested(nesting.fac, nested.fac = NULL, fac.prefix = NULL,
   
   #Add factors for B within each level of A
   lay4 <- cbind(lay3, fac.multinested(nesting.fac = lay$A, nested.fac = lay$B))
+  \donttest{
   canon4 <- designAnatomy(list(~(A/(a+b+c))/sample), data = lay4)
   summary(canon4)
+  }
 
   #Add factors for sample within each combination of A and B
   lay5 <- with(lay4, cbind(lay4, 
