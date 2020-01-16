@@ -23,6 +23,19 @@
   return(new.fac)
 }
 
+"fac.uselogical" <- function(x, levels = c(TRUE, FALSE), labels = c("yes", "no"), ...)
+#function to form a two-level factor from a logical object
+{
+  if (length(levels) != 2)
+    warning("length of supplied levels is not 2")
+  if (length(labels) != 2)
+    warning("length of supplied labels is not 2")
+  if (!is.logical(x))
+    x <- as.logical(x)
+  fac <- factor(x, levels = levels, labels = labels, ...)
+  return(fac)
+}
+
 "fac.combine" <- function(factors, order="standard", combine.levels=FALSE, sep=",", ...)
 {
   #

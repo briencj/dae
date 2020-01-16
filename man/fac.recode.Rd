@@ -14,14 +14,14 @@
 }
 \value{A \code{\link{factor}}.}
 \author{Chris Brien}
-\seealso{\code{\link{as.numfac}} and \code{\link{mpone}} in package \pkg{dae}, 
+\seealso{\code{\link{fac.uselogical}, \link{as.numfac}} and \code{\link{mpone}} in package \pkg{dae}, 
 \code{\link{factor}}, \code{\link{relevel}}.}
 \examples{
 ## set up a factor with labels
-a <- factor(rep(1:4, 4), labels=c("A","B","C","D"))
+Treats <- factor(rep(1:4, 4), labels=c("A","B","C","D"))
  
 ## recode "A" and "D" to 1 and "B" and "C" to 2
-b <- fac.recode(a, c(1,2,2,1), labels = c("a","b"))
+B <- fac.recode(Treats, c(1,2,2,1), labels = c("a","b"))
 }
 \keyword{factor}
 \keyword{manip}

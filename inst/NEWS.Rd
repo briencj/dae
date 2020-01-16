@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-22 (2020-01-16)}{
+  \itemize{
+    \item{Add the function fac.uselogical.}
+}}
 \section{Changes in dae version 3.1-21 (2020-01-12)}{
   \itemize{
     \item{Reduce example for fac.multinested and build for CRAN resubmission.}

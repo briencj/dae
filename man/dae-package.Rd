@@ -76,6 +76,8 @@
 \code{\link{fac.recode}}
   \tab Recodes factor 'levels' using possibly nonunique \cr
   \tab values in a vector. \cr
+\code{\link{fac.uselogical}}
+  \tab Forms a two-level factor from a logical object \cr
 \code{\link{mpone}}
   \tab Converts the first two levels of a factor into\cr
   \tab the numeric values -1 and +1\cr
