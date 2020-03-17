@@ -86,6 +86,7 @@ export(Ameasures,
        pstructure, 
        pstructure.formula,
        qqyeffects,
+       rep.data.frame, 
        residuals.aovlist,
        resid.errors,
        rmvnorm,
@@ -121,5 +122,6 @@ S3method(marginality, pstructure)
 S3method(residuals, aovlist)
 S3method(residuals, aovlist, resid.errors)
 S3method(pstructure, formula)
+S3method(rep, data.frame)
 S3method(summary, p2canon)
 S3method(summary, pcanon)

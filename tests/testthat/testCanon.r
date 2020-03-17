@@ -279,21 +279,76 @@ test_that("designTwophaseAnatomies", {
                                                      trt = ~ Treat),
                                      data = jr.lay)  
   testthat::expect_equal(length(jr.anat), 4)
+  testthat::expect_true(all(names(jr.anat) == c("twophase","first","cross","units")))
+  testthat::expect_true(all(attr(jr.anat, which = "titles") == 
+                              c("Anatomy for the full two-phase design",
+                                "Anatomy for the first-phase design", 
+                                "Anatomy for the cross-phase, treatments design", 
+                                "Anatomy for the combined-units design" )))
+  
+  #Test for etting only two anatomies
   jrfc.anat <- designTwophaseAnatomies(formulae = list(array = ~ (Set:Array)*Dye,
                                                        plot = ~ Block/Plant/Sample,
                                                        trt = ~ Treat),
                                        which.designs = c("first", "cross"), data = jr.lay)
   testthat::expect_equal(length(jrfc.anat), 4)
+  testthat::expect_true(all(names(jrfc.anat) == c("twophase","first","cross","units")))
   testthat::expect_true(is.null(jrfc.anat[["twophase"]]))
   testthat::expect_true(!is.null(jrfc.anat[["first"]]))
   testthat::expect_true(!is.null(jrfc.anat[["cross"]]))
-  testthat::expect_true(is.null(jrfc.anat[["second"]]))
+  testthat::expect_true(is.null(jrfc.anat[["units"]]))
+  testthat::expect_true(all(attr(jrfc.anat, which = "titles") == 
+                              c("Anatomy for the full two-phase design",
+                                "Anatomy for the first-phase design", 
+                                "Anatomy for the cross-phase, treatments design", 
+                                "Anatomy for the combined-units design" )))
   
   testthat::expect_silent(jrfc.anat <- designTwophaseAnatomies(formulae = list(array = ~ (Set:Array)*Dye,
                                                                                plot = ~ Block/Plant/Sample,
                                                                                trt = ~ Treat),
                                                                which.designs = c("first", "cross"), 
                                                                printAnatomies = FALSE, data = jr.lay))
+})
+
+cat("#### Test for designTwophaseAnatTitles\n")
+test_that("designTwophaseAnatTitles", {
+  skip_on_cran()
+  library(dae)
+  options(width = 95)
+  
+  # Generate first-phase sytematic design
+  ph1.sys <- cbind(fac.gen(list(Expressive = c("Yes", "No"), Patients = 4, Occasions = 2)),
+                   fac.gen(list(Motions = c("active", "passive")), times = 8))
+  
+  # Generate the two-phase systematic design
+  ph2.sys <- cbind(fac.gen(list(Raters = 74, Viewings = 16)),
+                   fac.gen(list(Trainings = 2, 16), times = 37),
+                   rep(ph1.sys, times =74))
+  
+  #'## Randomize the two-phase design
+  ph2.lay <- designRandomize(allocated = ph2.sys[c("Trainings", "Expressive", "Patients",
+                                                   "Occasions", "Motions")],
+                             recipient = ph2.sys[c("Raters", "Viewings")],
+                             except = "Viewings",
+                             seed = 15674)
+  testthat::expect_equal(nrow(ph2.lay), 1184)
+  testthat::expect_equal(ncol(ph2.lay), 7)
+  
+  # Produce the anatomies of the design and check that titles are correct
+  jfh.anat <- designTwophaseAnatomies(formulae = list(rate  = ~ Raters * Viewings,
+                                                     video = ~ (Expressive/Patients)*Occasions,
+                                                     alloc = ~ Trainings * Motions),
+                                     titles = c(NA, NA,
+                                               "Anatomy for allocated factors with second-phase units",
+                                                NA),
+                                     data = ph2.lay)  
+  testthat::expect_equal(length(jfh.anat), 4)
+  testthat::expect_true(all(names(jfh.anat) == c("twophase","first","cross","units")))
+  testthat::expect_true(all(attr(jfh.anat, which = "titles") == 
+                              c("Anatomy for the full two-phase design",
+                                "Anatomy for the first-phase design", 
+                                "Anatomy for allocated factors with second-phase units", 
+                                "Anatomy for the combined-units design" )))
 })
 
 cat("#### Test for Baby pseudoterm example\n")

@@ -290,6 +290,8 @@
 { 
   if (!inherits(object, "pcanon"))
     stop("object must be of class pcanon as produced by projs.pcanon")
+  if (!is.logical(labels.swap))
+    stop("labels.swap must be a logical")
   if (is.null(names(object))) #Assume is an old pcannon
   {
     summ <- summ.legacy(object = object, which.criteria = which.criteria)

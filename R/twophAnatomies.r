@@ -1,5 +1,5 @@
-designTwophaseAnatomies <- function(formulae, data, 
-                                    which.designs = "all", printAnatomies = TRUE, 
+designTwophaseAnatomies <- function(formulae, data, which.designs = "all", 
+                                    printAnatomies = TRUE, titles,
                                     orthogonalize = "hybrid", 
                                     marginality = NULL, 
                                     which.criteria = c("aefficiency", "eefficiency", 
@@ -15,9 +15,26 @@ designTwophaseAnatomies <- function(formulae, data,
       { warning("Length of orthogonalize is not equal to 1 or the number of formulae - only using first value")
         orthogonalize <- rep(orthogonalize[1], ntiers)
       }
-    
+  
+  #Deal with titles argument
+  anat.titls <- c("Anatomy for the full two-phase design",
+                  "Anatomy for the first-phase design",
+                  "Anatomy for the cross-phase, treatments design",
+                  "Anatomy for the combined-units design")
+  if (!missing(titles))
+  {
+    if (length(titles) != 4 | !is.character(titles))
+      stop("titles must be a character of length fours")
+    anat.titls <- mapply(FUN = function(titl, anat.titl) 
+    {
+      if (is.na(titl)) titl <- anat.titl
+      invisible(titl)
+    }, 
+    titles, anat.titls, USE.NAMES = FALSE)
+  }
+
   #check which.criteria arguments
-  designs <- c("two-phase", "first-phase", "cross-phase", "second-phase")
+  designs <- c("two-phase", "first-phase", "cross-phase", "combined-units")
   options <- c(designs, "all")
   kdesigns <- options[unlist(lapply(which.designs, check.arg.values, 
                                      options=options))]
@@ -59,7 +76,7 @@ designTwophaseAnatomies <- function(formulae, data,
                                      which.criteria = which.criteria, ...)
     if (printAnatomies)
     { 
-      cat("\n### Anatomy for full two-phase design\n")
+      cat("\n###", anat.titls[1],"\n")
       print(summary(twoph.lay.canon, which.criteria = which.criteria))
     }
   }
@@ -74,12 +91,12 @@ designTwophaseAnatomies <- function(formulae, data,
                                       which.criteria = which.criteria, ...)
     if (printAnatomies)
     {
-      cat("\n### Anatomy for first-phase design\n")
+      cat("\n###", anat.titls[2],"\n")
       print(summary(twoph1.lay.canon, which.criteria = which.criteria))
     }
   }
   
-  #'### Anatomy for cross-phase design
+  #'### Anatomy for the cross-phase, treatments design
   if ("cross-phase" %in% kdesigns)
   {
     ph12.lay.canon <- designAnatomy(formulae = c(formulae[1], formulae[3]),
@@ -89,13 +106,13 @@ designTwophaseAnatomies <- function(formulae, data,
                                     which.criteria = which.criteria, ...)
     if (printAnatomies)
     {
-      cat("\n### Anatomy for cross-phase design\n")
+      cat("\n###", anat.titls[3],"\n")
       print(summary(ph12.lay.canon, which.criteria = which.criteria))
     }
   }
   
-  #'### Anatomy for second-phase design
-  if ("second-phase" %in% kdesigns)
+  #'### Anatomy for the cpmbined-units design
+  if ("combined-units" %in% kdesigns)
   {
     twoph2.lay.canon <- designAnatomy(formulae = c(formulae[1], formulae[2]),
                                       data = data, 
@@ -104,11 +121,12 @@ designTwophaseAnatomies <- function(formulae, data,
                                       which.criteria = which.criteria, ...)
     if (printAnatomies)
     {
-      cat("\n### Anatomy for second-phase design\n\n")
+      cat("\n###", anat.titls[4],"\n")
       print(summary(twoph2.lay.canon, which.criteria = which.criteria))
     }
   }  
-  
-  invisible(list(twophase = twoph.lay.canon, first = twoph1.lay.canon, cross = ph12.lay.canon, 
-                 second = twoph2.lay.canon))
+  anats <- list(twophase = twoph.lay.canon, first = twoph1.lay.canon, cross = ph12.lay.canon, 
+                units = twoph2.lay.canon)
+  attr(anats, which = "titles") <- anat.titls
+  invisible(anats)
 }

@@ -1,15 +1,15 @@
 \name{designTwophaseAnatomies}
 \alias{designTwophaseAnatomies}
-\title{Given the layout for a design and three structure formulae, obtain the anatomies for the two-phase, first-phase, cross-phase and second-phase designs.}
-\description{Uses \code{\link{designAnatomy}} to obtain the four species of designs associated with a two-phase design that are described by Brien (2019): the anatomies for the two-phase, first-phase, cross-phase and second-phase designs.
+\title{Given the layout for a design and three structure formulae, obtain the anatomies for the (i) two-phase, (ii) first-phase, (iii) cross-phase, treatments, and (iv) combined-units designs.}
+\description{Uses \code{\link{designAnatomy}} to obtain the four species of designs, described by Brien (2019), that are associated with a standard two-phase design: the anatomies for the (i) two-phase, (ii) first-phase, (iii) cross-phase, treatments, and (iv) combined-units designs. (The names of the last two designs in  Brien (2019) were cross-phase and second-phase designs.) For the standard two-phase design, the first-phase design is the design that allocates first-phase treatments to first-phase units. The cross-phase, treatments design allocates the first-phase treatments to the second-phase units and the combined-units design allocates the the first-phase units to the second-phase units. The two-phase design combines the other three species of designs. However, it is not mandatory that the three formula correspond to second-phase units, first-phase units and first-phase treatments, respectively, as is implied above; this is just the correspondence for a standard two-phase design. The essential requirement is that three structure formulae are supplied. For example, if there are both first- and second-phase treatments in a two-phase design, the third formula might involve the treatment factors from both phases. In this case, the default anatomy titles when printing occurs will not be correct, but can be modifed using the \code{titles} argument.
 }
 \usage{
-designTwophaseAnatomies(formulae, data, 
-                       which.designs = "all", printAnatomies = TRUE, 
-                       orthogonalize = "hybrid", 
-                       marginality = NULL, 
-                       which.criteria = c("aefficiency", "eefficiency", 
-                                          "order"), ...)
+designTwophaseAnatomies(formulae, data, which.designs = "all", 
+                        printAnatomies = TRUE, titles,
+                        orthogonalize = "hybrid", 
+                        marginality = NULL, 
+                        which.criteria = c("aefficiency", "eefficiency", 
+                                           "order"), ...)
 }
 \arguments{
  \item{formulae}{An object of class \code{\link{list}} with three components of class 
@@ -27,11 +27,24 @@ designTwophaseAnatomies(formulae, data,
  \item{which.designs}{A \code{\link{character}} vector indicating the species of 
                designs that are to be obtained. It should include one or more of
                \code{two-phase}, \code{first-phase}, \code{cross-phase} and 
-               \code{second-phase}; \code{all}, the default, results in all 
+               \code{combined-units}; \code{all}, the default, results in all 
                four being obtained.}
  \item{printAnatomies}{A \code{\link{logical}} indicating whether or not the anatomies 
                are to be printed.}
-\item{orthogonalize}{A \code{\link{character}} vector indicating the method for orthogonalizing a
+ \item{titles}{A \code{\link{character}} vector of length four providing titles for 
+                      the printed anatomies. It should have the titles, in the following 
+                      order, for the antomies based on : (i) all three \code{formulae}, 
+                      (ii) the second and third \code{formulae}, (iii) the first and 
+                      third \code{formulae}, and (iv) the first and second \code{formulae}. 
+                      If any element of \code{titles} is \code{NA} then that element is 
+                      replaced with the corresponding default element of \code{titles}, 
+                      these being, in order: 
+                      \code{Anatomy for the full two-phase design};  
+                      \code{Anatomy for the first-phase design}; 
+                      \code{Anatomy for the cross-phase, treatments design}; and  
+                      \code{Anatomy for the combined-units design}. The titles generated will 
+                      be saved as an attribute of the returned \code{list}.}
+ \item{orthogonalize}{A \code{\link{character}} vector indicating the method for orthogonalizing a
                       projector to those for terms that occurred previously 
                       in a single formula. Three options are available:  
                       \code{hybrid}; \code{differencing}; \code{eigenmethods}.
@@ -51,7 +64,7 @@ designTwophaseAnatomies(formulae, data,
                       marginality matrices or when they are not calculated. 
                       If the \code{\link{list}} is the same length as the 
                       \code{formulae} \code{\link{list}}, they will be associated in 
-                      parallel with the components of \code{formulae}, irespective of 
+                      parallel with the components of \code{formulae}, irrespective of 
                       the naming of the two \code{\link{list}}s. If the number of 
                       components in \code{marginlaity} is less than the number of 
                       components in \code{formulae} then both \code{\link{list}}s 
@@ -83,15 +96,17 @@ designTwophaseAnatomies(formulae, data,
  \item{...}{further arguments passed to \code{designAnatomy}.}
 }
 \value{A \code{\link{list}} containing the components \code{twophase}, \code{first}, 
-         \code{cross} and \code{second}.Each contains the \code{\link{pcanon.object}} 
-         for one of the four designs produced by designTwophaseAnatomies, unless it is 
+         \code{cross} and \code{combined}.Each contains the \code{\link{pcanon.object}} 
+         for one of the four designs produced by \code{designTwophaseAnatomies}, unless it is 
          \code{NULL} because the design was omitted from the \code{which.designs} 
-         argument.}
+         argument. The returned \code{list} has an attribute \code{titles}, being a 
+         \code{character} vector of length four and containing the titles used in 
+         printing the anatomies.}
 \details{To produce the anatomies, \code{\link{designAnatomy}} is called. The 
-         two-phase anatomy is based on the three formulae supplied in \code{formulae}, 
-         the first-phase anatomy uses the second and third formulae, the cross-phase 
-         anatomy derives from the first and third formulae and the second-phase 
-         anatomy is obtained with the first and second formulae.}
+         two-phase anatomy is based on the three \code{formulae} supplied in \code{formulae}, 
+         the first-phase anatomy uses the second and third \code{formulae}, the cross-phase, 
+         treatments anatomy derives from the first and third \code{formulae} and the combined-units 
+         anatomy is obtained with the first and second \code{formulae}.}
 \references{Brien, C. J. (2017) Multiphase experiments in practice: A look back. 
             \emph{Australian & New Zealand Journal of Statistics}, \bold{59}, 327-352.
 

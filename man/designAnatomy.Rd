@@ -73,7 +73,7 @@ designAnatomy(formulae, data, keep.order = TRUE, grandMean = FALSE,
                       marginality matrices or when they are not calculated. 
                       If the \code{\link{list}} is the same length as the 
                       \code{formulae} \code{\link{list}}, they will be associated in 
-                      parallel with the components of \code{formulae}, irespective of 
+                      parallel with the components of \code{formulae}, irrespective of 
                       the naming of the two \code{\link{list}}s. If the number of 
                       components in \code{marginlaity} is less than the number of 
                       components in \code{formulae} then both \code{\link{list}}s 

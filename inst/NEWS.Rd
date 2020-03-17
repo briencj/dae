@@ -1,5 +1,10 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-23 (2020-03-16)}{
+  \itemize{
+    \item{Add the function rep.data.frame.}
+    \item{Rename the design species for which designTwoPhaseAnatomies produces anatomies. Also, allow the overriding of the default titles for each anatomy.}
+}}
 \section{Changes in dae version 3.1-22 (2020-01-16)}{
   \itemize{
     \item{Add the function fac.uselogical.}

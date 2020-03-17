@@ -113,8 +113,9 @@
   \tab a layout for an experiment. It supersedes \code{fac.layout}. \cr
 \code{\link{designTwophaseAnatomies}}
   \tab Given the layout for a design and three structure formulae, \cr
-  \tab obtain the anatomies for the two-phase, first-phase,        \cr
-  \tab cross-phase and second-phase designs.   \cr
+  \tab obtain the anatomies for the (i) two-phase,  \cr 
+  \tab (ii) first-phase, (iii) cross-phase, treatments, and \cr
+  \tab (iv) combined-units designs. \cr
 \code{\link{marginality.pstructure}} 
   \tab Extracts the marginality matrix from a \cr
   \tab \code{\link{pstructure.object}} \cr
@@ -309,6 +310,10 @@ Others:\cr\cr
   \tab Calcuates the harmonic mean.\cr
 \code{\link{is.allzero}}
   \tab Tests whether all elements are approximately zero\cr
+\code{\link{rep.data.frame}}
+  \tab Replicate the rows of a data.frame by repeating  \cr 
+  \tab each row consecutively and/or repeating all rows \cr
+  \tab as a group. \cr
 \code{\link{rmvnorm}}
   \tab Generates a vector of random values from a\cr
   \tab multivariate normal distribution\cr
