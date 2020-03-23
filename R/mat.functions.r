@@ -370,6 +370,81 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
   return(Vpred)
 }
 
+"mat.random" <- function(random, G, design, keep.order = TRUE)
+  #G is a list with a component for each random term; 
+  #it can be a single value for the component value of a diagonal matrix, or
+  #a matrix that is the same size as the number of levels in the model term;
+  #the order in the list must correspond to the order of terms in the expanded formula
+{
+
+  n <- nrow(design)
+  
+  #Generate Z and G for the random terms when a formula is supplied
+  if (missing(random))
+  {
+    if (!missing(G))
+      stop("A G matrix has been specified without random having been set; perhaps it is the random matrix")
+    else
+      Vu <- matrix(0, nrow = n, ncol = n)
+  } else #process the random argument
+  {
+    if (inherits(random, what = "matrix"))
+      Vu <- random
+    else
+    {
+      if (!inherits(random, what = "formula"))
+        stop("random must be a matrix or a formula")
+      ran.attribs <- attributes(terms(random, keep.order = keep.order))
+      if (missing(G))
+        stop("Have specified a random formula without specifying components")
+      if (!inherits(G, what = "list"))
+        stop("G should be a list")
+      if (ran.attribs$intercept != 0)
+        stop("An intercept has been included in the random formula")
+      nranterm <- length(ran.attribs$term.labels) + ran.attribs$intercept
+      if (length(G) != nranterm)
+        stop("The number of supplied components is not equal to the number of random terms")
+      names(G) <- ran.attribs$term.labels
+      terms <- ran.attribs$term.labels
+      Z <- do.call(cbind, lapply(terms, 
+                                 function(term, design) 
+                                   model.matrix(as.formula(paste("~ - 1 +", term, sep = " ")), 
+                                                design),
+                                 design = design))
+      
+      #Generate G from component values
+      for (term in ran.attribs$term.labels)
+      {
+        if (length(ran.attribs$factors) == 1)
+        {
+          facs <- rownames(ran.attribs$factors)
+          nlev <- length(levels(design[[facs]]))
+        } else
+        {
+          facs <- names(ran.attribs$factors[,term])[ran.attribs$factors[,term]  != 0]
+          nlev <- prod(unlist(lapply(facs, 
+                                     function(fac, design) length(levels(design[[fac]])), 
+                                     design = design)))
+        }
+        if (length(G[[term]]) == 1)
+        {
+          G[[term]] <- diag(G[[term]], nrow = nlev, ncol = nlev)
+        } else
+        {
+          if (!all(dim(G[[term]]) == nlev))
+            stop("The dimensions of the G component for ",term, " is not correct")
+        }
+      }
+      G <- mat.dirsum(G)
+      if (!all(dim(G) == ncol(Z)))
+        stop("The design matrix for the combined random terms is not conformable with G")
+      Vu <- Z %*% G %*% t(Z)
+    }
+  }
+    
+  return(Vu) 
+}
+
 "mat.Vpredicts" <- function(target, Gt = 0, fixed = ~ 1, random, G, R, design, 
                             eliminate, keep.order = TRUE, result = "variance.matrix")
   #Gt is the component for the target factor; if zero the target treated as fixed, otherwise it is random
@@ -434,77 +509,17 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
     }
   }
   fix.cols <- ncol(X)
+
   #Generate Z and G for the random terms when a formula is supplied
-  if (missing(random))
-  {
-    if (!missing(G))
-      stop("A G matrix has been specified without random having been set; perhaps it is the random matrix")
-    else
-      Vu <- matrix(0, nrow = nrow(W), ncol = nrow(W))
-  } else #process the random argument
-  {
-    if (inherits(random, what = "matrix"))
-    {
-      if (method != "onestep")
-        stop("If supply a matrix for random then method must be onestep")
-      Vu <- random
-    } else
-    {
-      if (!inherits(random, what = "formula"))
-        stop("random must be a matrix or a formula")
-      ran.attribs <- attributes(terms(random, keep.order = keep.order))
-      if (missing(G))
-        stop("Have specified a random formula without specifying components")
-      if (!inherits(G, what = "list"))
-        stop("G should be a list")
-      if (ran.attribs$intercept != 0)
-        stop("An intercept has been included in the random formula")
-      nranterm <- length(ran.attribs$term.labels) + ran.attribs$intercept
-      if (length(G) != nranterm)
-        stop("The number of supplied components is not equal to the number of random terms")
-      names(G) <- ran.attribs$term.labels
-      terms <- ran.attribs$term.labels
-      Z <- do.call(cbind, lapply(terms, 
-                                 function(term, design) 
-                                   model.matrix(as.formula(paste("~ - 1 +", term, sep = " ")), 
-                                                design),
-                                 design = design))
-      
-      #Generate G from component values
-      for (term in ran.attribs$term.labels)
-      {
-        if (length(ran.attribs$factors) == 1)
-        {
-          facs <- rownames(ran.attribs$factors)
-          nlev <- length(levels(design[[facs]]))
-        } else
-        {
-          facs <- names(ran.attribs$factors[,term])[ran.attribs$factors[,term]  != 0]
-          nlev <- prod(unlist(lapply(facs, 
-                                     function(fac, design) length(levels(design[[fac]])), 
-                                     design = design)))
-        }
-        if (length(G[[term]]) == 1)
-        {
-          G[[term]] <- diag(G[[term]], nrow = nlev, ncol = nlev)
-        } else
-        {
-          if (!all(dim(G[[term]]) == nlev))
-            stop("The dimensions of the G component for ",term, " is not correct")
-        }
-      }
-      G <- mat.dirsum(G)
-      if (!all(dim(G) == ncol(Z)))
-        stop("The design matrix for the combined random terms is not conformable with G")
-      if (method == "onestep")
-        Vu <- Z %*% G %*% t(Z)
-      else
-        Vu = 0
-    }
-  }
+  Vu <- mat.random(random = random, G = G, design = design, keep.order = keep.order)
+
   #Generate R if missing
   if (missing(R))
     R <- diag(1, nrow = nrow(W), ncol = nrow(W))
+  else
+    if (nrow(R) != nrow(design))
+      stop("The dimensions of R are not the same as the number of rows in design")
+  
   
   if (method == "onestep")
   {
@@ -538,6 +553,9 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
     }
   } else #twostep
   {
+    if (inherits(random, what = "matrix"))
+      stop("If supply a matrix for random then method must be onestep")
+   
     target.cols <- ncol(W)
     
     if (Gt == 0) #add to fixed model

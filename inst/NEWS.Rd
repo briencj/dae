@@ -1,5 +1,10 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-24 (2020-03-23)}{
+  \itemize{
+    \item{Change the Maintainer email address.}
+    \item{Add function mat.vcomp.}
+}}
 \section{Changes in dae version 3.1-23 (2020-03-16)}{
   \itemize{
     \item{Add the function rep.data.frame.}

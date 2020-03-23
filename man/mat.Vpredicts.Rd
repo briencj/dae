@@ -30,12 +30,14 @@ mat.Vpredicts(target, Gt = 0, fixed = ~ 1, random, G, R, design,
           nuisance fixed effects and covariates, or a \code{\link{formula}} from 
           which the \code{\link{matrix}} can be generated. The default is a 
           \code{\link{formula}} for an intercept-only model.}
- \item{random}{The \code{n x r} incidence \code{\link{matrix}} for the \code{r} 
-          nuisance randm effects, or a \code{\link{formula}} from which 
-          the \code{\link{matrix}} can be generated. The default is 0, which 
+ \item{random}{A \code{\link{formula}} or a \code{\link{matrix}}. If a 
+          \code{\link{formula}}, it specifies the random effects from which 
+          the \code{\link{matrix}} for the contribution of the random effects 
+          to the variance matrix can be generated. If it is a matrix, it must be an 
+          \code{n x n} \code{\link{matrix}} and will be passed on to form the variance 
+          matrix of the observations. The default is 0, which 
           implies that there are no random effects.}
- \item{G}{The \code{r x r} variance \code{\link{matrix}} of the \code{r} nuisance 
-           random effects. This term only needs to be set if \code{random} is a 
+ \item{G}{This term only needs to be set if \code{random} is a 
            \code{\link{formula}}. Then it is set to a \code{\link{list}}, in which 
            each component is either a single value or a \code{\link{matrix}}; 
            there needs to be a component for each term in the expanded 
@@ -95,7 +97,7 @@ mat.Vpredicts(target, Gt = 0, fixed = ~ 1, random, G, R, design,
          \code{Vpred <- ginv(A)} and returned; otherwise the information matrix A is returned. The rank of the matrix to be returned is obtain via a singular value decomposition of the information matrix, it being the number of nonzero eigenvalues. An eigenvalue is regarded as zero if it is less than 
 \code{daeTolerance}, which is initially set to.Machine$double.eps ^ 0.5 (about 1.5E-08). The function \code{\link{set.daeTolerance}} can be used to change \code{daeTolerance}.}
 \author{Chris Brien}
-\seealso{\code{\link{designAmeasures}}, \code{\link{mat.Vpred}}.}
+\seealso{\code{\link{designAmeasures}}, \code{\link{mat.random}}, \code{\link{mat.Vpred}}.}
 \references{Hooks, T., Marx, D., Kachman, S., and Pedersen, J. (2009). Optimality 
             criteria for models with random effects. \emph{Revista Colombiana de 
             Estadistica}, \bold{32}, 17-31. 
@@ -128,7 +130,7 @@ Vu <- with(start.design, fac.vcmat(Mrep, gammas["Mrep"]) +
 R <- diag(1, nrow(start.design))
   
 ## Calculate variance matrix
-Vp <- mat.Vpredicts(target = W, random=Vu, R=R)
+Vp <- mat.Vpredicts(target = W, random=Vu, R=R, design = start.design)
 
 ## Calculate the variance matrix of the predicted random Variety effects using formulae
 Vp <- mat.Vpredicts(target = ~ -1 + Variety, Gt = 1, 
