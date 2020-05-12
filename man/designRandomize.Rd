@@ -62,9 +62,14 @@ designRandomize(allocated = NULL, recipient, nested.recipients = NULL,
                        name of a \code{\link{factor}} that is nested and the 
                        component is a character \code{vector} containing the 
                        \code{\link{factor}s} within which it is nested. 
+                       The randomization is controlled by \code{nested.recipients}: 
+                       nested recipient factors are permuted within those 
+                       factors that nest them. Only the nesting is specified: 
+                       it is assumed that if two factors are not nested then 
+                       they must be crossed.
                        It is emphasized that the nesting is a property of the 
                        design that is being employed (it is only partly based 
-                       on the intrinsic nesting).}
+                       on the intrinsic or physical crossing and nesting).}
  \item{except}{A \code{\link{character} vector} containing the names of 
                \code{recipient} \code{\link{factor}s} that are to be excepted 
                from the permutation; any \code{allocated} \code{\link{factor}s} 

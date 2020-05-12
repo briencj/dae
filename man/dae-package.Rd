@@ -90,8 +90,7 @@
   \tab blockboundary.plot. \cr
 \code{\link{designAmeasures}}
   \tab Calculates the A-optimality measures from the \cr
-  \tab variance matrix for predictions that can be obtained \cr 
-  \tab using mat.Vpredicts\cr
+  \tab variance matrix for predictions.\cr
 \code{\link{designAnatomy}}
   \tab Given the layout for a design, obtain its anatomy via \cr 
   \tab the canonical analysis of its projectors to show the \cr

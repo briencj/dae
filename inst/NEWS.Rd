@@ -1,5 +1,10 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-25 (2020-05-12)}{
+  \itemize{
+    \item{Rebuild for R version 4.0.0.}
+    \item{Minor revisions to \code{DesignNotes} vignette.}
+}}
 \section{Changes in dae version 3.1-24 (2020-03-23)}{
   \itemize{
     \item{Change the Maintainer email address.}

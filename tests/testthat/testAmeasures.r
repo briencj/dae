@@ -1,7 +1,7 @@
 #devtools::test("dae")
 context("Ameasures")
 
-cat("#### Test for mt.Vpred and designAmeasures using Smith's small example\n")
+cat("#### Test for mat.Vpred and designAmeasures using Smith's small example\n")
 test_that("SmithSmall", {
   skip_on_cran()
   library(dae)
@@ -156,18 +156,18 @@ test_that("SmithSmallVpredicts", {
   R <- diag(1, nrow(start.design))
   
   ## Calculate variance matrix
-  Vp <- mat.Vpredicts(target = W, random = Vu, R = R)
+  Vp <- mat.Vpredicts(target = W, random = Vu, R = R, design = start.design)
   testthat::expect_equal(attr(Vp, which = "rank"), 5)
              
   ## Calculate information matrix
-  C <- mat.Vpredicts(target = W, random = Vu, R = R, result = "inform")
+  C <- mat.Vpredicts(target = W, random = Vu, R = R, result = "inform", design = start.design)
   testthat::expect_equal(attr(C, which = "rank"), 5)
   
   #'## Calculate A measures
   AVpred <- designAmeasures(Vp)
   testthat::expect_true(all(abs(AVpred - 1.521905) < 1e-6))
   
-  Vp <- mat.Vpredicts(target = W, random = Vu, R = R)
+  Vp <- mat.Vpredicts(target = W, random = Vu, R = R, design = start.design)
   AVpredict <- designAmeasures(Vp)
   testthat::expect_true(all(abs(AVpredict - AVpred) < 1e-6))
   

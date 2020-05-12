@@ -1,7 +1,7 @@
 \name{designAmeasures}
 \alias{designAmeasures}
 \title{Calculates the average variance of pairwise differences from the variance matrix 
-       for predictions that can be obtained using mat.Vpredicts}
+       for predictions}
 \description{Calculates the average variance of pairwise differences between 
              (of elementary contrasts of) preductions, possibly for different subgroups 
              of the predictions, from the variance matrix for the predictions. If groups 
@@ -13,7 +13,8 @@
 }
 \usage{designAmeasures(Vpred, groupsizes = NULL, groups = NULL)}
 \arguments{
- \item{Vpred}{The variance \code{\link{matrix}} of the predictions.}
+ \item{Vpred}{The variance \code{\link{matrix}} of the predictions. It can be obtained 
+              using \code{\link{mat.Vpredicts}}.}
  \item{groupsizes}{A \code{\link{numeric}} containing group sizes. The sum of the 
                    elements of \code{groupsizes} must be less than or equal to the 
                    order of \code{Vpred}. If \code{groupsizes} is a named 
@@ -30,6 +31,10 @@
                is obtained.}
 }
 \value{A \code{\link{matrix}} containing the within and between group A-optimality measures.}
+\details{The variance matrix of pairwise differences is calculated as 
+         \eqn{v_{ii} + v_{jj} - 2 v_{ij}}{v_{ii} + v_{jj} - 2 v_{ij}}, 
+         where \eqn{v_{ij}}{v_{ij}} is the element from the ith row and jth column of \code{Vpred}.
+         Then the mean of these is computed for the nominated \code{groups}.}
 \author{Chris Brien}
 \seealso{\code{\link{mat.Vpred}}, \code{\link{designAnatomy}}.}
 \references{Smith, A. B., D. G. Butler, C. R. Cavanagh and B. R. Cullis (2015). 
