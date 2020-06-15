@@ -11,7 +11,7 @@ designGGPlot(design, labels = NULL,
              cellfillcolour.column = NULL, colour.values = NULL, 
              cellalpha = 1, celllinetype = "solid", celllinesize = 0.5, 
              celllinecolour = "black", cellheight = 1, cellwidth = 1,
-             reverse.x = FALSE, reverse.y = TRUE, 
+             reverse.x = FALSE, reverse.y = TRUE, x.axis.position = "top", 
              xlab, ylab, title, title.size = 15, axis.text.size = 15, 
              blocksequence = FALSE, blockdefinition = NULL, 
              blocklinecolour = "blue", blocklinesize = 2, 
@@ -38,6 +38,8 @@ designGGPlot(design, labels = NULL,
               x-axis to be reversed, the natural order being to increase from left to right.}
  \item{reverse.y}{A \code{logical} which, if true, causes the order of values on the 
               y-axis to be reversed, the natural order being to increase from bottom to top.}
+ \item{x.axis.position}{A \code{character} giving the position of the x-axis; can be \code{top} 
+               or \code{bottom}.}
  \item{cellfillcolour.column}{A \code{character} giving the name of the column in 
                \code{data} that is to be used to vary the colour the used to fill a cell.}
  \item{colour.values}{A \code{character} giving the name or names of the colours to be used 

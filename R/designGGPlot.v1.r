@@ -19,13 +19,16 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
                            cellfillcolour.column=NULL, colour.values=NULL, cellalpha = 1, 
                            celllinetype = "solid", celllinesize = 0.5, celllinecolour = "black",
                            cellheight = 1, cellwidth = 1,
-                           reverse.x = FALSE, reverse.y = TRUE, 
+                           reverse.x = FALSE, reverse.y = TRUE, x.axis.position = "top", 
                            xlab, ylab, title, title.size = 15, axis.text.size = 15, 
                            blocksequence = FALSE, blockdefinition = NULL, 
                            blocklinecolour = "blue", blocklinesize = 2, 
                            printPlot = TRUE, ggplotFuncs = NULL, ...)
   ## Function that uses ggplot to plot labels on a grid
 {
+  
+  opts <- c("top", "bottom")
+  x.axis.position <- opts[check.arg.values(x.axis.position, opts)]
   
   #Check for multiple factors in either direction
   #Rows
@@ -140,9 +143,10 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
   {
     ncolumns <- length(levels(design[[grid.x]]))
     if (reverse.x)
-      plt <- plt + scale_x_discrete(limits = rev(levels(design[[grid.x]])), expand = c(0,0))
+      plt <- plt + scale_x_discrete(limits = rev(levels(design[[grid.x]])), expand = c(0,0), 
+                                    position = x.axis.position)
     else
-      plt <- plt + scale_x_discrete(expand = c(0,0))
+      plt <- plt + scale_x_discrete(expand = c(0,0), position = x.axis.position)
   }
   else
   {
@@ -151,10 +155,10 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
     col.posns <- getLinePosns(columns)
     if (reverse.x)
       plt <- plt + scale_x_reverse(limits = c(col.posns[c(1,length(col.posns))]), 
-                                      expand = c(0,0))
+                                      expand = c(0,0), position = x.axis.position)
     else
       plt <- plt + scale_x_continuous(limits = c(col.posns[c(1,length(col.posns))]), 
-                                      expand = c(0,0))
+                                      expand = c(0,0), position = x.axis.position)
   }
 
   if (!is.null(ggplotFuncs))

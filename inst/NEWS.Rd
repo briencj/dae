@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-26 (2020-06-15)}{
+  \itemize{
+    \item{Add \code{x.axis.position} argument to designGGPlot, making \code{top} the default.}
+}}
 \section{Changes in dae version 3.1-25 (2020-05-12)}{
   \itemize{
     \item{Rebuild for R version 4.0.0.}
