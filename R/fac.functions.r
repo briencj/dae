@@ -158,17 +158,11 @@
     if ("labels" %in% names(tempcall))
       stop("labels has been deprecated in fac.nested - use nested.labs")
   }
-  n <- length(nesting.fac)
-	reps <- table(nesting.fac)
-	levs <- levels(nesting.fac)
-	no.lev.between <- length(levs)
-	no.lev.within <- max(table(nesting.fac))
-	nested.fac <- c(rep(1, n))
-	nested.fac[is.na(nesting.fac)] <-NA  #Line added
-	#Set nested.levs if nested factor for each levels of nested factor, avoiding missing values
-	for(i in 1:no.lev.between)
-	  nested.fac[!is.na(nesting.fac)][nesting.fac[!is.na(nesting.fac)] == levs[i]] <- 1:reps[i]
-	if (length(nested.levs) == 1 && is.na(nested.levs)) nested.levs <- 1:no.lev.within
+  nested.fac <- split(nesting.fac, nesting.fac)
+  nested.fac <- lapply(nested.fac, function(nesting.lev) (1:length(nesting.lev)))
+  no.lev.within <- max(unlist(lapply(nested.fac, length)))
+  nested.fac <- unsplit(nested.fac, nesting.fac)
+  if (length(nested.levs) == 1 && is.na(nested.levs)) nested.levs <- 1:no.lev.within
 	if (length(nested.labs) == 1 && is.na(nested.labs)) nested.labs <- as.character(nested.levs)
 	nested.fac <- factor(nested.fac, levels=nested.levs, labels=nested.labs, ...)
 	return(nested.fac)

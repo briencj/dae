@@ -1,6 +1,31 @@
 #devtools::test("dae")
 context("factor")
 
+cat("#### Test for fac.nested\n")
+test_that("fac.nested", {
+  skip_on_cran()
+  library(dae)
+  
+  #Set up a data.frame with two factors A & B and use fac.nested to get B
+  lay <- data.frame(A = factor(rep(c(1:3), c(3,6,4)), labels = letters[1:3]))
+  lay$B <-fac.nested(lay$A)
+  testthat::expect_equal(length(levels(lay$B)),6)
+  
+  #Test for wqhen NAs are present
+  A <- factor(rep(c(1:3), c(3,6,4)), labels = letters[1:3])
+  A[c(4,9)] <- NA
+  A <- c(A, NA)
+  B <-fac.nested(A)
+  testthat::expect_equal(length(levels(B)),4)
+  testthat::expect_true(all(is.na(B[c(4,9,14)])))
+  
+  #Test when the number of levels of the nesting.fac is large (33478)
+  data("TagDay")
+  Watering <- fac.nested(TagDay, nested.labs = c("","a"))
+  testthat::expect_equal(length(levels(Watering)),2)
+  testthat::expect_true(all(table(Watering) == c(33478, 523)))
+  
+})
 cat("#### Test for fac.multinested\n")
 test_that("Multiple nesting", {
   skip_on_cran()

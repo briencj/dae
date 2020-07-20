@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-28 (2020-07-20)}{
+  \itemize{
+    \item{Re-implement fac.nested so that it is much more efficient.}
+}}
 \section{Changes in dae version 3.1-27 (2020-07-09)}{
   \itemize{
     \item{Rebuild vignettes and and package for R 4.0.2 and CRAN submissions.}
