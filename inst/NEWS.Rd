@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-29 (2020-08-05)}{
+  \itemize{
+    \item{Add \code{label.size} and \code{labeller} arguments to designGGPlot.}
+}}
 \section{Changes in dae version 3.1-28 (2020-07-20)}{
   \itemize{
     \item{Re-implement fac.nested so that it is much more efficient.}

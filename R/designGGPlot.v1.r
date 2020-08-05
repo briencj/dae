@@ -14,13 +14,14 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
   return(line.posns)
 }
 
-"designGGPlot" <- function(design, labels = NULL, 
+"designGGPlot" <- function(design, labels = NULL, label.size = NULL,
                            row.factors = "Rows", column.factors = "Columns", 
                            cellfillcolour.column=NULL, colour.values=NULL, cellalpha = 1, 
                            celllinetype = "solid", celllinesize = 0.5, celllinecolour = "black",
-                           cellheight = 1, cellwidth = 1,
+                           cellheight = 1, cellwidth = 1, 
                            reverse.x = FALSE, reverse.y = TRUE, x.axis.position = "top", 
-                           xlab, ylab, title, title.size = 15, axis.text.size = 15, 
+                           xlab, ylab, title, labeller = label_both, 
+                           title.size = 15, axis.text.size = 15, 
                            blocksequence = FALSE, blockdefinition = NULL, 
                            blocklinecolour = "blue", blocklinesize = 2, 
                            printPlot = TRUE, ggplotFuncs = NULL, ...)
@@ -86,15 +87,15 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
     if (!is.null(facet.y))
       plt <- plt + facet_grid(rows = eval(parse(text=facet.y)), 
                               cols = eval(parse(text=facet.x)), 
-                              labeller = label_both, as.table = FALSE)
+                              labeller = labeller, as.table = FALSE)
     else
       plt <- plt + facet_grid(cols = eval(parse(text=facet.x)), 
-                              labeller = label_both, as.table = FALSE)
+                              labeller = labeller, as.table = FALSE)
   } else
   {
     if (!is.null(facet.y))      
       plt <- plt + facet_grid(rows = eval(parse(text=facet.y)), 
-                              labeller = label_both, as.table = FALSE)
+                              labeller = labeller, as.table = FALSE)
   }
   
   if (!(is.null(colour.values)))
@@ -114,7 +115,13 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
   
   #Add labels, if specified
   if (!is.null(labels))
-    plt <- plt + geom_text(aes_string(label = labels), fontface = "bold", ...)
+  {
+    if (!is.null(label.size))
+      plt <- plt + geom_text(aes_string(label = labels), size = label.size, 
+                             fontface = "bold", ...)
+    else
+      plt <- plt + geom_text(aes_string(label = labels), fontface = "bold", ...)
+  }
   
   #Set up y scale
   if (inherits(design[[grid.y]], what = "factor"))

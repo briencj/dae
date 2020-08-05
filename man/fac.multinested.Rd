@@ -22,7 +22,7 @@ fac.multinested(nesting.fac, nested.fac = NULL, fac.prefix = NULL,
        \code{NULL}, \code{nested.levs} is not used.}
  \item{nested.labs}{Optional \code{vector} of values to use as \code{labels} for the 
        \code{levels} of the \code{\link{factor}}. The default is \code{as.character(levels)}.} 
- \item{outlevel}{The level to use for all values of a new \code{\link{factor}} that does not correspond to the level of the \code{nesting.fac} to which the new \code{\link{factor}} corresponds.}
+ \item{outlevel}{The level to use in the new \code{\link{factor}} for all values of old \code{\link{factor}} that do not correspond to the level of the \code{nesting.fac} to which the new \code{\link{factor}} corresponds.}
  \item{outlabel}{The label to use the \code{outlevel} level.} 
  \item{...}{Further arguments passed to the \code{\link{factor}} call creating a new \code{\link{factor}}.}
 }

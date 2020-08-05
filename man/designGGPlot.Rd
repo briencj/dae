@@ -6,13 +6,14 @@
        the column specified by \code{column.name} and can be divided into facets by 
        specifying multiple row and or column factors.}
 \usage{
-designGGPlot(design, labels = NULL, 
+designGGPlot(design, labels = NULL, label.size = NULL, 
              row.factors = "Rows", column.factors = "Columns", 
              cellfillcolour.column = NULL, colour.values = NULL, 
              cellalpha = 1, celllinetype = "solid", celllinesize = 0.5, 
              celllinecolour = "black", cellheight = 1, cellwidth = 1,
              reverse.x = FALSE, reverse.y = TRUE, x.axis.position = "top", 
-             xlab, ylab, title, title.size = 15, axis.text.size = 15, 
+             xlab, ylab, title, labeller = label_both, 
+             title.size = 15, axis.text.size = 15, 
              blocksequence = FALSE, blockdefinition = NULL, 
              blocklinecolour = "blue", blocklinesize = 2, 
              printPlot = TRUE, ggplotFuncs = NULL, ...)}
@@ -22,6 +23,7 @@ designGGPlot(design, labels = NULL,
  \item{labels}{A \code{character} giving the name of the column in 
                \code{data} containing the labels to be plotted on the grid. 
                If \code{labels} is \code{NULL}, no labels are added.}
+ \item{label.size}{A \code{numeric} giving the size of the labels.}
  \item{row.factors}{A \code{character} giving the names of the \code{\link{factor}}s 
                (or \code{\link{numeric}}s) in \code{data} that index the rows of the 
                plot grid used to represent the design. If there is more than one name, 
@@ -63,6 +65,9 @@ designGGPlot(design, labels = NULL,
  \item{ylab}{\code{Label} for the y-axis. By default it is the last name in the
              \code{row.factors}.}
  \item{title}{Title for plot window. By default it is "Plot of labels".}
+ \item{labeller}{A \code{function} for specifying the formatting of the strip labels of 
+                 the facet grids used when there is more than one \code{row.factors} or 
+                 \code{column.factors}. (See \code{\link{labellers}} for \code{ggplot2}.)}
  \item{title.size}{A \code{numeric} giving the size for all titles: \code{xlab}, 
               \code{ylab} and \code{title}.}
  \item{axis.text.size}{A \code{numeric} giving the size for tick labels.}
