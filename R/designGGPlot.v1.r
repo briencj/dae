@@ -101,6 +101,9 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
   if (!(is.null(colour.values)))
     plt <- plt + scale_fill_manual(values = colour.values)
   
+  #Check that one of labels and cellfillcolour.column
+  if (is.null(labels) && is.null(cellfillcolour.column))
+    stop("At least one of labels and cellfillcolour.column must be set")
   #Create tiles
   if (is.null((cellfillcolour.column)))
     plt <- plt +  geom_tile(aes_string(fill = labels), 

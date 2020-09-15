@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-30 (2020-09-15)}{
+  \itemize{
+    \item{Check that at least one of \code{labels} and \code{cellfillcolour.column} is set in a call to designGGPlot.}
+}}
 \section{Changes in dae version 3.1-29 (2020-08-05)}{
   \itemize{
     \item{Add \code{label.size} and \code{labeller} arguments to designGGPlot.}
