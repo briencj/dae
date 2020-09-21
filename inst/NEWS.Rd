@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-31 (2020-09-21)}{
+  \itemize{
+    \item{Fix a bug in print.summary.pcanon that resulted in incorrect consecutive repetitions of sources within a column.}
+}}
 \section{Changes in dae version 3.1-30 (2020-09-15)}{
   \itemize{
     \item{Check that at least one of \code{labels} and \code{cellfillcolour.column} is set in a call to designGGPlot.}

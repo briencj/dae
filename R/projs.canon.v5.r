@@ -748,6 +748,8 @@ print.summary.pcanon <- function(x, aliasing.print = TRUE, ...)
         y[src.name] <- "  "
       else
       {
+        if (ktier > 1)
+          y[src.name][is.na(y[src.name])] <- "  "
         repeats[[ktier]] <- c(FALSE, y[2:nlines, src.name] == y[1:(nlines-1),src.name])
         repeats[[ktier]][is.na(repeats[[ktier]])] <- FALSE
         if (ktier > 1)

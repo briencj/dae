@@ -286,7 +286,7 @@ test_that("designTwophaseAnatomies", {
                                 "Anatomy for the cross-phase, treatments design", 
                                 "Anatomy for the combined-units design" )))
   
-  #Test for etting only two anatomies
+  #Test for getting only two anatomies
   jrfc.anat <- designTwophaseAnatomies(formulae = list(array = ~ (Set:Array)*Dye,
                                                        plot = ~ Block/Plant/Sample,
                                                        trt = ~ Treat),
@@ -659,6 +659,56 @@ test_that("corn", {
   testthat::expect_equal(corn2Res.canon$Q[[4]]$'AContainers&ALots&Residual&Treats', 8)
   testthat::expect_equal(corn2Res.canon$Q[[4]]$'AContainers&ALots&Residual&Residual', 146)
   
+})
+
+
+cat("#### Test for plaid example\n")
+test_that("plaid", {
+  skip_on_cran()
+  library(dae)
+  ph1.sys <- cbind(fac.gen(list(Expressive = c("Yes", "No"), Patients = 4, Occasions = 2)),
+                   fac.gen(list(Motions = c("active", "passive")), times = 8))
+  
+  #'## Generate the two-phase systematic design
+  ph2.sys <- cbind(fac.gen(list(Raters = 74, Viewings = 16)),
+                   fac.gen(list(Trainings = 2, 16), times = 37),
+                   rep(ph1.sys, times =74))
+  
+  #'## Randomize the two-phase design
+  ph2.lay <- designRandomize(allocated = ph2.sys[c("Trainings", "Expressive", "Patients",
+                                                   "Occasions", "Motions")],
+                             recipient = ph2.sys[c("Raters", "Viewings")],
+                             except = "Viewings",
+                             seed = 15674)
+  testthat::expect_true(all(dim(ph2.lay)==c(1184,7)))
+
+  #'## Produce the anatomy of the design for the initial allocation model
+  ph2.canon <- designAnatomy(formulae = list(rate  = ~ Raters * Viewings,
+                                             video = ~ (Expressive/Patients)*Occasions,
+                                             alloc = ~ Trainings * Motions),
+                             data = ph2.lay)
+  summ <- summary(ph2.canon, which.criteria = "aeff")
+  testthat::expect_true(is.null(summ$aliasing))
+  testthat::expect_true(all(dim(summ$decomp)==c(9,7)))
+  
+  #'## Convert the names of the factors to single capital letters
+  ph2.L.lay <- ph2.lay
+  names(ph2.L.lay)[match(c("Raters", "Viewings", "Trainings", "Expressive", "Patients", 
+                           "Occasions", "Motions"), names(ph2.L.lay))] <- c("R", "V", "T", 
+                                                                            "E", "P", "O", "M")
+  # Produce an anatomy for the homogeneous allocation model
+  # This anatomy is not the correct anatomy. 
+  # However, it is an anatomy that did not display correctly 
+  ph2.homog.canon <- designAnatomy(formulae = list(rate = ~ R * V, 
+                                                   video = ~ E/P/O, #superfluous
+                                                   inter = ~ R * O * (E/P), 
+                                                   alloc = ~ T * M * (E/P)),
+                                   data = ph2.L.lay)
+  summ <- summary(ph2.homog.canon, which.criteria = "aeff")
+  testthat::expect_true(is.null(summ$aliasing))
+  testthat::expect_true(all(dim(summ$decomp)==c(17,9)))
+  tab <- capture.output(print(summ))
+  testthat::expect_true(sum(grepl("R#O", tab, fixed = TRUE))==3)
 })
 
 
