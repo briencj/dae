@@ -129,7 +129,8 @@
          table of efficiency criteria for partially aliased terms. Again,
          the order of terms is crucial. This method has the disadvantage that 
          the marginality of terms is not determined and so sources names are set 
-         to be the same as the term names.
+         to be the same as the term names, unless a \code{marginality} matrix 
+         is supplied.
          
          The \code{hybrid} method is the most general and uses the relationships 
          between the projection operators for the terms in the \code{formula} 

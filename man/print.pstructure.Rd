@@ -4,18 +4,13 @@
 \description{Prints a \code{\link{pstructure.object}}, which is of class \code{pstructure}. 
        The df, terms and sources are coerced into a \code{data.frame} and printed; 
        the marginality matrix is printed separately.}
-\usage{\method{print}{pstructure}(x, which.criteria = c("aefficiency","eefficiency","order"), ...)}
+\usage{\method{print}{pstructure}(x, which = "all", ...)}
 \arguments{
  \item{x}{The \code{\link{pstructure.object}}, which is of class \code{pstructure} and is to be printed.}
- \item{which.criteria}{A character \code{vector} nominating the efficiency 
-                       criteria to be included in the summary of aliasing 
-                       between terms. It can be 
-                       \code{none}, \code{all} or some combination of 
-                       \code{aefficiency}, \code{mefficiency}, 
-                       \code{sefficiency}, \code{eefficiency}, \code{xefficiency}, 
-                       \code{order} and \code{dforthog} -- for details see
-                       \code{\link{efficiency.criteria}}. 
-                       If \code{none}, no criteria are printed.}
+ \item{which}{A character \code{vector} nominating the components of the 
+              \code{\link{pstructure.object}} to print. Must be \code{all} 
+              or some combination of \code{projectors}, \code{marginality}, 
+              and \code{aliasing}.}
  \item{...}{Further arguments passed to or from other methods.}
 }
 \author{Chris Brien}

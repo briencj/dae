@@ -36,8 +36,10 @@
          is nonzero for any pair of different Q2 projectors and any 
          Q1 projector. When it is nonzero, the projector for the later term in 
          the list of projectors is orthogonalized to the projector that is 
-         earlier in the list. A list o such projectors is returned in the 
-         \code{aliasing} component of the \code{\link{p2canon.object}}.}
+         earlier in the list. A list of such projectors is returned in the 
+         \code{aliasing} component of the \code{\link{p2canon.object}}. The
+         entries in the \code{aliasing} component gives the amount of information 
+         that is aliased with previous terms.}
 \references{Brien, C. J. and R. A. Bailey (2009). Decomposition tables for 
             multitiered experiments. I. A chain of randomizations.  
             \emph{The Annals of Statistics}, \bold{36}, 4184 - 4213.

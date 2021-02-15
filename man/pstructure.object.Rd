@@ -6,7 +6,7 @@
 \value{A \code{list} of class \code{pstructure}  with the following components: 
        \enumerate{
           \item Q: a list with a component of class \code{projector}, being  
-                  the orthogonalized projector for each non-aliased term/source 
+                  the orthogonalized projectors for each non-aliased term/source 
                   in the \code{formula}; if \code{grandMean} is \code{TRUE} in 
                   the call to \code{\link{pstructure.formula}} then it also 
                   includes the \code{projector} for it;
@@ -35,7 +35,10 @@
                   \item df: the remaining degrees of freedom for the source;
                   \item Alias: the source with which the current entry is (partially) aliased;
                   \item efficiency criteria: a set of columns for the complete set of criteria 
-                        calculated by \code{\link{efficiency.criteria}}.
+                        calculated by \code{\link{efficiency.criteria}}; the criteria reflect 
+                        the amount of information that is aliased with previous sources and a 
+                        line is included in the component that reports the informaton remaining 
+                        after adjustment for previous sources.
                 }
                 The information provided depends on the setting of \code{orthogonalize}. 
                 All the information is provided for the \code{"hybrid"} option. For the 

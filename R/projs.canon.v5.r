@@ -272,7 +272,7 @@
   {
     CombinedSets$aliasing <- aliasing
     attr(CombinedSets$aliasing, which = "title") <- 
-      "\nTable of (partial) aliasing between sources derived from the same formula\n\n"
+      "\nTable of information (partially) aliased with previous sources derived from the same formula\n\n"
     class(CombinedSets$aliasing) <- c("aliasing", "data.frame")
   }
   

@@ -14,7 +14,7 @@ test_that("PBIBD2", {
                                 nested.recipients = list(Units = "Blocks"),
                                 seed = 98177)
   
-  #'## Show that projs.canon is deprectaed
+  #'## Show that projs.canon is deprecated
   testthat::expect_warning(PBIBD2.canon <- 
                              projs.canon(formulae = list(unit = ~Blocks/Units,
                                                          trt = ~ Treatments),
@@ -565,7 +565,7 @@ test_that("Mostafa", {
   #Mostafa's green wall experiment in 2014
   data(gwall.lay)
   options(width = 100, nwarnings = 150)
-  set.daeTolerance(1e-06)
+  set.daeTolerance(1e-04)
   pot.treat.canon <- designAnatomy(formulae = list(pot = ~ Rows*Cols,
                                                    trt = ~ Species*Irrigation*Media + 
                                                      First/(SpeCarry*IrrCarry*MedCarry)), 
@@ -575,14 +575,14 @@ test_that("Mostafa", {
   testthat::expect_equal(length(pot.treat.canon$Q[[2]]), 17)
   testthat::expect_equal(pot.treat.canon$Q[[2]]$`Rows:Cols&Residual`, 69)
   testthat::expect_lt(abs(pot.treat.canon$Q[[1]]$`Rows:Cols`$`Species:Irrigation:Media`$adjusted$aefficiency - 0.8240828), 1e-05)
-  testthat::expect_lt(abs(pot.treat.canon$Q[[1]]$`Rows:Cols`$`First:SpeCarry:IrrCarry`$adjusted$aefficiency - 0.8320062), 1e-05)
+  testthat::expect_lt(abs(pot.treat.canon$Q[[1]]$`Rows:Cols`$`First:SpeCarry:IrrCarry`$adjusted$aefficiency), 1e-07)
   
   trt.struct <- pstructure(formula = ~ Species*Irrigation*Media + 
                            First/(SpeCarry*IrrCarry*MedCarry), 
                          labels = "terms", data = gwall.lay)
   testthat::expect_equal(length(trt.struct$Q), 11)
   testthat::expect_equal(degfree(trt.struct$Q$`Species:Irrigation:Media`), 8)
-  testthat::expect_equal(degfree(trt.struct$Q$`First:SpeCarry:IrrCarry`), 8)
+  testthat::expect_equal(degfree(trt.struct$Q$`First:SpeCarry:IrrCarry`), 9)
   
 })
 
@@ -934,6 +934,7 @@ test_that("Exp249", {
                          AMainplots <- fac.combine(list(Zones, Mainplots))
                          ASubplots <- fac.combine(list(AMainplots,Subplots))
                        })
+  set.daeTolerance(1e-06)
   Exp249A.canon <- designAnatomy(formulae = list(cart = ~Zones + AMainplots + ASubplots, 
                                                  treat = ~xMainPosn + (Checks + Lines) * Conditions),
                                  labels = "terms", data = Exp249.lay)

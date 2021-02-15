@@ -29,20 +29,31 @@ as.data.frame.pstructure <- function(x, row.names = NULL, optional = FALSE, ...,
   return(x)
 }
 
-print.pstructure <- function(x, which.criteria = c("aefficiency","eefficiency","order"), 
-                             ...)
+print.pstructure <- function(x, which = "all", ...)
 {
   if (!inherits(x, "pstructure"))
     stop("Must supply an object of class pstructure")
-  print(as.data.frame(x, omit.marginality = TRUE))
-  cat("\n\nMarginality matrix\n\n")
-  print(x$marginality)
-  if (is.null(x$aliasing))
-    cat("\n\nNo aliasing between sources in this pstructure object\n\n")
-  else
+  options <- c("projectors", "marginality", "aliasing", "all")
+  print.opt <- options[unlist(lapply(which, check.arg.values, options=options))]
+  if (print.opt %in% c("projectors", "all"))
   {
-    cat("\nTable of (partial) aliasing between terms within a structure\n\n")
-    print(x$aliasing, which.criteria = which.criteria)
+    cat("\nProjection matrix summary\n\n")
+    print(as.data.frame(x, omit.marginality = TRUE))
+  }
+  if (print.opt %in% c("marginality", "all"))
+  { 
+    cat("\nMarginality matrix\n\n")
+    print(x$marginality)
+  }
+  if (print.opt %in% c("aliasing", "all"))
+  { 
+    if (is.null(x$aliasing))
+      cat("\n\nNo aliasing between sources in this pstructure object\n\n")
+    else
+    {
+      #cat("\nTable of information (partially) aliased with previous sources derived from the same formula\n\n")
+      print(x$aliasing)
+    }
   }
   invisible()
 }
@@ -121,7 +132,7 @@ print.aliasing <- function(x, which.criteria = c("aefficiency","eefficiency","or
 }
 
 #Function to convert term names into source names
-#term.names is an unamed character vector with the nterms names of the terms to be converted
+#term.names is an unnamed character vector with the nterms names of the terms to be converted
 #marginality is a nterms x nterms matrices of 0 and 1s with the column entries specifying 
 #which of the row terms is marginal to the column term.
 formSources <- function(term.names, marginality, grandMean = FALSE)
@@ -268,7 +279,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
       }
     }
     
-    ###LOOP over terms
+    ###Loop over terms
     marg.compliant <- marginality == 1
     kmarg.terms <- vector(mode = "list", length = nterms)
     names(kmarg.terms) <- term.names
@@ -422,16 +433,17 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
   for (i in 1:length(terms))
   { 
     decomp <- proj2.combine(R, Q[[terms[i]]])
-    Q[[terms[i]]] <- decomp$Qconf
-    R <- decomp$Qres
-    df <- degfree(Q[[terms[i]]])
+#    Q[[terms[i]]] <- decomp$Qconf
+#    R <- decomp$Qres
+    df <- degfree(decomp$Qconf)
     if (df == 0)
     { 
       warning(paste(terms[[i]],"is aliased with previous terms in the formula",
                     "and has been removed", sep=" "))
-      eff.crit[criteria] <- 0
+      eff.crit[criteria] <- 1 #0
       aliasing <- rbind(aliasing, 
-                        data.frame(c(list(Source = terms[[i]], df = df, Alias = "unknown"), 
+                        data.frame(c(list(Source = terms[[i]], df = degfree(Q[[terms[i]]]), 
+                                          Alias = "unknown"), 
                                      eff.crit), 
                                    stringsAsFactors = FALSE))
     } else
@@ -439,13 +451,18 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
       keff.crit <- efficiency.criteria(decomp$efficiencies)
       if ((df - keff.crit[["dforthog"]]) != 0)
       { 
+        P <- projector(mat.I(nrow(R)) - R)
+        decompP <- proj2.combine(P, Q[[terms[i]]]) 
+        keff.crit <- efficiency.criteria(decompP$efficiencies)
         warning(paste(terms[[i]],"is partially aliased with previous terms in the formula", sep=" "))
         aliasing <- rbind(aliasing, 
-                          data.frame(c(list(Source = terms[[i]], df = df, Alias = "unknown"), 
+                          data.frame(c(list(Source = terms[[i]], df = degfree(decompP$Qconf), Alias = "unknown"), 
                                        keff.crit), 
                                      stringsAsFactors = FALSE))
       }
     }
+    Q[[terms[i]]] <- decomp$Qconf
+    R <- decomp$Qres
   }
   
   #Print out the efficiency criteria if any aliasing
@@ -454,7 +471,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
     rownames(aliasing) <- NULL
     class(aliasing) <- c("aliasing", "data.frame")
     attr(aliasing, which = "title") <- 
-      "\nTable of (partial) aliasing between terms within a structure\n\n"
+      "\nTable of information (partially) aliased with previous sources derived from the same formula\n\n"
     if (aliasing.print)
     {
       if (anycriteria)
@@ -570,7 +587,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
       aliasing <- NULL
     } else
     { 
-      if (orthogonalize == "hybrid") #by difference
+      if (orthogonalize == "hybrid") #by difference and eigenmethods
       { 
         #set up aliasing summary
         nc <- 3 + length(criteria)
@@ -583,6 +600,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
         for (i in 2:length(terms))
         { 
           Q.work <- Q[[terms[i]]]
+          aliasstatus <- "none"
           #loop over terms to see if any are marginal to term i
           for (j in 1:(i-1))
           { 
@@ -595,12 +613,14 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
                 {
                   if (is.allzero(Q[[terms[j]]] - Q.work)) #are terms equal?
                   {
+                    aliasstatus <- "full"
                     marg.mat[terms[i], terms[i]] <- 0
                     warning(paste(terms[[i]],"is aliased with previous terms in the formula",
                                   "and has been removed", sep=" "))
-                    eff.crit[criteria] <- 0
+                    eff.crit[criteria] <- 1 #0
                     aliasing <- rbind(aliasing, 
-                                      data.frame(c(list(Source = terms[[i]], df = 0, 
+                                      data.frame(c(list(Source = terms[[i]], 
+                                                        df = degfree(Q[[terms[i]]]), #0, 
                                                         Alias = terms[[j]]), 
                                                    eff.crit), 
                                                  stringsAsFactors = FALSE))
@@ -613,28 +633,31 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
                 {
                   if (is.allzero(Qji - Q.work)) #i is aliased with j
                   {
+                    aliasstatus <- "full"
                     marg.mat[terms[i], terms[i]] <- 0
                     warning(paste(terms[[i]],"is aliased with previous terms in the formula",
                                   "and has been removed", sep=" "))
-                    eff.crit[criteria] <- 0
+                    eff.crit[criteria] <- 1 #0
                     aliasing <- rbind(aliasing, 
                                       data.frame(c(list(Source = terms[[i]], 
-                                                        df = 0, 
+                                                        df = degfree(Q.work), #0, 
                                                         Alias = terms[[j]]), 
                                                    eff.crit), 
                                                  stringsAsFactors = FALSE))
                   } else #partial aliasing of j with i - orthogonalize
                   {
-                    R <- projector(diag(1, nrow = n, ncol = n) - Q[[terms[j]]])
-                    decomp <- proj2.combine(R, Q.work)
-                    Q.work <- decomp$Qconf
-                    keff.crit <- efficiency.criteria(decomp$efficiencies)
+                    aliasstatus <- "partial"
+                    decompP <- proj2.combine(Q.work, Q[[terms[j]]])
+                    keff.crit <- efficiency.criteria(decompP$efficiencies)
                     aliasing <- rbind(aliasing, 
                                       data.frame(c(list(Source = terms[[i]], 
-                                                        df = degfree(Q.work),
+                                                        df = degfree(decompP$Qconf),
                                                         Alias = terms[[j]]), 
                                                    keff.crit[criteria]), 
                                                  stringsAsFactors = FALSE))
+                    R <- projector(diag(1, nrow = n, ncol = n) - Q[[terms[j]]])
+                    decomp <- proj2.combine(R, Q.work)
+                    Q.work <- decomp$Qconf
                   }
                 }
               }
@@ -653,6 +676,28 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
           #                       " are not orthogonal", sep=""))
           #       }
           # }
+          if (aliasstatus == "partial")
+          {
+            decompR <- proj2.combine(Q[[terms[i]]], Q.work)
+            keff.crit <- efficiency.criteria(decompR$efficiencies)
+            aliasing <- rbind(aliasing, 
+                              data.frame(c(list(Source = terms[[i]], 
+                                                df = degfree(decompR$Qconf),
+                                                Alias = "## Information remaining"), 
+                                           keff.crit[criteria]), 
+                                         stringsAsFactors = FALSE))
+          }
+          if (aliasstatus == "full")
+          {
+            keff.crit <- rep(0, length(criteria))
+            names(keff.crit) <- criteria
+            aliasing <- rbind(aliasing, 
+                              data.frame(c(list(Source = terms[[i]], 
+                                                df = degfree(Q[[terms[i]]]),
+                                                Alias = "## Aliased"), 
+                                           keff.crit[criteria]), 
+                                         stringsAsFactors = FALSE))
+          }
           Q[[terms[i]]] <- Q.work
         }
         
@@ -675,7 +720,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
               aliasing$Alias <- sources[aliasing$Alias]
           }
           attr(aliasing, which = "title") <- 
-            "\nTable of (partial) aliasing between terms within a structure\n\n"
+            "\nTable of information (partially) aliased with previous sources derived from the same formula\n\n"
           
           #Print aliasing
           if (aliasing.print)
@@ -745,7 +790,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
               marg.mat[terms[i], terms[i]] <- 0
               warning(paste(terms[[i]],"is aliased with previous terms in the formula",
                             "and has been removed", sep=" "))
-              eff.crit[criteria] <- 0
+              eff.crit[criteria] <- 1 #0
               aliasing <- rbind(aliasing, 
                                 data.frame(list(Source = terms[[i]], df = 0, 
                                                 Alias = "unknown"), 
@@ -792,7 +837,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
                 aliasing$Alias <- sources[aliasing$Alias]
             }
             attr(aliasing, which = "title") <- 
-              "\nTable of (partial) aliasing between terms within a structure\n\n"
+              "\nTable of information (partially) aliased with previous sources derived from the same formula\n\n"
             
             #Print aliasing
             if (aliasing.print)
