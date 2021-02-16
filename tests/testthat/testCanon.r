@@ -227,6 +227,10 @@ test_that("JarrettRuggiero", {
   testthat::expect_equal(array.plot.trt.canon$Q[[3]]$`Set:Array:Dye&Block:Plant:Sample`, 6)
   testthat::expect_lt(abs(array.plot.trt.canon$Q[[2]]$`Set:Array:Dye&Block:Plant`$Treat$adjusted$aefficiency - 0.58333333), 1e-05)
   testthat::expect_lt(abs(array.plot.trt.canon$Q[[1]]$`Set:Array:Dye`$`Block:Plant`$adjusted$aefficiency - 0.75), 1e-05)
+  testthat::expect_true(array.plot.trt.canon$aliasing$Source == "Block:Plant:Sample")
+  testthat::expect_true(array.plot.trt.canon$aliasing$Alias == "Block:Plant")
+  testthat::expect_true(array.plot.trt.canon$aliasing$df == 14)
+  testthat::expect_true(array.plot.trt.canon$aliasing$aefficiency == 1)
   
   summ.default <-summary(array.plot.trt.canon)
   testthat::expect_equal(nrow(summ.default$decomp), 7)
@@ -373,6 +377,16 @@ test_that("Baby", {
   
   pseudo.canon <- designAnatomy(formulae = list(unit=~pl, trt=~ab+a), pseudo.lay,
                                 labels = "terms")
+  summary(pseudo.canon)
+  testthat::expect_true(all(pseudo.canon$aliasing$Source == c("a", "a")))
+  testthat::expect_true(all(pseudo.canon$aliasing$Alias == c("ab", "## Aliased")))
+  testthat::expect_true(all(pseudo.canon$aliasing$aefficiency == c(1, 0)))
+  testthat::expect_equal(pseudo.canon$Q[[2]]$'pl&ab', 3)
+  testthat::expect_equal(pseudo.canon$Q[[2]]$'pl&Residual', 8)
+
+  
+  pseudo.canon <- designAnatomy(formulae = list(unit=~pl, trt=~ab+a), pseudo.lay,
+                                labels = "terms", orhtogonalize = "eigen")
   summary(pseudo.canon)
   testthat::expect_equal(pseudo.canon$Q[[2]]$'pl&ab', 3)
   testthat::expect_equal(pseudo.canon$Q[[2]]$'pl&Residual', 8)
@@ -538,7 +552,7 @@ test_that("Preece", {
   testthat::expect_equal(preece3.canon$Q[[3]]$'occasions:analysis&block:plot&T1', 4)
   testthat::expect_equal(preece3.canon$Q[[3]]$'occasions:analysis&block:plot&T2', 4)
   testthat::expect_equal(preece3.canon$Q[[3]]$'occasions:analysis&block:plot&Residual', 12)
-
+  
   preece3.canon <- designAnatomy(formulae = list(lab= ~ occasions/analysis, 
                                                  plot= ~ block/plot, trt= ~ T1+T3),
                                  labels = "terms", data = preece3.tier.lay)
@@ -554,6 +568,14 @@ test_that("Preece", {
   testthat::expect_equal(preece3.canon$Q[[3]]$'occasions:analysis&block:plot&T1', 4)
   testthat::expect_equal(preece3.canon$Q[[3]]$'occasions:analysis&block:plot&T3', 4)
   testthat::expect_equal(preece3.canon$Q[[3]]$'occasions:analysis&block:plot&Residual', 12)
+  testthat::expect_true(all(preece3.canon$aliasing$Source == "T3"))
+  testthat::expect_true(all(preece3.canon$aliasing$df == c(4,4,0,4)))
+  testthat::expect_true(all(preece3.canon$aliasing$Alias == c("T1", "## Information remaining",
+                                                              "## Aliased", "T1")))
+  testthat::expect_true(all(preece3.canon$aliasing$In == c("trt", "trt", "occasions&block",              
+                                                           "occasions:analysis&block:plot")))
+  testthat::expect_true(all(abs(preece3.canon$aliasing$aefficiency - c(0.02777778, 0.97222222, 
+                                                                       0.00000000, 0.02702703)) < 1e-05))
   
   
 })
@@ -565,7 +587,7 @@ test_that("Mostafa", {
   #Mostafa's green wall experiment in 2014
   data(gwall.lay)
   options(width = 100, nwarnings = 150)
-  set.daeTolerance(1e-04)
+  set.daeTolerance(1e-06,1e-06)
   pot.treat.canon <- designAnatomy(formulae = list(pot = ~ Rows*Cols,
                                                    trt = ~ Species*Irrigation*Media + 
                                                      First/(SpeCarry*IrrCarry*MedCarry)), 
@@ -575,14 +597,14 @@ test_that("Mostafa", {
   testthat::expect_equal(length(pot.treat.canon$Q[[2]]), 17)
   testthat::expect_equal(pot.treat.canon$Q[[2]]$`Rows:Cols&Residual`, 69)
   testthat::expect_lt(abs(pot.treat.canon$Q[[1]]$`Rows:Cols`$`Species:Irrigation:Media`$adjusted$aefficiency - 0.8240828), 1e-05)
-  testthat::expect_lt(abs(pot.treat.canon$Q[[1]]$`Rows:Cols`$`First:SpeCarry:IrrCarry`$adjusted$aefficiency), 1e-07)
+  testthat::expect_lt(abs(pot.treat.canon$Q[[1]]$`Rows:Cols`$`First:SpeCarry:IrrCarry`$adjusted$aefficiency - 0.8320062), 1e-05)
   
   trt.struct <- pstructure(formula = ~ Species*Irrigation*Media + 
                            First/(SpeCarry*IrrCarry*MedCarry), 
                          labels = "terms", data = gwall.lay)
   testthat::expect_equal(length(trt.struct$Q), 11)
   testthat::expect_equal(degfree(trt.struct$Q$`Species:Irrigation:Media`), 8)
-  testthat::expect_equal(degfree(trt.struct$Q$`First:SpeCarry:IrrCarry`), 9)
+  testthat::expect_equal(degfree(trt.struct$Q$`First:SpeCarry:IrrCarry`), 8)
   
 })
 
@@ -921,7 +943,7 @@ test_that("Exp249", {
                                                 treat = ~xMainPosn + (Checks + Lines) * Conditions),
                                 labels = "terms", data = Exp249.lay, 
                                 orthogonalize = c("diff", "eigenmethods"))
-  summary(Exp249.canon)
+  summary(Exp249.canon, which.criteria = c("aeff", "xeff", "eeff", "order"))
   testthat::expect_equal(length(Exp249.canon$Q[[1]]), 3)
   testthat::expect_lt(abs(Exp249.canon$Q[[1]]$'Zones'$'Lines'$adjusted$aefficiency - 0.1499827), 1e-05)
   testthat::expect_lt(abs(Exp249.canon$Q[[1]]$'Zones:Mainplots'$'Lines'$adjusted$aefficiency - 0.987877), 1e-05)
@@ -947,3 +969,4 @@ test_that("Exp249", {
   testthat::expect_equal(Exp249A.canon$Q[[2]]$'ASubplots&Residual', 189)
   
 })
+

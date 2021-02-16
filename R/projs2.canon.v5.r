@@ -219,12 +219,14 @@ print.summary.p2canon <- function(x, ...)
           } else
           {
             warning(paste(j,"is aliased with previous terms in",i, sep=" "))
-            eff.crit <- rep(1, length(criteria))
+#            eff.crit <- rep(1, length(criteria))
+            eff.crit <- rep(0, length(criteria))
             names(eff.crit) <- criteria
             aliasing <- rbind(aliasing, 
                               data.frame(c(list(Source = j, 
-                                                df =  degfree(Q2[[j]]), #0,
-                                                Alias = "unknown",
+                                                df =  0, #degfree(Q2[[j]]), 
+#                                                Alias = "unknown",
+                                                Alias = "## Aliased",
                                                 In = i),
                                           eff.crit), 
                                          stringsAsFactors = FALSE))

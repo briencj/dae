@@ -181,7 +181,8 @@ decomp.relate <- function(decomp1, decomp2)
           Qres <- Q1
           Q121 <- Q1 %*% Q2 %*% Q1
           for(eff in EffUnique.Q1.Q2[1:K])
-          { Qres <- Qres %*% (Q1 - (Q121/eff))
+          { 
+            Qres <- Qres %*% (Q1 - (Q121/eff))
             Qres <- (Qres + t(Qres))/2  #force symmetry because know that it must be
           }
           #if have not got a projector, then compute the residual operator directly

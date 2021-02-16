@@ -362,7 +362,7 @@ test_that("Baby", {
   pseudo.canon <- designAnatomy(formulae = list(unit=~pl, trt=~ab+a), 
                                 labels = "sources", data = pseudo.lay)
   summ.hybrid <- summary(pseudo.canon)
-  testthat::expect_equal(nrow(summ.hybrid$aliasing), 1)
+  testthat::expect_equal(nrow(summ.hybrid$aliasing), 2)
   testthat::expect_equal(ncol(summ.hybrid$aliasing), 7)
   testthat::expect_equal(pseudo.canon$Q[[2]]$'pl&ab', 3)
   testthat::expect_equal(pseudo.canon$Q[[2]]$'pl&Residual', 8)
@@ -471,16 +471,16 @@ test_that("Housewives", {
   Hwife.struct <- pstructure( ~ Month:Week + Month:Hwife + 
                                 Month:Week:Hwife,
                               labels = "sources", data = LSRepeatHwife.dat)
-  testthat::expect_equal(nrow(Hwife.struct$aliasing), 1)
+  testthat::expect_equal(nrow(Hwife.struct$aliasing), 2)
   testthat::expect_equal(ncol(Hwife.struct$aliasing), 10)
   
   Hwife.canon <- designAnatomy(formulae = list(units = ~ Month:Week + Month:Hwife + 
                                                           Month:Week:Hwife),
                                labels = "sources", data = LSRepeatHwife.dat)
   summ <- summary(Hwife.canon)
-  testthat::expect_equal(nrow(summ$aliasing), 1)
+  testthat::expect_equal(nrow(summ$aliasing), 2)
   testthat::expect_equal(ncol(summ$aliasing), 7)
-  testthat::expect_equal(nrow(Hwife.canon$aliasing), 1)
+  testthat::expect_equal(nrow(Hwife.canon$aliasing), 2)
   testthat::expect_equal(ncol(Hwife.canon$aliasing), 11)
   testthat::expect_equal(Hwife.canon$Q[[1]]$`Month:Week`, 7)
   testthat::expect_equal(Hwife.canon$Q[[1]]$`Month:Hwife`, 6)

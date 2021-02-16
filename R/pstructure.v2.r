@@ -440,10 +440,12 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
     { 
       warning(paste(terms[[i]],"is aliased with previous terms in the formula",
                     "and has been removed", sep=" "))
-      eff.crit[criteria] <- 1 #0
+      eff.crit[criteria] <- 0 #1
       aliasing <- rbind(aliasing, 
-                        data.frame(c(list(Source = terms[[i]], df = degfree(Q[[terms[i]]]), 
-                                          Alias = "unknown"), 
+                        # data.frame(c(list(Source = terms[[i]], df = degfree(Q[[terms[i]]]), 
+                        #                   Alias = "unknown"), 
+                        data.frame(c(list(Source = terms[[i]], df = df, 
+                                          Alias = "## Aliased"), 
                                      eff.crit), 
                                    stringsAsFactors = FALSE))
     } else
