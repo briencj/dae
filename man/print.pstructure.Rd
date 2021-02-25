@@ -11,7 +11,7 @@
               \code{\link{pstructure.object}} to print. Must be \code{all} 
               or some combination of \code{projectors}, \code{marginality}, 
               and \code{aliasing}.}
- \item{...}{Further arguments passed to or from other methods.}
+ \item{...}{Further arguments passed to \code{\link{print.aliasing}}.}
 }
 \author{Chris Brien}
 \seealso{\code{\link{print}}, \code{\link{print.default}}, \code{\link{show}}.}

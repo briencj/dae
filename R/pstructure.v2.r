@@ -35,24 +35,24 @@ print.pstructure <- function(x, which = "all", ...)
     stop("Must supply an object of class pstructure")
   options <- c("projectors", "marginality", "aliasing", "all")
   print.opt <- options[unlist(lapply(which, check.arg.values, options=options))]
-  if (print.opt %in% c("projectors", "all"))
+  if (any(print.opt %in% c("projectors", "all")))
   {
     cat("\nProjection matrix summary\n\n")
     print(as.data.frame(x, omit.marginality = TRUE))
   }
-  if (print.opt %in% c("marginality", "all"))
+  if (any(print.opt %in% c("marginality", "all")))
   { 
     cat("\nMarginality matrix\n\n")
     print(x$marginality)
   }
-  if (print.opt %in% c("aliasing", "all"))
+  if (any(print.opt %in% c("aliasing", "all")))
   { 
     if (is.null(x$aliasing))
       cat("\n\nNo aliasing between sources in this pstructure object\n\n")
     else
     {
       #cat("\nTable of information (partially) aliased with previous sources derived from the same formula\n\n")
-      print(x$aliasing)
+      print(x$aliasing, ...)
     }
   }
   invisible()
@@ -702,7 +702,6 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
           }
           Q[[terms[i]]] <- Q.work
         }
-        
         #Print out the aliasing summary if any aliasing
         if (nrow(aliasing) > 0)
         { 
@@ -719,7 +718,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
               aliasing$Source[which.sources] <- sources[aliasing$Source[which.sources]]
             which.sources <- aliasing$Alias %in% names(sources)
             if (any(which.sources))
-              aliasing$Alias <- sources[aliasing$Alias]
+              aliasing$Alias[which.sources] <- sources[aliasing$Alias[which.sources]]
           }
           attr(aliasing, which = "title") <- 
             "\nTable of information (partially) aliased with previous sources derived from the same formula\n\n"
@@ -758,7 +757,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
         }
         if (lab.opt == "sources")
           names(Q) <- sources
-      } else
+       } else
       {
         if (orthogonalize == "differencing") #by difference
         { 
@@ -820,7 +819,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
             Q[[terms[i]]] <- Q.work
           }
           
-          #Print out the aliasing summary if any aliasing
+          #Finalizing the aliasing summary if any aliasing
           if (nrow(aliasing) > 0)
           { 
             rownames(aliasing) <- NULL
