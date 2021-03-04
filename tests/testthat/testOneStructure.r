@@ -39,6 +39,103 @@ test_that("OneStructure", {
 })
 
 
+cat("#### Test for pstructure with factor nesting\n")
+test_that("pstucture_fac.multinested", {
+  skip_on_cran()
+  library(dae)
+  
+  #'## Set constants
+  nblks <- 6
+  treat.levs <- c("Control","Dr","Na","LN")
+  (ntreats <- length(treat.levs))
+  lines.lev <- c("O. aust", "Calrose", paste0("Transgenic", 1:7))
+  (nlines <- length(lines.lev))
+  
+  #'### Systematic allocation
+  sys.lay <- cbind(
+    fac.gen(list(Block = nblks, MainUnit = ntreats, Cart = nlines)),
+    fac.gen(list(Treatment = treat.levs, Line = lines.lev), times = nblks))
+  
+  #'### Randomization
+  rand.lay <- designRandomize(recipient = sys.lay[,1:3],
+                              allocated = sys.lay[,4:5],
+                              nested.recipients = list(MainUnit = "Block",
+                                                       Cart = c("MainUnit", "Block")), 
+                              seed = 82604)
+  
+  #'## Add nested factors
+  #'### Line nested within Treatments
+  rand.lay <- cbind(rand.lay, 
+                    with(rand.lay, fac.multinested(nesting.fac = Treatment, nested.fac = Line, 
+                                                   fac.prefix = "Line")))
+  #'### Factors that remove contrast involving O. aust
+  rand.lay <- within(rand.lay,
+                     {
+                       OaVsRest <- fac.uselogical(Line == "O. aust", labels = c("O. aust", "Other"))
+                       OaTreat <- fac.recode(fac.combine(list(Line, Treatment)),
+                                             c(levels(Treatment), rep("Other", 32)))
+                     })
+  #'### Factors for Lines within Treatments, excluding O. aust
+  rand.lay <- within(rand.lay,
+                     {
+                       OaDr <- fac.uselogical(LineDr == "O. aust", labels = c("O. aust", "Other"))
+                       OaControl <- fac.uselogical(LineControl == "O. aust", labels = c("O. aust", "Other"))
+                       OaLN <- fac.uselogical(LineLN == "O. aust", labels = c("O. aust", "Other"))
+                       OaNa <- fac.uselogical(LineNa == "O. aust", labels = c("O. aust", "Other"))
+                     })
+  
+  #'## Investigate Treatment terms
+  #'### Removal of O. aust from the Treatments*Line
+  print(trt.str <- pstructure(~ OaVsRest/OaTreat + Treatment*Line, data = rand.lay), 
+        which = "proj")
+  testthat::expect_true(all(names(trt.str$Q) == c("OaVsRest", "OaTreat[OaVsRest]", "Treatment", 
+                                                  "Line[OaVsRest]", "Treatment#Line")))
+  testthat::expect_true(all(trt.str$aliasing$Source == "Treatment"))
+  testthat::expect_true(all(trt.str$aliasing$Alias == c("OaTreat[OaVsRest]", 
+                                                        "## Information remaining")))
+  
+  #'### Removal of O. aust from remaining Lines nested within Treats
+  print(trt.str <- pstructure(~ OaVsRest/OaTreat + Treatment/(LineControl + LineDr + 
+                                                                LineLN + LineNa), 
+                              which.criteria = c("aeff", "xeff", "eeff", "ord"), 
+                              data = rand.lay), which = c("proj", "alias"))
+  testthat::expect_true(all(names(trt.str$Q) == c("OaVsRest", "OaTreat[OaVsRest]", "Treatment", 
+                                                  "LineControl[Treatment]", "LineDr[Treatment]", 
+                                                  "LineLN[Treatment]", "LineNa[Treatment]")))
+  testthat::expect_true(all(trt.str$aliasing$df == c(3,3, rep(c(1,3,7), times = 4))))
+  testthat::expect_true(all(trt.str$aliasing$Alias[c(2,5,8,11,14)] == "## Information remaining"))
+  
+  #'### Treaments pooled over ALL lines but then separation of O. aust from remaining Lines, both nested within Treats
+  print(trt.str <- pstructure(~ Treatment/(OaControl + LineControl + OaDr + LineDr +
+                                             OaLN + LineLN + OaNa + LineNa), data = rand.lay),
+        which = "proj")
+  testthat::expect_true(all(names(trt.str$Q) == c("Treatment", "OaControl[Treatment]", 
+                                                  "LineControl[Treatment:OaControl]", 
+                                                  "OaDr[Treatment]", "LineDr[Treatment:OaDr]", 
+                                                  "OaLN[Treatment]", "LineLN[Treatment:OaLN]", 
+                                                  "OaNa[Treatment]", "LineNa[Treatment:OaNa]")))
+  testthat::expect_true(all(trt.str$aliasing$df == c(3, rep(c(1,7), times = 4))))
+  testthat::expect_true(is.null(trt.str$aliasing))
+})
+
+cat("#### Test for pstructure with generalized factors\n")
+test_that("pstucture_genfac", {
+  skip_on_cran()
+  library(dae)
+
+  pepalt.sys <- fac.gen(list(Rep = 2, Plate = 3, Side = 2, Boxrow = 2, Shelf = 4))
+  pepalt.str <- pstructure( ~ (Shelf:Boxrow)*(Rep/(Side:Plate)), data = pepalt.sys)
+  (sources <- pepalt.str$sources)
+  testthat::expect_true(all(sources == c("Shelf:Boxrow", "Rep", "Side:Plate[Rep]", 
+                                         "(Shelf:Boxrow)#Rep", "(Shelf:Boxrow)#(Side:Plate)[Rep]")))
+  
+  pepalt.str <- pstructure( ~ (Rep/Plate)*(Boxrow/(Shelf:Side)), data = pepalt.sys)
+  (sources <- pepalt.str$sources)
+  testthat::expect_true(all(sources == c("Rep", "Plate[Rep]", "Boxrow", "Shelf:Side[Boxrow]", 
+                                         "Rep#Boxrow", "Rep#(Shelf:Side)[Boxrow]", 
+                                         "Plate#Boxrow[Rep]", "Plate#(Shelf:Side)[Rep:Boxrow]")))
+})
+
 cat("#### Test for pstructure with difficult marginalitysingle structure\n")
 test_that("PlaidInteractions", {
   skip_on_cran()

@@ -1,8 +1,14 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-36 (2021-03-04)}{
+  \itemize{
+    \item{Fix bug in pstructure for parenthesizing terms that consist of generalized or combined factors.}
+    \item{Add \code{...} argument to print.aliasing call in print.structure.}
+    \item{Allow multiple values for \code{which} argument in print.pstructure}
+}}
 \section{Changes in dae version 3.1-35 (2021-02-25)}{
   \itemize{
-    \item{Fix bug in the aliasing table, where "## Information remaining" not printed for pstructue.}
+    \item{Fix bug in the aliasing table, where "## Information remaining" not printed for pstructure.}
     \item{Add \code{...} argument to print.aliasing call in print.structure.}
     \item{Allow multiple values for \code{which} argument in print.pstructure}
 }}

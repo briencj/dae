@@ -332,7 +332,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
           sources[k] <- substr(sources[k], 2, nch-1)
       } else
       {
-        if (length(kmarg.terms[[term]]) == 1) #kmarg.term must be must be nesting
+        if (length(kmarg.terms[[term]]) == 1) #kmarg.term must be nesting
         {
           facs.nesting <- fac.list[kmarg.terms[[term]]][[1]]
           kfacs <- colnames(fac.incidence)[fac.incidence[kmarg.terms[[term]],]]#do we need this to get implicit?
@@ -374,15 +374,18 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
                 facs.nesting <- c(facs.nesting, kfac)
             } 
           }
-          #nested factors are those in the term other than the nesting factornesting
+          #nested factors are those in the term other than the nesting factor
           facs.nested <- setdiff(fac.list[term][[1]], facs.nesting)
         }
         
         #Paste the factors and punctuation
         sources[k] <- paste(facs.nested, collapse = "#")
-        nch <- nchar(sources[k])
-        if (substr(sources[k], 1, 1) == "(" & substr(sources[k], nch, nch) == ")")
-          sources[k] <- substr(sources[k], 2, nch-1)
+        if (length(facs.nested) == 1)
+        {
+          nch <- nchar(sources[k])
+          if (substr(sources[k], 1, 1) == "(" & substr(sources[k], nch, nch) == ")")
+            sources[k] <- substr(sources[k], 2, nch-1)
+        }
         if (length(facs.nesting) > 0)
         {
           facs.nesting <- paste(facs.nesting, collapse = ":")
