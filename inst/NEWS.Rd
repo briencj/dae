@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-38 (2021-03-19)}{
+  \itemize{
+    \item{Rebuild vignette}
+}}
 \section{Changes in dae version 3.1-37 (2021-03-17)}{
   \itemize{
     \item{Recompile for submission to CRAN}
