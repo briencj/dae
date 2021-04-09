@@ -7,7 +7,7 @@
        specifying multiple row and or column factors.}
 \usage{
 designGGPlot(design, labels = NULL, label.size = NULL, 
-             row.factors = "Rows", column.factors = "Columns", 
+             row.factors = "Rows", column.factors = "Columns", scales.free = "free",
              cellfillcolour.column = NULL, colour.values = NULL, 
              cellalpha = 1, celllinetype = "solid", celllinesize = 0.5, 
              celllinecolour = "black", cellheight = 1, cellwidth = 1,
@@ -36,6 +36,12 @@ designGGPlot(design, labels = NULL, label.size = NULL,
                then \code{facet_grid} is used to \code{facet} the plot in the \code{x} 
                direction, based on all but the last name. The \code{\link{factor}} 
                corresponding to the last name will index the columns in each \code{facet}.}
+ \item{scales.free}{When plots are facetted, a \code{character} specifying whether scales 
+              are shared across all facets (\code{fixed}), or vary across rows 
+              (\code{free_x}), columns (\code{free_y}), or both rows and columns 
+              (the default, \code{free}).  
+              The \code{free_x}, \code{free_y} and \code{free} options may not work when 
+              the plot grid is indexed using \code{\link{numeric}}s.}
  \item{reverse.x}{A \code{logical} which, if true, causes the order of values on the 
               x-axis to be reversed, the natural order being to increase from left to right.}
  \item{reverse.y}{A \code{logical} which, if true, causes the order of values on the 

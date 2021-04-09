@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-39 (2021-04-10)}{
+  \itemize{
+    \item{Add \code{scales.free} argument to allow the axis scales to vary between facets.}
+}}
 \section{Changes in dae version 3.1-38 (2021-03-19)}{
   \itemize{
     \item{Rebuild vignette}

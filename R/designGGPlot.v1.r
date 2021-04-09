@@ -15,7 +15,7 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
 }
 
 "designGGPlot" <- function(design, labels = NULL, label.size = NULL,
-                           row.factors = "Rows", column.factors = "Columns", 
+                           row.factors = "Rows", column.factors = "Columns", scales.free = "free", 
                            cellfillcolour.column=NULL, colour.values=NULL, cellalpha = 1, 
                            celllinetype = "solid", celllinesize = 0.5, celllinecolour = "black",
                            cellheight = 1, cellwidth = 1, 
@@ -77,27 +77,6 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
           strip.background = element_blank(),
           strip.text = element_text(size=title.size, face="bold"))
   
-  #Set up facetting if needed
-  # if (!is.null(facet.x))
-  #   facet.x <- paste0("vars(", paste(facet.x, collapse = ","), ")")
-  # if (!is.null(facet.y))
-  #   facet.y <- paste0("vars(", paste(facet.y, collapse = ","), ")")
-  if (!is.null(facet.x)) 
-  {
-    if (!is.null(facet.y))
-      plt <- plt + facet_grid(rows = eval(parse(text=facet.y)), 
-                              cols = eval(parse(text=facet.x)), 
-                              labeller = labeller, as.table = FALSE)
-    else
-      plt <- plt + facet_grid(cols = eval(parse(text=facet.x)), 
-                              labeller = labeller, as.table = FALSE)
-  } else
-  {
-    if (!is.null(facet.y))      
-      plt <- plt + facet_grid(rows = eval(parse(text=facet.y)), 
-                              labeller = labeller, as.table = FALSE)
-  }
-  
   if (!(is.null(colour.values)))
     plt <- plt + scale_fill_manual(values = colour.values)
   
@@ -131,7 +110,8 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
   {
     nrows <- length(levels(design[[grid.y]]))
     if (reverse.y)
-      plt <- plt + scale_y_discrete(limits = rev(levels(design[[grid.y]])), expand = c(0,0))
+      plt <- plt + scale_y_discrete(limits = rev, expand = c(0,0))
+#    plt <- plt + scale_y_discrete(limits = rev(levels(design[[grid.y]])), expand = c(0,0))
     else
       plt <- plt + scale_y_discrete(expand = c(0,0))
   }
@@ -153,8 +133,9 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
   {
     ncolumns <- length(levels(design[[grid.x]]))
     if (reverse.x)
-      plt <- plt + scale_x_discrete(limits = rev(levels(design[[grid.x]])), expand = c(0,0), 
-                                    position = x.axis.position)
+      plt <- plt + scale_x_discrete(limits = rev, expand = c(0,0), position = x.axis.position)
+#    plt <- plt + scale_x_discrete(limits = rev(levels(design[[grid.x]])), expand = c(0,0), 
+#                                    position = x.axis.position)
     else
       plt <- plt + scale_x_discrete(expand = c(0,0), position = x.axis.position)
   }
@@ -171,6 +152,27 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
                                       expand = c(0,0), position = x.axis.position)
   }
 
+  #Set up facetting if needed
+  # if (!is.null(facet.x))
+  #   facet.x <- paste0("vars(", paste(facet.x, collapse = ","), ")")
+  # if (!is.null(facet.y))
+  #   facet.y <- paste0("vars(", paste(facet.y, collapse = ","), ")")
+  if (!is.null(facet.x)) 
+  {
+    if (!is.null(facet.y))
+      plt <- plt + facet_grid(rows = eval(parse(text=facet.y)), 
+                              cols = eval(parse(text=facet.x)), 
+                              labeller = labeller, scales = scales.free, as.table = FALSE)
+    else
+      plt <- plt + facet_grid(cols = eval(parse(text=facet.x)), 
+                              labeller = labeller, scales = scales.free, as.table = FALSE)
+  } else
+  {
+    if (!is.null(facet.y))      
+      plt <- plt + facet_grid(rows = eval(parse(text=facet.y)), 
+                              labeller = labeller, scales = scales.free, as.table = FALSE)
+  }
+  
   if (!is.null(ggplotFuncs))
   {
     for (f in ggplotFuncs)
