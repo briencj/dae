@@ -25,13 +25,15 @@ validProjector <- function(object)
   if (nrow(Q) != ncol(Q))
     isproj <- "Matrix is not square"
   else #if (!is.allzero(t(Q)-Q))
+  {
     if (!isTRUE(all.equal(t(Q), Q, tolerance=daeTolerance[["element.tol"]])))
       isproj <- "Matrix is not symmetric"
-  else 
-  { 
-    #if (!is.allzero(Q%*%Q - Q))
-    if (!isTRUE(all.equal(Q%*%Q, Q, tolerance=daeTolerance[["element.tol"]])))
-      isproj <- "Matrix is not idempotent"
+    else 
+    { 
+      #if (!is.allzero(Q%*%Q - Q))
+      if (!isTRUE(all.equal(Q%*%Q, Q, tolerance=daeTolerance[["element.tol"]])))
+        isproj <- "Matrix is not idempotent"
+    }
   }
   isproj
 }
@@ -44,7 +46,7 @@ projector <- function(Q)
   nonzero.e <- e$values[abs(1 - e$values) < 0.9]
   dflen <- length(nonzero.e)
   p@degfree=dflen
-  p
+  return(p)
 }
 
 setClass("projector", representation("matrix", degfree = "integer"), prototype(degfree=as.integer(NA)))
@@ -203,3 +205,4 @@ decomp.relate <- function(decomp1, decomp2)
   }
   list(efficiencies = Eff.Q1.Q2, eigenvectors=eigenvec, Qconf = Qconf, Qres = Qres)
 }
+

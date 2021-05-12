@@ -35,7 +35,8 @@ designPlotlabels(data, labels, grid.x = "Columns", grid.y = "Rows",
  \item{ggplotFuncs}{A \code{\link{list}}, each element of which contains the 
                 results of evaluating a \code{\link{ggplot}} function. 
                 It is created by calling the \code{\link{list}} function with 
-                a \code{\link{ggplot}} function call for each element.}
+                a \code{\link{ggplot}} function call for each element.
+                These functions are applied in creating the \code{ggplot} object.}
  \item{\dots}{Other arguments that are passed down to the \code{\link{geom_text}} call that plots the \code{labels}.}
 }
 \value{An object of class "\code{ggplot}", which can be plotted using \code{print}.}

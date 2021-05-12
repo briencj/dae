@@ -601,40 +601,66 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
         eff.crit <- vector(mode="list",length=length(criteria))
         names(eff.crit) <- criteria
         
-        #Loop over terms
+        #Loop over terms for first time to make orthogonal to marginal terms
         for (i in 2:length(terms))
         { 
-          Q.work <- Q[[terms[i]]]
-          aliasstatus <- "none"
+          #         aliasstatus <- "none"
           #loop over terms to see if any are marginal to term i
           for (j in 1:(i-1))
           { 
             if (marg.mat[i, i] == 1)
             {
-              Qji <- Q[[terms[j]]] %*% Q.work
-              if (!is.allzero(Qji)) # if not orthogonal then have to orthogonalize
+              Qji <- Q[[terms[j]]] %*% Q[[terms[i]]]
+              if (!is.allzero(Qji)) # if not orthogonal then have to check if marginal or fully aliased
               {
                 if (is.allzero(Qji-Q[[terms[j]]])) #test marginality
                 {
-                  if (is.allzero(Q[[terms[j]]] - Q.work)) #are terms equal?
+                  if (is.allzero(Q[[terms[j]]] - Q[[terms[i]]])) #terms not equal, so i is a marginal term to j - difference                  {
                   {
                     aliasstatus <- "full"
                     marg.mat[terms[i], terms[i]] <- 0
                     warning(paste(terms[[i]],"is aliased with previous terms in the formula",
                                   "and has been removed", sep=" "))
                     eff.crit[criteria] <- 1 #0
-                    aliasing <- rbind(aliasing, 
-                                      data.frame(c(list(Source = terms[[i]], 
-                                                        df = degfree(Q[[terms[i]]]), #0, 
-                                                        Alias = terms[[j]]), 
-                                                   eff.crit), 
+                    aliasing <- rbind(aliasing,
+                                      data.frame(c(list(Source = terms[[i]],
+                                                        df = degfree(Q[[terms[i]]]), #0,
+                                                        Alias = terms[[j]]),
+                                                   eff.crit),
+                                                 stringsAsFactors = FALSE),
+                                      data.frame(c(list(Source = terms[[i]],
+                                                        df = 0,
+                                                        Alias = "## Aliased"),
+                                                   eff.crit),
                                                  stringsAsFactors = FALSE))
                   } else # i is a marginal term to j - difference
+                  # if (!is.allzero(Q[[terms[j]]] - Q[[terms[i]]])) #terms not equal, so i is a marginal term to j - difference                  {
                   {
                     marg.mat[terms[j], terms[i]] <- 1
-                    Q.work <- projector(Q.work - Q[[terms[j]]])
+                    Q[[terms[i]]] <- projector(Q[[terms[i]]] - Q[[terms[j]]])
                   }
-                } else
+                }
+              }
+            }
+          }
+        }
+        
+        #'## Loop over terms a second time to deal with any nonorthogonality
+        for (i in 2:length(terms))
+        { 
+          Q.work <- Q[[terms[i]]]
+          Q.jcum <- Q.G
+          aliasstatus <- "none"
+          #loop over terms to see if any are marginal to term i
+          for (j in 1:(i-1))
+          { 
+            if (marg.mat[j, j] == 1)
+            {
+              Q.jcum <- projector(Q.jcum + Q[[terms[j]]])
+              if (marg.mat[i, i] == 1)
+              {
+                Qji <- Q[[terms[j]]] %*% Q.work
+                if (!is.allzero(Qji)) # if not orthogonal then have to orthogonalize
                 {
                   if (is.allzero(Qji - Q.work)) #i is aliased with j
                   {
@@ -660,7 +686,8 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
                                                         Alias = terms[[j]]), 
                                                    keff.crit[criteria]), 
                                                  stringsAsFactors = FALSE))
-                    R <- projector(diag(1, nrow = n, ncol = n) - Q[[terms[j]]])
+                    #                    R <- projector(diag(1, nrow = n, ncol = n) - Q[[terms[j]]])
+                    R <- projector(diag(1, nrow = n, ncol = n) - Q.jcum)
                     decomp <- proj2.combine(R, Q.work)
                     Q.work <- decomp$Qconf
                   }
@@ -670,14 +697,14 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
           }
           
           #Check that this term is orthogonal to previous projectors - necessary?
-          # if (degfree(Q.work) != 0) 
-          # { 
-          #   i1 <- i - 1 
+          # if (degfree(Q.work) != 0)
+          # {
+          #   i1 <- i - 1
           #   if (i1 > 0)
           #     for (j in 1:i1)
           #       if (!is.allzero(Q.work %*% Q[[terms[j]]]))
-          #       { 
-          #         warning(paste("** Projection matrices for ",terms[i], " and ", terms[j], 
+          #       {
+          #         warning(paste("** Projection matrices for ",terms[i], " and ", terms[j],
           #                       " are not orthogonal", sep=""))
           #       }
           # }
@@ -705,6 +732,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
           }
           Q[[terms[i]]] <- Q.work
         }
+        
         #Print out the aliasing summary if any aliasing
         if (nrow(aliasing) > 0)
         { 
@@ -715,7 +743,8 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
           {
             tmp <- marg.mat
             diag(tmp) <- 1
-            sources <- formSources(terms, tmp, grandMean = grandMean)
+            sources <- formSources(terms, tmp, grandMean = FALSE) #because hybrid orthogonalize does not  
+                                                                  #include the Mean in the terms
             which.sources <- aliasing$Source %in% names(sources)
             if (any(which.sources))
               aliasing$Source[which.sources] <- sources[aliasing$Source[which.sources]]
@@ -760,7 +789,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
         }
         if (lab.opt == "sources")
           names(Q) <- sources
-       } else
+      } else
       {
         if (orthogonalize == "differencing") #by difference
         { 
@@ -832,7 +861,8 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
             {
               tmp <- marg.mat
               diag(tmp) <- 1
-              sources <- formSources(terms, tmp, grandMean = grandMean)
+              sources <- formSources(terms, tmp, grandMean = FALSE) #because hybrid orthogonalize does not include 
+                                                                    #the Mean in the terms
               which.sources <- aliasing$Source %in% names(sources)
               if (any(which.sources))
                 aliasing$Source[which.sources] <- sources[aliasing$Source[which.sources]]
@@ -902,7 +932,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
       }
     }
   }
-
+  
   #Create pstructure.object and return it
   struct <- list(Q = Q, terms = terms, sources = sources, 
                  marginality = marginality, aliasing = aliasing)
@@ -910,7 +940,6 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
   attr(struct, which = "labels") <- lab.opt
   if (omit.projectors)
     struct$Q <- unlist(lapply(struct$Q, degfree))
-
+  
   return(struct)
-}    
-
+}   

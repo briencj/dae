@@ -1,8 +1,12 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-40 (2021-05-12)}{
+  \itemize{
+    \item{Fix bug in pstructure that resulted in errors in aliasing reporting.}
+}}
 \section{Changes in dae version 3.1-39 (2021-04-10)}{
   \itemize{
-    \item{Add \code{scales.free} argument to allow the axis scales to vary between facets.}
+    \item{Add \code{scales.free} argument to allow the axis scales to vary between facets in designGGPlot.}
 }}
 \section{Changes in dae version 3.1-38 (2021-03-19)}{
   \itemize{

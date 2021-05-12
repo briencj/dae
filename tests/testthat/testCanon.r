@@ -230,9 +230,9 @@ test_that("JarrettRuggiero", {
   testthat::expect_true(array.plot.trt.canon$aliasing$Source == "Block:Plant:Sample")
   testthat::expect_true(array.plot.trt.canon$aliasing$Alias == "Block:Plant")
   testthat::expect_true(array.plot.trt.canon$aliasing$df == 14)
-  testthat::expect_true(array.plot.trt.canon$aliasing$aefficiency == 1)
+  testthat::expect_true(abs(array.plot.trt.canon$aliasing$aefficiency - 1) < 1e-06)
   
-  summ.default <-summary(array.plot.trt.canon)
+  summ.default <-summary(array.plot.trt.canon)E
   testthat::expect_equal(nrow(summ.default$decomp), 7)
   testthat::expect_equal(ncol(summ.default$decomp), 9)
   summ.none <-summary(array.plot.trt.canon, which.criteria = "none")

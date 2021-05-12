@@ -89,9 +89,11 @@ test_that("pstucture_fac.multinested", {
   print(trt.str <- pstructure(~ OaVsRest/OaTreat + Treatment*Line, data = rand.lay), 
         which = "proj")
   testthat::expect_true(all(names(trt.str$Q) == c("OaVsRest", "OaTreat[OaVsRest]", "Treatment", 
-                                                  "Line[OaVsRest]", "Treatment#Line")))
-  testthat::expect_true(all(trt.str$aliasing$Source == "Treatment"))
+                                                  "Line[OaVsRest]", "Treatment#Line[OaVsRest]")))
+  testthat::expect_true(all(trt.str$aliasing$Source == c("Treatment", "Treatment", 
+                                                         "Treatment#Line[OaVsRest]","Treatment#Line[OaVsRest]")))
   testthat::expect_true(all(trt.str$aliasing$Alias == c("OaTreat[OaVsRest]", 
+                                                        "## Information remaining", "Treatment",
                                                         "## Information remaining")))
   
   #'### Removal of O. aust from remaining Lines nested within Treats
@@ -102,8 +104,8 @@ test_that("pstucture_fac.multinested", {
   testthat::expect_true(all(names(trt.str$Q) == c("OaVsRest", "OaTreat[OaVsRest]", "Treatment", 
                                                   "LineControl[Treatment]", "LineDr[Treatment]", 
                                                   "LineLN[Treatment]", "LineNa[Treatment]")))
-  testthat::expect_true(all(trt.str$aliasing$df == c(3,3, rep(c(1,3,7), times = 4))))
-  testthat::expect_true(all(trt.str$aliasing$Alias[c(2,5,8,11,14)] == "## Information remaining"))
+  testthat::expect_true(all(trt.str$aliasing$df == c(3,3, rep(c(1,1,1,7), times = 4))))
+  testthat::expect_true(all(trt.str$aliasing$Alias[c(2,6,10,14,18)] == "## Information remaining"))
   
   #'### Treaments pooled over ALL lines but then separation of O. aust from remaining Lines, both nested within Treats
   print(trt.str <- pstructure(~ Treatment/(OaControl + LineControl + OaDr + LineDr +
@@ -174,7 +176,7 @@ test_that("PlaidInteractions", {
   testthat::expect_true(all(alloc.canon$sources$alloc %in% c("T", "M", "T#M", "E", "T#E", 
                                                              "M#E", "T#M#E", "P[T:M:E]", 
                                                              "R[T:M]", "R[T:E]", "P[T:E:R]", 
-                                                             "M#E#R[T]", "M#P#R[T:E]")))
+                                                             "E#R[T:M]", "P#R[T:M:E]")))
   
   #Test the simple formula
   terms <- attr(terms(~ (T + R) * M * (E / P), keep.order = TRUE, data = ph2.L.lay), 
