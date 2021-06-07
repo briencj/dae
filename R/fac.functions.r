@@ -23,6 +23,39 @@
   return(new.fac)
 }
 
+"fac.recast" <- function(factor, newlevels = NULL, levels.order = NULL, newlabels = NULL, ...)
+  #function to form a new factor by changing the levels of factor
+{ 
+  new.fac <- factor
+  oldlevs <- levels(new.fac)
+  if (!is.null(newlevels))
+  {
+    if (length(oldlevs) != length(newlevels))
+      stop("Must supply a level for every level in the supplied factor")
+    new.fac <- factor(newlevels[new.fac], ...)
+    oldlevs <- levels(new.fac)
+  }
+
+  if (!(is.null(levels.order) & is.null(newlabels)))
+  {
+    if (is.null(levels.order))
+      levels.order <- oldlevs
+    if (!all(oldlevs %in% levels.order) | length(unique(levels.order)) < length(levels.order))
+      stop("The set of levels.order must be unique and contain all the levels in the factor being recast")
+    if (!is.null(newlabels))
+      if (length(newlabels) != length(oldlevs) | length(unique(newlabels)) < length(newlabels))
+        stop("The newlabels must be a set of unique values equal in length to the number of levels in the factor being recast")
+    
+    #Recast the factor
+    if (is.null(newlabels))
+      new.fac <- factor(new.fac, levels = levels.order, ...)
+    else
+      new.fac <- factor(new.fac, levels = levels.order, labels = newlabels, ...)
+  }
+  
+  return(new.fac)
+}
+
 "fac.uselogical" <- function(x, levels = c(TRUE, FALSE), labels = c("yes", "no"), ...)
 #function to form a two-level factor from a logical object
 {

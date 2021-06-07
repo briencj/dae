@@ -4,7 +4,13 @@
              not have to be unique.}
 \description{Recodes the \code{levels} and values of a factor using each value in the 
        \code{newlevels} vector  to replace the corresponding value in the vector of 
-       \code{levels} of the \code{\link{factor}}.}
+       \code{levels} of the \code{\link{factor}}. 
+       
+       This function has been superseded by \code{fac.recast}, which has extended functionality. 
+       Calls to \code{fac.recast} that use only the \code{factor} and \code{newlevels} argument will 
+       produce the same results as a call to \code{fa.recode}. 
+       \code{fac.recode} may be deprecated in future versions of \code{dae} and is being retained 
+       for now to maintain backwards compatibility.}
 \usage{fac.recode(factor, newlevels, ...)}
 \arguments{
  \item{factor}{The \code{\link{factor}} to be recoded.}
@@ -14,7 +20,7 @@
 }
 \value{A \code{\link{factor}}.}
 \author{Chris Brien}
-\seealso{\code{\link{fac.uselogical}, \link{as.numfac}} and \code{\link{mpone}} in package \pkg{dae}, 
+\seealso{\code{\link{fac.recast}}, \code{\link{fac.uselogical}, \link{as.numfac}} and \code{\link{mpone}} in package \pkg{dae}, 
 \code{\link{factor}}, \code{\link{relevel}}.}
 \examples{
 ## set up a factor with labels

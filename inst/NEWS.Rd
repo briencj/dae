@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.1-41 (2021-06-07)}{
+  \itemize{
+    \item{Add the function fac.recast, a function that replaces and extends fac.recode.}
+}}
 \section{Changes in dae version 3.1-40 (2021-05-12)}{
   \itemize{
     \item{Fix bug in pstructure that resulted in errors in aliasing reporting.}

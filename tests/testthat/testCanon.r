@@ -232,7 +232,7 @@ test_that("JarrettRuggiero", {
   testthat::expect_true(array.plot.trt.canon$aliasing$df == 14)
   testthat::expect_true(abs(array.plot.trt.canon$aliasing$aefficiency - 1) < 1e-06)
   
-  summ.default <-summary(array.plot.trt.canon)E
+  summ.default <-summary(array.plot.trt.canon)
   testthat::expect_equal(nrow(summ.default$decomp), 7)
   testthat::expect_equal(ncol(summ.default$decomp), 9)
   summ.none <-summary(array.plot.trt.canon, which.criteria = "none")
