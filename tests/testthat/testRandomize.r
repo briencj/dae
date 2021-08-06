@@ -312,3 +312,40 @@ test_that("AthleteRandomize", {
   
 })
 
+cat("#### Test for two part randomize\n")
+test_that("TwoPartRandomize", {
+  skip_on_cran()
+  library(dae)
+  
+  nblks <- 7
+  nunits <- 9
+  nclones <- 3
+  nsoils <- 3
+  
+  # Generate a systematic design
+  Trts.sys <- fac.gen(list(Clone=1:nclones, Soil=nsoils), times = nblks-1)
+  Trts.sys <- rbind(Trts.sys, Trts.sys[setdiff(1:9, c(2,4,9)),]) # treats absent from partial rep (final block)
+  Exp.sys <- cbind(fac.gen(list(Block = nblks, Unit = nunits))[-(61:63),],
+                   Trts.sys)
+  
+  #Test for randomizing unequally size blocks in separate parts, with one part having only one block
+  #Split the design, randomize each part of the design and recombine the parts
+  Exp.sys <- split(Exp.sys, f = rep(1:2, c((nblks-1)*nunits,6)))
+  testthat::expect_equal(length(Exp.sys), 2)
+  Exp.lay <- mapply(lay = Exp.sys, seed = c(25201,25143),
+                    function(lay,seed)
+                      designRandomize(allocated = lay[c("Clone","Soil")],
+                                      recipient = lay[c("Block", "Unit")],
+                                      nested.recipients = list(Unit = "Block"), 
+                                      seed = seed),
+                    SIMPLIFY = FALSE)
+  testthat::expect_equal(length(Exp.lay), 2)
+  Exp.lay <- do.call(rbind, Exp.lay)
+  testthat::expect_equal(nrow(Exp.lay), 60)
+  testthat::expect_true(all(levels(Exp.lay["Block"]) == as.character(1:7)))
+  testthat::expect_true(all(levels(Exp.lay["Unit"]) == as.character(1:9)))
+  testthat::expect_true(all(Exp.lay[55:60, "Unit"] == as.character(1:6)))
+  testthat::expect_true(all(Exp.lay[55:60, "Clone"] == as.character(c(3,2,2,1,1,3))))
+  testthat::expect_true(all(Exp.lay[55:60, "Soil"] == as.character(c(1:3,3,1,2))))
+  
+})

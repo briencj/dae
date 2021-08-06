@@ -28,7 +28,7 @@ combinations of the used \code{levels} of the individual \code{\link{factor}s}.}
 \value{A \code{\link{factor}} whose \code{levels} are formed form the observed 
        combinations of the \code{levels} of the individual \code{\link{factor}s}.}
 \author{Chris Brien}
-\seealso{\code{\link{fac.divide}} in package \pkg{dae}.}
+\seealso{\code{\link{fac.split}}, \code{\link{fac.divide}} in package \pkg{dae}.}
 \examples{
 ## set up two factors
 A <- factor(rep(1:2, each=6))

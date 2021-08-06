@@ -6,11 +6,9 @@
   n <- length(generate)
   which.ord <- pmatch(casefold(order), c("standard", "yates"), nomatch="")
   if (which.ord == "")	stop("order must be either standard or yates")
-  # standard order
-  if (which.ord == "1")
+  if (which.ord == "1") # standard order
     counter <- 1:n
-  else
-    # Yates order
+  else                  # Yates order
     counter <- n:1
   kfac <- 0
   for(i in counter) 
@@ -320,7 +318,11 @@
     rec.names <- vector("list", length = nunr)
     names(rec.names) <- as.list(names(recipient))
     for (i in 1:nunr)
+    {
       rec.names[[i]] <- levels(recipient[[i]])
+      rec.names[[i]] <- rec.names[[i]][rec.names[[i]] %in% unique(recipient[[i]])]
+      
+    }
     #Order recipient into standard order
     perm.recip <- do.call(order, recipient)
     recipient.ord <- recipient[perm.recip,]
@@ -351,16 +353,13 @@
   for (i in 1:nunr)
   { 
     if (is.numeric(rec.names[[i]]) | is.character(rec.names[[i]]))
-    { 
-      if (length(rec.names[[i]]) == 1)
+    {
+      if (is.numeric(rec.names[[i]]))
         rec.levels[i] <- rec.names[[i]]
       else
         rec.levels[i] <- length(rec.names[[i]])
-    }
-    else
-    { 
+    } else
       stop("Levels of factors must be specified using either numeric or character vectors")
-    }
   }
   if (is.null(allocated)) 
   {

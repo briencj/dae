@@ -1,5 +1,11 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2-10 (2021-08-6)}{
+  \itemize{
+    \item{Add the functions fac.split and fac.genfactors.}
+    \item{Modify fac.gen so that the number of levels for each recipient factor is the number of observed levels of that factor.}
+    \item{Fix bug in finding marginal terms in pstructure.formula when there is partial aliasing amongst terms.}
+}}
 \section{Changes in dae version 3.1-41 (2021-06-07)}{
   \itemize{
     \item{Add the function fac.recast, a function that replaces and extends fac.recode.}

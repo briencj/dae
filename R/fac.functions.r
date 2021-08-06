@@ -129,6 +129,49 @@
   return(new.fac)
 }
 
+
+"fac.split" <- function(combined.factor, factor.names, sep = ",", ...)
+{
+  #
+  # test arguments
+  #
+  if (!inherits(combined.factor, what = "factor")) 
+    stop("combined.factor must be a factor")
+  if (mode(factor.names) != "list") 
+    stop("Must supply a list of factor names")
+  
+  vals <- as.character(combined.factor)
+  nfac <- length(factor.names)
+  vals <- strsplit(vals, sep, fixed = TRUE)
+  kfac <- length(vals[[1]])
+  if (nfac != kfac)
+    stop("The number of names in factor.names does no match the number of comma-separated strings in combined.factor")
+  
+  #Extract the values for each factor
+  dat <- as.data.frame(do.call(cbind,lapply(1:nfac,
+                                            function(k)
+                                            {
+                                              unlist(lapply(vals,
+                                                            function(val,k )val[k],
+                                                            k = k))
+                                            })))
+  
+  #Form the factors
+  dat <- mapply(dat, factor.names, 
+                FUN = function(fac, nam) 
+                {
+                  if (!is.null(nam))
+                    fac <- factor(fac, levels = nam, ...)
+                  else
+                    fac <- factor(fac, ...)
+                  return(fac)
+                }, SIMPLIFY = FALSE)
+  dat <- as.data.frame(dat)
+  names(dat) <- names(factor.names)
+  return(dat)
+}
+  
+
 "fac.divide" <- function(combined.factor, factor.names, order="standard")
 {
 #

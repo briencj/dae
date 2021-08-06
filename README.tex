@@ -1,0 +1,187 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={dae},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{dae}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\href{http://www.repostatus.org/\#active}{\includegraphics{http://www.repostatus.org/badges/latest/active.svg}}
+\href{https://cran.r-project.org/}{\includegraphics{https://img.shields.io/badge/R\%3E\%3D-3.5.0-6666ff.svg}}
+\href{https://cran.r-project.org/package=dae}{\includegraphics{http://www.r-pkg.org/badges/version/dae}}
+\href{/commits/master}{\includegraphics{https://img.shields.io/badge/Package\%20version-3.2--10-orange.svg?style=flat-square}}
+\href{/commits/master}{\includegraphics{https://img.shields.io/badge/last\%20change-2021--08--06-yellowgreen.svg}}
+\href{http://choosealicense.com/licenses/gpl-2.0/}{\includegraphics{https://img.shields.io/badge/license-GPL\%20(\%3E\%3D2)-green.svg}}
+\href{commits/master}{\includegraphics{https://cranlogs.r-pkg.org/badges/last-week/dae}}
+
+\texttt{dae} is an R package that collects together functions that are
+useful in the design and ANOVA of experiments. It is stronger in
+functions to aid in the design of experiments, having functions that
+facilitate factor manipulation, randomizing designs and assessing the
+properties of designs.
+
+\hypertarget{more-information}{%
+\subsection{More information}\label{more-information}}
+
+For more information install the package and run the R command
+\texttt{news(package\ =\ “dae”)} or consult the
+\href{./vignettes/dae-manual.pdf}{manual} via
+\texttt{vignette("Manual",\ package\ =\ "dae")}.
+
+An overview can be obtained using \texttt{?dae}. A
+\href{./vignettes/DesignNotes.pdf}{vignette} is also available via
+\texttt{vignette("DesignNotes",\ package\ =\ "dae")}.
+
+\hypertarget{installing-the-package}{%
+\subsection{Installing the package}\label{installing-the-package}}
+
+\hypertarget{from-a-repository-using-drat}{%
+\subsubsection{\texorpdfstring{From a repository using
+\texttt{drat}}{From a repository using drat}}\label{from-a-repository-using-drat}}
+
+Windows binaries and source tarballs of the latest version of
+\texttt{dae} are available for installation from my
+\href{http://chris.brien.name/rpackages}{repository}. Installation
+instructions are available there.
+
+\hypertarget{directly-from-github}{%
+\subsubsection{Directly from GitHub}\label{directly-from-github}}
+
+\texttt{dae} is an R package available on GitHub, so it can be installed
+from the RStudio console or an R command line session using the
+\texttt{devtools} command \texttt{install\_github}. First, make sure
+\texttt{devtools} is installed, which, if you do not have it, can be
+done as follows:
+
+\texttt{install.packages("devtools")}
+
+Next, install \texttt{dae} from GitHub by entering:
+
+\texttt{devtools::install\_github("briencj/dae")}.
+
+Version 2.0-12 of the package is available from CRAN so that you could
+first install it and its dependencies using:
+
+\texttt{install.packages("dae")}
+
+If you have not previously installed \texttt{dae} then you will need to
+install it dependencies:
+
+\texttt{install.packages(c("ggplot2",\ "plyr")))}
+
+\hypertarget{what-is-does}{%
+\subsection{What is does}\label{what-is-does}}
+
+Its most general facilties are those for randomizing systematic designs
+to produce randomized layouts for experiments and for assessing their
+properties by producing their efficiency factors. The randomized layouts
+are produced using the function \texttt{designRandomize} and a number of
+functions whose names start with \texttt{design}, as well as functions
+for manipulating factors whose names begin with \texttt{fac}. The
+efficiency factors are obtained using \texttt{designAnatomy}. The use of
+\texttt{designRandomize} and \texttt{designAnatomy} is exemplified in
+the \href{./vignettes/DesignNotes.pdf}{vignette}, which is also found
+using \texttt{vignette("DesignNotes",\ package\ =\ "dae")}. It covers
+both standard and multiphase experimental designs. The data sets that go
+with the \href{./vignettes/DesignNotes.pdf}{vignette} are available in
+\texttt{dae}. The package is documented in the
+\href{./vignettes/dae-manual.pdf}{manual}, which can be found using
+\texttt{vignette("Manual",\ package\ =\ "dae")}.
+
+The content falls into the following natural groupings:
+
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\item
+  Data
+\item
+  Factor manipulation functions
+\item
+  Design functions
+\item
+  ANOVA functions
+\item
+  Matrix functions
+\item
+  Projector and canonical efficiency functions
+\item
+  Miscellaneous functions.
+\end{enumerate}
+
+\hypertarget{what-it-needs}{%
+\subsection{What it needs}\label{what-it-needs}}
+
+It imports \texttt{ggplot2}, \texttt{graphics}, \texttt{methods},
+\href{https://CRAN.R-project.org/package=plyr}{plyr}, \texttt{stats}.
+
+\hypertarget{license}{%
+\subsection{License}\label{license}}
+
+The \texttt{dae} package is distributed under the
+\href{https://opensource.org/licenses/GPL-2.0}{GPL (\textgreater= 2)
+licence}.
+
+\end{document}

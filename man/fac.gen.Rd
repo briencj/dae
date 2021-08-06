@@ -26,19 +26,22 @@
                      \code{yates} cycles through the levels of the first factor 
                      fastest and last factor moving slowest.}
 }
-\value{A \code{\link{data.frame}} of generated \code{levels} with columns 
-       corresponding to the code{factors} in the \code{generate} list.}
+\value{A \code{\link{data.frame}} of \code{\link{factor}s} whose generated \code{levels} 
+       are those supplied in the \code{generate} list. The number of rows in the 
+       \code{\link{data.frame}} will equal the product of the numbers of levels of the 
+       supplied \code{\link{factor}s} and the values of the \code{each} and \code{times} 
+       arguments.}
 \details{The \code{levels} of each \code{\link{factor}} are generated in a hierarchical 
-      pattern where the \code{levels} of one \code{\link{factor}} are held constant 
-      while those of the adjacent \code{\link{factor}} are cycled through the complete 
-      set once. If a number is supplied instead of a name, the pattern is 
-      generated as if a \code{\link{factor}} with that number of \code{levels} had been 
-      supplied in the same position as the number. However, no \code{levels} are 
+      pattern, such as \code{standard} \code{order}, where the \code{levels} of one 
+      \code{\link{factor}} are held constant while those of the adjacent \code{\link{factor}} 
+      are cycled through the complete set once. If a number is supplied instead of a name, 
+      the pattern is generated as if a \code{\link{factor}} with that number of \code{levels} 
+      had been supplied in the same position as the number. However, no \code{levels} are 
       stored for this unamed \code{\link{factor}}.}
 \section{Warning}{Avoid using factor names F and T as these might be confused
                   with FALSE and TRUE.}
 \author{Chris Brien}
-\seealso{\code{\link{fac.combine}} in package \pkg{dae}}
+\seealso{\code{\link{fac.genfactors}} , \code{\link{fac.combine}} in package \pkg{dae}}
 \examples{
 ## generate a 2^3 factorial experiment with levels - and +, and 
 ## in Yates order

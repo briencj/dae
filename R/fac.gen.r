@@ -43,8 +43,7 @@
   return(list(factors = fnames,reps = freps))
 }
 
-"fac.gen" <- 
-function(generate, each=1, times=1, order="standard")
+"fac.gen" <- function(generate, each=1, times=1, order="standard")
 {
 #generate is a list of factors and numbers that specify the pattern in which 
 #the levels of the factors are to be generated.
@@ -52,7 +51,7 @@ function(generate, each=1, times=1, order="standard")
 #that contains either a single numeric value that is the number of levels, a 
 #numeric vector that contains the levels of the factor or a character vector 
 #that contains the labels of the factor.
-  if(!is.list(generate))
+  if (!is.list(generate))
     stop("generate must be a list")
   facs.reps <- factor.list(generate, order)
   fnames <- facs.reps$factors
@@ -103,4 +102,17 @@ function(generate, each=1, times=1, order="standard")
   names(genframe) <- names(fnames) 
  	return(genframe)
 }
+
+fac.genfactors <- function(factors, ...)
+{
+  factors <- as.list(factors)
+  if(!is.list(factors))
+    stop("factors  must be a list, or coercible to a list")
+  
+  levs <- lapply(as.list(factors), levels)
+  names(levs) <- names(factors)
+  combs <- fac.gen(levs, ...)
+  return(combs)
+}
+
 

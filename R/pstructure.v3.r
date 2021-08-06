@@ -582,7 +582,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
     marg.mat <- diag(1, nrow = nterms, ncol = nterms)
     rownames(marg.mat) <- terms
     colnames(marg.mat) <- terms
-    
+ 
     #form projection matrices of the structure
     if (length(terms) == 1)
     {
@@ -634,12 +634,12 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
                                                    eff.crit),
                                                  stringsAsFactors = FALSE))
                   } else # i is a marginal term to j - difference
-                  # if (!is.allzero(Q[[terms[j]]] - Q[[terms[i]]])) #terms not equal, so i is a marginal term to j - difference                  {
+                    # if (!is.allzero(Q[[terms[j]]] - Q[[terms[i]]])) #terms not equal, so i is a marginal term to j - difference                  {
                   {
                     marg.mat[terms[j], terms[i]] <- 1
                     Q[[terms[i]]] <- projector(Q[[terms[i]]] - Q[[terms[j]]])
                   }
-                }
+                } 
               }
             }
           }
@@ -662,34 +662,43 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
                 Qji <- Q[[terms[j]]] %*% Q.work
                 if (!is.allzero(Qji)) # if not orthogonal then have to orthogonalize
                 {
-                  if (is.allzero(Qji - Q.work)) #i is aliased with j
+                  if (is.allzero(Qji-Q[[terms[j]]])) #test marginality
                   {
-                    aliasstatus <- "full"
-                    marg.mat[terms[i], terms[i]] <- 0
-                    warning(paste(terms[[i]],"is aliased with previous terms in the formula",
-                                  "and has been removed", sep=" "))
-                    eff.crit[criteria] <- 1 #0
-                    aliasing <- rbind(aliasing, 
-                                      data.frame(c(list(Source = terms[[i]], 
-                                                        df = degfree(Q.work), #0, 
-                                                        Alias = terms[[j]]), 
-                                                   eff.crit), 
-                                                 stringsAsFactors = FALSE))
-                  } else #partial aliasing of j with i - orthogonalize
+                    # i is a marginal term to j - difference
+                    marg.mat[terms[j], terms[i]] <- 1
+                    Q.work <- projector(Q.work - Q[[terms[j]]])
+                    Q[[terms[i]]] <- Q.work
+                  } else #aliased?
                   {
-                    aliasstatus <- "partial"
-                    decompP <- proj2.combine(Q.work, Q[[terms[j]]])
-                    keff.crit <- efficiency.criteria(decompP$efficiencies)
-                    aliasing <- rbind(aliasing, 
-                                      data.frame(c(list(Source = terms[[i]], 
-                                                        df = degfree(decompP$Qconf),
-                                                        Alias = terms[[j]]), 
-                                                   keff.crit[criteria]), 
-                                                 stringsAsFactors = FALSE))
-                    #                    R <- projector(diag(1, nrow = n, ncol = n) - Q[[terms[j]]])
-                    R <- projector(diag(1, nrow = n, ncol = n) - Q.jcum)
-                    decomp <- proj2.combine(R, Q.work)
-                    Q.work <- decomp$Qconf
+                    if (is.allzero(Qji - Q.work)) #i is aliased with j
+                    {
+                      aliasstatus <- "full"
+                      marg.mat[terms[i], terms[i]] <- 0
+                      warning(paste(terms[[i]],"is aliased with previous terms in the formula",
+                                    "and has been removed", sep=" "))
+                      eff.crit[criteria] <- 1 #0
+                      aliasing <- rbind(aliasing, 
+                                        data.frame(c(list(Source = terms[[i]], 
+                                                          df = degfree(Q.work), #0, 
+                                                          Alias = terms[[j]]), 
+                                                     eff.crit), 
+                                                   stringsAsFactors = FALSE))
+                    } else #partial aliasing of j with i - orthogonalize
+                    {
+                      aliasstatus <- "partial"
+                      decompP <- proj2.combine(Q.work, Q[[terms[j]]])
+                      keff.crit <- efficiency.criteria(decompP$efficiencies)
+                      aliasing <- rbind(aliasing, 
+                                        data.frame(c(list(Source = terms[[i]], 
+                                                          df = degfree(decompP$Qconf),
+                                                          Alias = terms[[j]]), 
+                                                     keff.crit[criteria]), 
+                                                   stringsAsFactors = FALSE))
+                      #                    R <- projector(diag(1, nrow = n, ncol = n) - Q[[terms[j]]])
+                      R <- projector(diag(1, nrow = n, ncol = n) - Q.jcum)
+                      decomp <- proj2.combine(R, Q.work)
+                      Q.work <- decomp$Qconf
+                    }
                   }
                 }
               }
