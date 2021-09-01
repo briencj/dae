@@ -20,7 +20,7 @@
 }
 \value{A \code{\link{data.frame}} containing the new \code{\link{factor}s}.}
 \author{Chris Brien}
-\seealso{\code{\link{fac.divide}}, \code{\link{fac.combine}} in package \pkg{dae} and 
+\seealso{\code{\link{fac.divide}}, \code{\link{fac.uncombine}}, \code{\link{fac.combine}} in package \pkg{dae} and 
           \code{\link{strsplit}}.}
 \examples{
 ## Forma combined factor to split

@@ -129,6 +129,46 @@
   return(new.fac)
 }
 
+#Function the takes a factor whose levels include a separator that can be used to cleave 
+#each level into the levels for several new factors.
+fac.uncombine <- function(factor, new.factors, sep = ",", ...)
+{
+  if (mode(new.factors) != "list") stop("Must supply a list for new.factors")
+  if (!inherits(factor, what = "character"))
+  {
+    if (inherits(factor, what = "factor"))
+      factor <- as.character(factor)
+    else
+      stop("factor is not a factor or character")
+  }
+  fac.list <- strsplit(factor, split = sep)
+  #name the values in each elements of fac.list 
+  fac.list <- lapply(fac.list, 
+                     function(obs, new.factors)
+                     {
+                       names(obs) <- names(new.factors)
+                       if (length(obs) != length(new.factors))
+                         stop("Not all levels of factor have separated into ",length(new.factors)," levels")
+                       return(obs)
+                     }, new.factors = new.factors)
+  #form separate columns for the values in each element of fac.list
+  new.facs <- lapply(names(new.factors), 
+                     function(elem)
+                     {
+                       unlist(lapply(fac.list, function(obs, elem) obs[elem], 
+                                     elem = elem))
+                     })
+  names(new.facs) <- names(new.factors)
+  df <- as.data.frame(new.facs, stringsAsFactors = FALSE)
+  #Make factors
+  for ( fac in names(new.factors))
+  {
+    if (!is.null(new.factors[[fac]]))
+      df[fac] <- factor(df[[fac]], levels = new.factors[[fac]])
+    df[fac] <- factor(df[[fac]], ...) #make sure no unused levels
+  }
+  return(df)
+}
 
 "fac.split" <- function(combined.factor, factor.names, sep = ",", ...)
 {

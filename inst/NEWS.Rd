@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2-11 (2021-09-01)}{
+  \itemize{
+    \item{Add the function fac.uncombine.}
+}}
 \section{Changes in dae version 3.2-10 (2021-08-6)}{
   \itemize{
     \item{Add the functions fac.split and fac.genfactors.}

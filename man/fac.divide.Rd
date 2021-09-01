@@ -28,7 +28,7 @@
   \code{factor.names} and whose values have been computed from the combined 
   \code{\link{factor}}. All the \code{\link{factor}s} will be of the same length.}
 \author{Chris Brien}
-\seealso{\code{\link{fac.split}}, \code{\link{fac.combine}} in package \pkg{dae}.}
+\seealso{\code{\link{fac.split}}, \code{\link{fac.uncombine}}, \code{\link{fac.combine}} in package \pkg{dae}.}
 \note{A single \code{\link{factor}} name may be supplied in the \code{\link{list}} in which case 
       a \code{\link{data.frame}} is produced that contains the single \code{\link{factor}} 
       computed from the numeric \code{vector}. This may be useful when calling 

@@ -86,6 +86,9 @@
 \code{\link{fac.split}}
   \tab Splits a factor whose levels consist of several delimited \cr
   \tab strings into several factors.   \cr
+\code{\link{fac.uncombine}}
+  \tab Cleaves a single factor, each of whose levels has delimited \cr 
+  \tab strings, into several factors using the separated strings.  \cr
 \code{\link{fac.uselogical}}
   \tab Forms a two-level factor from a logical object \cr
 \code{\link{mpone}}
