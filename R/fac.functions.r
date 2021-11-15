@@ -291,14 +291,14 @@ fac.uncombine <- function(factor, new.factors, sep = ",", ...)
   levs <- na.omit(levels(nesting.fac))
   levs <- levs[levs != outlabel]
   no.lev.between <- length(levs)
-
+  
   if (is.null(nested.fac))
   {
     no.lev.within <- max(table(nesting.fac))
     reps <- table(nesting.fac)[levs]
     names(reps) <- levs
     nest.facs <- lapply(levs, 
-                        function(lev, nesting.fac, reps, nested.levs, nested.labs, outlevel, outlabel) 
+                        function(lev, nesting.fac, reps, nested.levs, nested.labs, outlevel, outlabel, ...) 
                         {
                           nest.fac <- rep(outlevel, n)
                           nest.fac[is.na(nesting.fac)] <-NA
@@ -315,13 +315,16 @@ fac.uncombine <- function(factor, new.factors, sep = ",", ...)
                             klevs[-1][1:reps[lev]]
                           nest.fac <- factor(nest.fac, levels=klevs, labels=klabs, ...)
                           return(nest.fac)
-                        }, nesting.fac = nesting.fac, reps = reps, nested.levs=nested.levs, nested.labs=nested.labs, 
-                           outlevel = outlevel, outlabel = outlabel)
+                        }, nesting.fac = nesting.fac, reps = reps, 
+                        nested.levs=nested.levs, nested.labs=nested.labs, 
+                        outlevel = outlevel, outlabel = outlabel)
   } else
   {
+    nested.levs <- levels(nested.fac)
     nested.fac <- as.character(nested.fac)
     nest.facs <- lapply(levs, 
-                        function(lev, nesting.fac, nested.fac, nested.labs, outlevel, outlabel) 
+                        function(lev, nesting.fac, nested.fac, nested.levs, nested.labs, 
+                                 outlevel, outlabel) 
                         {
                           nest.fac <- rep(outlevel, n)
                           nest.fac[is.na(nesting.fac) | is.na(nested.fac)] <-NA
@@ -329,6 +332,8 @@ fac.uncombine <- function(factor, new.factors, sep = ",", ...)
                           nest.fac[!is.na(nesting.fac)][nesting.fac[!is.na(nesting.fac)] == lev] <- 
                             nested.fac[!is.na(nesting.fac)][nesting.fac[!is.na(nesting.fac)] == lev]
                           klevs <- nested.fac[!is.na(nesting.fac)][nesting.fac[!is.na(nesting.fac)] == lev]
+                          klevs <- unique(klevs)
+                          klevs <- nested.levs[nested.levs %in% klevs ]
                           klevs <- c(outlevel,klevs)
                           if (length(nested.labs) == 1 && is.na(nested.labs)) 
                             klabs <- as.character(c(outlabel, klevs[-1]))
@@ -336,11 +341,11 @@ fac.uncombine <- function(factor, new.factors, sep = ",", ...)
                             klabs <- as.character(c(outlabel, nested.labs))
                           nest.fac <- factor(nest.fac, levels=klevs, labels=klabs, ...)
                           return(nest.fac)
-                        }, nesting.fac = nesting.fac, nested.fac = nested.fac, nested.labs=nested.labs, 
-                           outlevel = outlevel, outlabel = outlabel)
+                        }, nesting.fac = nesting.fac, nested.fac = nested.fac, 
+                        nested.levs=nested.levs, nested.labs=nested.labs, 
+                        outlevel = outlevel, outlabel = outlabel)
   }
   nest.facs <- data.frame(nest.facs)
   names(nest.facs) <- paste0(fac.prefix, levs)
   return(nest.facs)
 }
-

@@ -1,5 +1,13 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2-13 (2021-11-15)}{
+  \itemize{
+    \item{Rebuild for R version 4.1.2.}
+}}
+\section{Changes in dae version 3.2-12 (2021-11-05)}{
+  \itemize{
+    \item{Fix bug in the function fac.multinested that resulted in the order of the levels for each new nested factor, when each has the same levels, depending on the order that they occurred within the level of the \code{nesting.fac}.}
+}}
 \section{Changes in dae version 3.2-11 (2021-09-01)}{
   \itemize{
     \item{Add the function fac.uncombine.}

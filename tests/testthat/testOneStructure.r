@@ -68,6 +68,11 @@ test_that("pstucture_fac.multinested", {
   rand.lay <- cbind(rand.lay, 
                     with(rand.lay, fac.multinested(nesting.fac = Treatment, nested.fac = Line, 
                                                    fac.prefix = "Line")))
+  #Test same levels order for all nested factors
+  testthat::expect_true(all(unlist(lapply(rand.lay[c("LineControl","LineDr","LineNa","LineLN")], 
+                                          function(fac, levs) all(levels(fac) == c("rest", levs)),
+                                          levs = levels(rand.lay$Line)))))
+
   #'### Factors that remove contrast involving O. aust
   rand.lay <- within(rand.lay,
                      {
