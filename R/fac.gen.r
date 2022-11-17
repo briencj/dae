@@ -107,7 +107,7 @@ fac.genfactors <- function(factors, ...)
 {
   factors <- as.list(factors)
   if(!is.list(factors))
-    stop("factors  must be a list, or coercible to a list")
+    stop("factors must be a single object that is a list, or coercible to a list")
   
   levs <- lapply(as.list(factors), levels)
   names(levs) <- names(factors)
