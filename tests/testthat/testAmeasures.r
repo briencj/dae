@@ -202,3 +202,54 @@ test_that("SmithSmallVpredicts", {
                               sum(diag(Vp.reduc)) * 2 / (nrow(Vp.reduc) - 1)) < 1.e-10)
 })  
 
+
+cat("#### Test for Ameasures using Cochran&Cox PBIBD2\n")
+test_that("PBIBD2Ameasures", {
+  skip_on_cran()
+  library(dae)
+  
+  #Input systematic design
+  RIBDmultir.sys <- cbind(fac.gen(list(Blocks = 8, Units = 6)),
+                          Treats = factor(c(3,4,5,6,1,2, 4,2,6,3,5,1,
+                                            5,3,2,1,4,2, 6,1,3,2,2,4,
+                                            3,5,1,2,1,4, 1,2,2,4,3,3,
+                                            2,4,1,5,3,6, 2,3,4,1,2,5)))
+  
+  #Randomize the design
+  RIBDmultir.lay <- designRandomize(recipient = RIBDmultir.sys[c("Blocks", "Units")],
+                                    nested.recipients = list(Units = "Blocks"), 
+                                    allocated = RIBDmultir.sys["Treats"], 
+                                    seed = 71571)
+
+  #Check the properties of the desing
+  RIBDmultir.canon <- designAnatomy(list(unit = ~ Blocks/Units, 
+                                         trts = ~ Treats), 
+                                    data = RIBDmultir.lay)
+  summary(RIBDmultir.canon)
+
+  #Get the canonical efficiency factors and the replication vector
+  effs <- efficiencies(RIBDmultir.canon)
+  effs <- effs[[1]]$`Units[Blocks]`$Treats
+  testthat::expect_true(all(abs(effs - c(1.0000000,0.9907854,0.9814815,0.9408367,0.9017113)) < 1e-05))
+  r <- as.vector(table(RIBDmultir.lay$Treats))
+  rmean <- mean(r)
+  testthat::expect_equal(rmean, 8)
+  
+  #Calculate A-measures using the canonical efficiency factors
+  e_a <- harmonic.mean(effs)
+  testthat::expect_true(abs(e_a - 0.9615284) < 1e-05)
+  
+  #Get predictions variance matrix
+  Vpred <- mat.Vpredicts(target = ~ -1 + Treats,
+                         fixed = ~ 1 + Blocks, 
+                         design = RIBDmultir.lay)
+  
+  #Compute A-measures from predictions variance matrix
+  apv <- designAmeasures(Vpred)
+  g_a <- 2/apv/rmean
+  f_a <- g_a * (rmean/harmonic.mean((r)))
+  testthat::expect_true(abs(f_a - 0.9528458) < 1e-05)
+    e_a <- 2/designAmeasures(Vpred, replications = r)/rmean
+  testthat::expect_true(abs(e_a - 0.9615284) < 1e-05)
+  
+})

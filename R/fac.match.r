@@ -1,7 +1,7 @@
 fac.match <- function(x, table, col.names, nomatch = NA_integer_, multiples.allow = FALSE)
 #Function to find, for each combination of col.names in x, the row that has the same combination in table
 #It can be viewed as a generalization of the match function from a single vector to multiple vectors
-{ if (class(col.names) != "character") 
+{ if (!inherits(col.names, what = "character")) 
     stop("Must supply a character vector of column names")
   ncols <- length(col.names)
   if (any(!(col.names %in% names(x))))

@@ -1,5 +1,10 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2-14 (2023-01-13)}{
+  \itemize{
+    \item{Update \code{DesignNotes} vignette.}
+    \item{Add a \code{replications} argument to designAmeasures and implement the calculation of weighted average pairwise variances using the \code{replications}.}
+}}
 \section{Changes in dae version 3.2-13 (2021-11-15)}{
   \itemize{
     \item{Rebuild for R version 4.1.2.}

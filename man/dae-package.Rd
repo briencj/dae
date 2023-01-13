@@ -57,7 +57,7 @@
 \code{\link{fac.combine}}
   \tab Combines several factors into one \cr
 \code{\link{fac.divide}}
-  \tab Divides a factor into several individual factors\cr
+  \tab Divides a factor into several separate factors\cr
 \code{\link{fac.gen}}
   \tab Generate all combinations of several factors and, \cr
   \tab optionally, replicate them\cr
@@ -111,7 +111,8 @@
 \code{\link{designBlocksGGPlot}}
   \tab Adds block boundaries to a plot produced by \code{\link{designGGPlot}}. \cr
 \code{\link{designGGPlot}}
-  \tab Plots labels on a two-way grid of coloured cells using \code{ggplot2}. \cr
+  \tab Plots labels on a two-way grid of coloured cells using \code{ggplot2} \cr
+  \tab to represent an experimental design. \cr
 \code{\link{designLatinSqrSys}}
   \tab Generate a systematic plan for a Latin Square design.\cr
 \code{\link{designPlot}}
@@ -145,7 +146,7 @@
 \code{\link{summary.pcanon}}
   \tab Summarizes the anatomy of a design, being the \cr
   \tab decomposition of the sample space based on its \cr
-  \tab canonical analysis \cr
+  \tab canonical analysis. \cr
 \cr
 (iv) ANOVA functions \cr\cr
 

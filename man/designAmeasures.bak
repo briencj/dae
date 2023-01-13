@@ -57,7 +57,7 @@
             
             Williams, E. R., and Piepho, H.-P. (2015). Optimality and contrasts in 
             block designs with unequal treatment replication. 
-            \emph{Australian & New Zealand Journal of Statistics}, \bold{57}, 203-209.}
+            \emph{Australian \& New Zealand Journal of Statistics}, \bold{57}, 203-209.}
 \examples{
 ## Reduced example from Smith et al. (2015) 
 ## Generate two-phase design

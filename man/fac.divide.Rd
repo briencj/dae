@@ -1,9 +1,9 @@
 \name{fac.divide}
 \alias{fac.divide}
-\title{Divides a factor into several individual factors}
-\description{Takes a \code{\link{factor}} and divides it into several individual 
+\title{Divides a factor into several separate factors}
+\description{Takes a \code{\link{factor}} and divides it into several separate 
  \code{\link{factor}s} as if the \code{levels} in the original \code{combined.factor} are numbered from one to its number of levels and correspond 
- to the numbering of the \code{levels} combinations of the individual 
+ to the numbering of the \code{levels} combinations of the new 
  \code{\link{factor}s} when these are arranged in standard or Yates order.}
 \usage{fac.divide(combined.factor, factor.names, order="standard")}
 \arguments{

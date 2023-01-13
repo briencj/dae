@@ -1,6 +1,6 @@
 \name{designGGPlot}
 \alias{designGGPlot}
-\title{Plots labels on two-way grids of coloured cells using \code{ggplot2}}
+\title{Plots labels on two-way grids of coloured cells using \code{ggplot2} to represent an experimental design}
 \description{Plots the \code{labels} in a grid of cells specified by  
        \code{row.factors} and \code{column.factors}. The cells can be coloured by the values of 
        the column specified by \code{column.name} and can be divided into facets by 

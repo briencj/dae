@@ -37,8 +37,7 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
     grid.y <- row.factors
     facet.y <- NULL
     
-  }
-  else 
+  } else 
   {
     grid.y <- row.factors[length(row.factors)]
     facet.y <- row.factors[-length(row.factors)]
@@ -68,7 +67,7 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
   if (missing(title)) title <- paste("Plot of",labels,sep = " ")
 
   #Set up the plot
-  plt <- ggplot(data = design, aes_string(x = grid.x, y = grid.y)) +
+  plt <- ggplot(data = design, aes(x = !!sym(grid.x), y = !!sym(grid.y))) +
     labs(x = xlab, y = ylab, title = title) + 
     theme(panel.background = element_blank(),
           legend.position = "none",
@@ -87,12 +86,12 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
   if (is.null((cellfillcolour.column)))
     plt <- plt +  geom_tile(aes_string(fill = labels), 
                             colour = celllinecolour, alpha = cellalpha, 
-                            linetype = celllinetype, size = celllinesize, 
+                            linetype = celllinetype, linewidth = celllinesize, 
                             height = cellheight, width = cellwidth)
   else
     plt <- plt +  geom_tile(aes_string(fill = cellfillcolour.column), 
                             colour = celllinecolour, alpha = cellalpha, 
-                            linetype = celllinetype, size = celllinesize, 
+                            linetype = celllinetype, linewidth = celllinesize, 
                             height = cellheight, width = cellwidth)
   
   #Add labels, if specified
@@ -138,8 +137,7 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
 #                                    position = x.axis.position)
     else
       plt <- plt + scale_x_discrete(expand = c(0,0), position = x.axis.position)
-  }
-  else
+  } else
   {
     columns <- sort(unique(design[[grid.x]]))
     ncolumns <- length(columns)

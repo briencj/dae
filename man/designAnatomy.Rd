@@ -9,8 +9,9 @@
        projectors in a set to those earlier in the set of projectors with 
        which they are partially aliased. The results can be summarized in the 
        form of a decomposition table that shows the confounding between sources 
-       from different sets. For examples of its use also see the vignette 
-       \cite{daeDesignNotes.pdf}.
+       from different sets. For examples of the function's use also see the vignette
+       accessed via \code{vignette("DesignNotes", package="dae")} and for a 
+       discussion of its use see Brien, Sermarini and Demetro (2023).
 }
 \usage{
 designAnatomy(formulae, data, keep.order = TRUE, grandMean = FALSE, 
@@ -139,11 +140,17 @@ designAnatomy(formulae, data, keep.order = TRUE, grandMean = FALSE,
 
             Brien, C. J. (2019) Multiphase experiments with at least one later 
             laboratory phase . II. Northogonal designs. 
-            \emph{Australian & New Zealand Journal of Statistics}, accepted for publication.
+            \emph{Australian & New Zealand Journal of Statistics}, \bold{61}, 
+            234-268.
 
             Brien, C. J. and R. A. Bailey (2009). Decomposition tables for 
             multitiered experiments. I. A chain of randomizations.  
-            \emph{The Annals of Statistics}, \bold{36}, 4184 - 4213.
+            \emph{The Annals of Statistics}, \bold{36}, 4184-4213.
+
+           Brien, C. J., Sermarini, R. A., & Demetrio, C. G. B. (2023). Exposing the 
+           confounding in experimental designs to understand and evaluate them, and 
+           formulating linear mixed models for analyzing the data from a designed 
+           experiment. \emph{Biometrical Journal}, accepted for publication. 
 
            James, A. T. and Wilkinson, G. N. (1971) Factorization of the residual 
            operator and canonical decomposition of nonorthogonal factors in the 

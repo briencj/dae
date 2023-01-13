@@ -48,7 +48,7 @@ The scores are ordered so that the factors Occasion, Judges, Interval,
 Sittings and Position are in standard order; the remaining factors are
 in randomized order.
 
-See also the vignette \cite{daeDesignNotes.pdf}.
+See also the vignette accessed via \code{vignette("DesignNotes", package="dae")}.
 }
 \usage{data(Sensory3Phase.dat)
 data(Sensory3PhaseShort.dat)}

@@ -112,7 +112,8 @@ designTwophaseAnatomies(formulae, data, which.designs = "all",
 
             Brien, C. J. (2019) Multiphase experiments with at least one later 
             laboratory phase . II. Northogonal designs. 
-            \emph{Australian & New Zealand Journal of Statistics}, accepted for publication.
+            \emph{Australian & New Zealand Journal of Statistics}\bold{61}, 
+            234-268.
 }
 \author{Chris Brien}
 \seealso{\code{\link{designAnatomy}}, 

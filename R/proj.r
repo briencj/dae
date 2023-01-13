@@ -188,7 +188,7 @@ decomp.relate <- function(decomp1, decomp2)
             Qres <- (Qres + t(Qres))/2  #force symmetry because know that it must be
           }
           #if have not got a projector, then compute the residual operator directly
-          if (class(validProjector(Qres)) == "character")
+          if (inherits(validProjector(Qres), what = "character"))
             Qres <- Q1 - Q1 %*% ginv(Q2 %*% Q1 %*% Q2) %*% Q1
         } else #compute projection operators for partially confounded case by inversion
           Qres <- Q1 - Q1 %*% ginv(Q2 %*% Q1 %*% Q2) %*% Q1

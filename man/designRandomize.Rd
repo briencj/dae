@@ -26,7 +26,9 @@
              that is consistent with their nesting as specified by 
              \code{nested.recipients}.
 
-             For examples of its use also see the vignette \cite{daeDesignNotes.pdf}.
+             For examples of its use also see the vignette accessed via 
+             \code{vignette("DesignNotes", package="dae")} and for a discussion of 
+             its use see Brien, Sermarini and Demetro (2023).
 }
 \usage{
 designRandomize(allocated = NULL, recipient, nested.recipients = NULL, 

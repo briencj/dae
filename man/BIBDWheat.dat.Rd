@@ -5,7 +5,7 @@
 \description{
 The data set comes from Joshi (1987) and is the data from an experiment to investigate 
 six varieties of wheat that employs a balanced incomplete block design (BIBD) with ten blocks, 
-each consisting of three plots. For more details see the vignette \cite{daeDesignNotes.pdf}.
+each consisting of three plots. For more details see the vignette accessed via \code{vignette("DesignNotes", package="dae")}.
 }
 \usage{data(BIBDWheat.dat)}
 \format{A data.frame containing 30 observations of 4 variables.}

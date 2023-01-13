@@ -2,7 +2,7 @@
 #a function that returns, in a vector, the elements of x specified by the subscripts.
 #x is an array
 #subscripts is a two dimensional object interpreted as elements by dimensions
-{ if (!(class(subscripts) == "matrix" | class(subscripts) == "data.frame"))
+{ if (!(inherits(subscripts,  what = "matrix") || inherits(subscripts, what = "data.frame")))
     stop("subscripts must be in a matrix or data.frame")
   n <- nrow(subscripts)
   nsub <- ncol(subscripts)
@@ -601,7 +601,7 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
 }
 
 ### Function to calculate 
-"designAmeasures" <- function(Vpred, groupsizes = NULL, groups = NULL)
+"designAmeasures" <- function(Vpred, replications = NULL, groupsizes = NULL, groups = NULL)
 { 
   #determine any groupings of the variances
   n <- nrow(Vpred)
@@ -644,13 +644,28 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
   varDiff <- matrix(rep(diag(Vpred), each = n), nrow = n) + 
              matrix(rep(diag(Vpred), times = n), nrow = n) - 2 * Vpred
   
+  #If there are weights,calculate them
+  if (!is.null(replications))
+  {
+    rmean <- mean(replications)
+    replications <- matrix(replications, ncol = 1)
+    wts <- replications %*% t(replications)
+    wts <- wts/rmean/rmean
+  }
+    
   # Calculate all within and between group A-measure values
   A <- matrix(0, nrow = ngrp, ncol = ngrp)
   for (i in 1:ngrp)
   {
     for(j in i:ngrp)
     {
-      A[i, j] <- sum(varDiff[groups[[i]], groups[[j]]])
+      #Calculate sum of variances of differences
+      if (is.null(replications))
+        A[i, j] <- sum(varDiff[groups[[i]], groups[[j]]])
+      else
+        A[i, j] <- sum(wts[groups[[i]], groups[[j]]] * varDiff[groups[[i]], groups[[j]]])
+      
+      #Calculate the mean from the sum
       if (i==j)
         A[i, i] <- A[i, i]/(groupsizes[i]*(groupsizes[i]-1))
       else
