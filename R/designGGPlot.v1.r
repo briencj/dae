@@ -67,7 +67,7 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
   if (missing(title)) title <- paste("Plot of",labels,sep = " ")
 
   #Set up the plot
-  plt <- ggplot(data = design, aes(x = !!sym(grid.x), y = !!sym(grid.y))) +
+  plt <- ggplot(data = design, aes(x = .data[[grid.x]], y = .data[[grid.y]])) +
     labs(x = xlab, y = ylab, title = title) + 
     theme(panel.background = element_blank(),
           legend.position = "none",
@@ -84,12 +84,12 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
     stop("At least one of labels and cellfillcolour.column must be set")
   #Create tiles
   if (is.null((cellfillcolour.column)))
-    plt <- plt +  geom_tile(aes_string(fill = labels), 
+    plt <- plt +  geom_tile(aes(fill = .data[[!!labels]]), 
                             colour = celllinecolour, alpha = cellalpha, 
                             linetype = celllinetype, linewidth = celllinesize, 
                             height = cellheight, width = cellwidth)
   else
-    plt <- plt +  geom_tile(aes_string(fill = cellfillcolour.column), 
+    plt <- plt +  geom_tile(aes(fill = .data[[!!cellfillcolour.column]]), 
                             colour = celllinecolour, alpha = cellalpha, 
                             linetype = celllinetype, linewidth = celllinesize, 
                             height = cellheight, width = cellwidth)
@@ -98,10 +98,10 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
   if (!is.null(labels))
   {
     if (!is.null(label.size))
-      plt <- plt + geom_text(aes_string(label = labels), size = label.size, 
+      plt <- plt + geom_text(aes(label = .data[[!!labels]]), size = label.size, 
                              fontface = "bold", ...)
     else
-      plt <- plt + geom_text(aes_string(label = labels), fontface = "bold", ...)
+      plt <- plt + geom_text(aes(label = .data[[!!labels]]), fontface = "bold", ...)
   }
   
   #Set up y scale
@@ -205,8 +205,9 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
   }
   lines.dat <- data.frame(x = xi + xoff + c(1, 1, ncimod, ncimod, 1),
                           y = yi + yoff + c(nrimod, 1, 1, nrimod, nrimod))
-  plt <- plt + geom_path(data = lines.dat, mapping = aes_string(x="x",y="y"), 
-                         colour = blocklinecolour, size = blocklinesize)
+  plt <- plt + geom_path(data = lines.dat, 
+                         mapping = aes(x= .data[["x"]], y = .data[["y"]]), 
+                         colour = blocklinecolour, linewidth = blocklinesize)
   invisible(plt)
 }
 
@@ -258,8 +259,8 @@ getLinePosns <- function(axis.posns, endspace = 0.5)
       # if (cols[length(cols)] != ncolumns)
       #   cols <- c(cols, ncolumns)
       # ggplot.obj <- ggplot.obj +  
-      #   geom_hline(yintercept = rows+0.5, colour = blocklinecolour, size = blocklinesize) +
-      #   geom_vline(xintercept = cols+0.5, colour = blocklinecolour, size = blocklinesize)
+      #   geom_hline(yintercept = rows+0.5, colour = blocklinecolour, linewidth = blocklinesize) +
+      #   geom_vline(xintercept = cols+0.5, colour = blocklinecolour, linewidth = blocklinesize)
     }
     else #blockdefinition interpreted as a sequence of block specification
     { 

@@ -9,7 +9,8 @@
   if (missing(ylab)) ylab <- grid.y
   if (missing(title)) title <- paste("Plot of",labels,sep = " ")
   
-  plt <- ggplot(data = data, aes_string(x = grid.x, y = grid.y, label = labels)) +
+  plt <- ggplot(data = data, aes(x = .data[[!!grid.x]], y = .data[[!!grid.y]], 
+                                 label = .data[[!!labels]])) +
     labs(x = xlab, y = ylab, title = title)
 
   if (reverse.x)
@@ -33,9 +34,9 @@
       plt <- plt + theme(legend.position = "none")
   
   if (is.null((colour.column)))
-    plt <- plt + geom_text(aes_string(), ...)
+    plt <- plt + geom_text(aes(), ...)
   else
-    plt <- plt + geom_text(aes_string(colour = colour.column), ...)
+    plt <- plt + geom_text(aes(colour = .data[[!!colour.column]]), ...)
   
   if (!(is.null(colour.values)))
     plt <- plt + scale_colour_manual(values = colour.values)

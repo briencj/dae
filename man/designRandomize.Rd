@@ -105,7 +105,12 @@ designRandomize(allocated = NULL, recipient, nested.recipients = NULL,
          \code{recipient} \code{\link{factor}s}. That is, a permutation of the 
          \code{recipient} \code{\link{factor}s} is obtained that respects the 
          nesting for the design, but does not permute any of the factors in 
-         the \code{except} vector. This permutation is 
+         the \code{except} vector. A permutation is generated for all 
+         combinations of the \code{recipient} \code{\link{factor}s}, except 
+         that a nested \code{\link{factor}}, specifed using the 
+         \code{nested.recipients} argument, cannot occur in a combination 
+         without its nesting \code{\link{factor}(s)}. These permutations are 
+         combined into a single, units permutation that is 
          applied to the \code{recipient} \code{\link{factor}s}. Then the 
          \code{\link{data.frame}} containing the permuted \code{recipient} 
          \code{\link{factor}s} and that containng the unpermuted \code{allocated} 
@@ -116,7 +121,7 @@ designRandomize(allocated = NULL, recipient, nested.recipients = NULL,
          \code{recipient}, the same order as for the supplied \code{\link{data.frame}}. 
 
          The \code{.Units} and \code{.Permutation} \code{vectors} enable one to 
-         swap between this permutation and the randomized layout. 
+         swap between this combined, units permutation and the randomized layout. 
          The \emph{i}th value in \code{.Permutation} gives the unit to which 
          unit \emph{i} was assigned in the randomization. 
 }

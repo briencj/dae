@@ -40,7 +40,10 @@
     return(string)
   }
   int.plot <- ggplot(data=data.means, 
-                     aes_string(x = name.x, y = name.r, linetype=name.g, colour=name.g, group=name.g), ...) +
+                     aes(x = .data[[!!name.x]], y = .data[[!!name.r]], 
+                         linetype = .data[[!!name.g]], 
+                         colour = .data[[!!name.g]], 
+                         group = .data[[!!name.g]]), ...) +
                      geom_line() + geom_point() + 
                      labs(x = xlab, y = ylab, title = title, group=key.title) +
                      facet_grid(formula(paste("~ ", name.t, sep="")), 
