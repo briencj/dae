@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2.16 (2023-03-26)}{
+  \itemize{
+    \item{Revise the DesignNotes vignette.}
+}}
 \section{Changes in dae version 3.2.15 (2023-03-10)}{
   \itemize{
     \item{Update ggplot2 functions to use tidy evaluation.}
