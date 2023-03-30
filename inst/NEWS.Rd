@@ -1,5 +1,10 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2.17 (2023-03-30)}{
+  \itemize{
+    \item{Correct the DesignNotes vignette.}
+    \item{Add a check for a term that is equivalent to the grand mean term.}
+}}
 \section{Changes in dae version 3.2.16 (2023-03-26)}{
   \itemize{
     \item{Revise the DesignNotes vignette.}

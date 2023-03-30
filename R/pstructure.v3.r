@@ -562,6 +562,8 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
     for (k in 1:nterms)
     { 
       Q[[terms[k]]] <- model.matrix(as.formula(paste("~ ",terms[k])), data=fac.modl)
+      if (ncol(Q[[terms[k]]]) && all(Q[[terms[k]]][,1] == Q[[terms[k]]][,2]))
+        stop("The term ", terms[[k]]," is the same as the grand mean term and needs to be removed")
       Q[[terms[k]]] <- Q[[terms[k]]] %*% ginv(t(Q[[terms[k]]]) %*% Q[[terms[k]]]) %*% t(Q[[terms[k]]])
       Q[[terms[k]]] <- projector(Q[[terms[k]]] - Q.G)
     }
