@@ -339,8 +339,8 @@ Others:\cr\cr
 }
 }
 \author{
-\packageAuthor{dae}
+\author{Chris Brien}
 
-Maintainer: \packageMaintainer{dae}
+Maintainer: \author{Chris Brien}
 }
 \keyword{ package }

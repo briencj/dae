@@ -16,10 +16,12 @@ set.daeTolerance <- function(element.tol=NULL, eigen.tol=NULL)
   
   #Set value for element.tol, if one supplied
   if (!is.null(element.tol))
-  { if (!is.numeric(element.tol))
+  { 
+    if (!is.numeric(element.tol))
       stop("non-numeric argument")
     if (length(element.tol) != 1)
-    { element.tol <- element.tol[1]
+    { 
+      element.tol <- element.tol[1]
       warning("More than one element.tol value supplied - only first used")
     } 
     tol[1] <- element.tol
@@ -27,10 +29,12 @@ set.daeTolerance <- function(element.tol=NULL, eigen.tol=NULL)
     
   #Set value for eigen.tol, if one supplied
   if (!is.null(eigen.tol))
-  { if (!is.numeric(eigen.tol))
+  { 
+    if (!is.numeric(eigen.tol))
       stop("non-numeric argument")
     if (length(eigen.tol) != 1)
-    { eigen.tol <- eigen.tol[1]
+    { 
+      eigen.tol <- eigen.tol[1]
       warning("More than one eigen.tol value supplied - only first used")
     } 
     tol[2] <- eigen.tol
@@ -42,7 +46,8 @@ set.daeTolerance <- function(element.tol=NULL, eigen.tol=NULL)
 }
 
 get.daeTolerance <- function()
-{ tol <- get("daeTolerance", envir=daeEnv)
+{ 
+  tol <- get("daeTolerance", envir=daeEnv)
   return(tol)
 }
 

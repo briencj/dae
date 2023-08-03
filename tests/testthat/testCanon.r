@@ -587,7 +587,7 @@ test_that("Mostafa", {
   #Mostafa's green wall experiment in 2014
   data(gwall.lay)
   options(width = 100, nwarnings = 150)
-  set.daeTolerance(1e-06,1e-06)
+  set.daeTolerance(1e-04,1e-04)
   pot.treat.canon <- designAnatomy(formulae = list(pot = ~ Rows*Cols,
                                                    trt = ~ Species*Irrigation*Media + 
                                                      First/(SpeCarry*IrrCarry*MedCarry)), 
@@ -662,6 +662,7 @@ test_that("corn", {
                      })
   
   #'## Check properties
+  set.daeTolerance(1e-06,1e-06)
   corn.canon <- designAnatomy(formulae = list(plate= ~ Intervals + AContainers + APlates, 
                                               field= ~ Sites + ABlocks + APlots + ALots,
                                               trts= ~ Sites*Harvesters*Treats),

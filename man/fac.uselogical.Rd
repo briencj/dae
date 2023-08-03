@@ -18,7 +18,7 @@
 }
 \value{A \code{\link{factor}}.}
 \author{Chris Brien}
-\seealso{\code{\link{fac.recode}}, \code{\link{as.numfac}} and \code{\link{mpone}} in package \pkg{dae}, 
+\seealso{\code{\link{fac.recast}}, \code{\link{as.numfac}} and \code{\link{mpone}} in package \pkg{dae}, 
 \code{\link{factor}}, \code{\link{relevel}}.}
 \examples{
 ## set up a factor with labels
