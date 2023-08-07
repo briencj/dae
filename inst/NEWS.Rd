@@ -1,5 +1,10 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2.18 (2023-08-07)}{
+  \itemize{
+    \item{Correct the DesignNotes vignette.}
+    \item{Add \code{facetstrips.switch} argument to designGGPlot and the \code{facetstrips.placement} argument to designGGPlot and designBlocksGGPlot.}
+}}
 \section{Changes in dae version 3.2.17 (2023-03-30)}{
   \itemize{
     \item{Correct the DesignNotes vignette.}

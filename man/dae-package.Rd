@@ -336,11 +336,9 @@ Others:\cr\cr
   \tab multivariate normal distribution\cr
 \code{\link{set.daeTolerance}}
   \tab Sets the value of daeTolerance for the package dae\cr
-}
-}
+}}
 \author{
-\author{Chris Brien}
+\packageAuthor{dae}
 
-Maintainer: \author{Chris Brien}
+Maintainer: \packageMaintainer{dae}
 }
-\keyword{ package }

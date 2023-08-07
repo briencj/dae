@@ -105,6 +105,7 @@ export(Ameasures,
 exportClasses(projector)
 importFrom("graphics", "abline", "identify", "lines", "mtext", "par",
              "plot", "polygon", "text")
+importFrom("ggpubr", "as_ggplot")
 importFrom("methods", "as", "new", "setMethod", "validObject")
 importFrom("plyr", "is.formula")
 importFrom("stats", "aov", "as.formula", "coef", "fitted", "formula",

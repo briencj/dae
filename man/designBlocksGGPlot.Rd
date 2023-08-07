@@ -9,6 +9,7 @@
 designBlocksGGPlot(ggplot.obj, blockdefinition = NULL, blocksequence = FALSE, 
                    originrow= 0, origincolumn = 0, nrows, ncolumns, 
                    blocklinecolour = "blue", blocklinesize = 2, 
+                   facetstrips.placement = "inside", 
                    printPlot = TRUE)}
 \arguments{
  \item{ggplot.obj}{An object produced by \code{ggplot}.}
@@ -37,6 +38,16 @@ designBlocksGGPlot(ggplot.obj, blockdefinition = NULL, blocksequence = FALSE,
   
              See \code{Colour specification} under the \code{\link{par}} function.}
  \item{blocklinesize}{A \code{\link{numeric}} giving the width of the block boundary to be plotted.}
+ \item{facetstrips.placement}{A \code{character} nominating where the strip is to be placed 
+              with respect to axes text and titles, either "inside" both text and titles, 
+              "outside.text" or "outside.title". This argument is important only when axes 
+              and strips are on the same side of the plot. When this occurs, the default is 
+              to place them inside the axis text. \bold{Note:} This argument must be specified 
+              only once in the constructon of the plot and after every other aspect of the plot 
+              has been finalized. In particular, if \code{designBlocksGGPlot} is to called  
+              after \code{designGGPlot} to add block boundaries, then \code{facetstrips.placement} 
+              should be specified in the last call to \code{designBlocksGGPlot}, not in the  
+              call to \code{designGGPlot}.}
  \item{printPlot}{A \code{\link{logical}} indicating whether to print the plot after adding the block 
              boundaries.}
 }

@@ -7,7 +7,9 @@
        specifying multiple row and or column factors.}
 \usage{
 designGGPlot(design, labels = NULL, label.size = NULL, 
-             row.factors = "Rows", column.factors = "Columns", scales.free = "free",
+             row.factors = "Rows", column.factors = "Columns", 
+             scales.free = "free", facetstrips.switch = NULL, 
+             facetstrips.placement = "inside", 
              cellfillcolour.column = NULL, colour.values = NULL, 
              cellalpha = 1, celllinetype = "solid", celllinesize = 0.5, 
              celllinecolour = "black", cellheight = 1, cellwidth = 1,
@@ -42,6 +44,23 @@ designGGPlot(design, labels = NULL, label.size = NULL,
               (the default, \code{free}).  
               The \code{free_x}, \code{free_y} and \code{free} options may not work when 
               the plot grid is indexed using \code{\link{numeric}}s.}
+ \item{facetstrips.switch}{When plots are facetted, the strip text are displayed on the 
+              top and right of the plot by default.  If \code{facetstrips.switch} is "x", 
+              the top strip text will be switched to the bottom. If "y", the right-hand 
+              side labels will be switched to the left. The argument can also be set to 
+              "both". The argument \code{facetstrips.placement} can be 
+              used to change the relationship between the \code{strip text} and the 
+              \code{axis.text} and the \code{axis.title}.}
+ \item{facetstrips.placement}{A \code{character} nominating where the strip is to be placed 
+              with respect to axes text and titles, either "inside" both text and titles, 
+              "outside.text" or "outside.title". This argument is important only when axes 
+              and strips are on the same side of the plot. When this occurs, the default is 
+              to place them inside the axis text. \bold{Note:} This argument must be specified 
+              only once in the constructon of the plot and after every other aspect of the plot 
+              has been finalized. In particular, if \code{\link{designBlocksGGPlot}} is to called  
+              after \code{designGGPlot} to add block boundaries, then \code{facetstrips.placement} 
+              should be specified in the call to \code{\link{designBlocksGGPlot}}, not in the 
+              call to \code{designGGPlot}.}
  \item{reverse.x}{A \code{logical} which, if true, causes the order of values on the 
               x-axis to be reversed, the natural order being to increase from left to right.}
  \item{reverse.y}{A \code{logical} which, if true, causes the order of values on the 
@@ -107,7 +126,8 @@ designGGPlot(design, labels = NULL, label.size = NULL,
 }
 \value{An object of class "\code{ggplot}", which can be plotted using \code{print}.}
 \author{Chris Brien}
-\seealso{\code{\link{fac.combine}} in package \pkg{dae}, \code{\link{designPlot}}.}
+\seealso{\code{\link{designBlocksGGPlot}}, \code{\link{fac.combine}} in package \pkg{dae}, 
+         \code{\link{designPlot}}.}
 \examples{
 #### Plot a randomized complete block design
 Treatments <- factor(rep(1:6, times = 5))
