@@ -135,7 +135,7 @@ RCBD.lay <- designRandomize(allocated = Treatments,
                             recipient = list(Blocks = 5, Units = 6),
                             nested.recipients = list(Units = "Blocks"),
                             seed = 74111)
-designGGPlot(RCBD.lay, labels = "Treatments", size = 5, 
+designGGPlot(RCBD.lay, labels = "Treatments", label.size = 5, 
              row.factors = "Blocks", column.factors = "Units", 
              blockdefinition = cbind(1,5))
              
@@ -149,7 +149,7 @@ designGGPlot(RCBD.lay, cellfillcolour.column = "Treatments",
              
 #### Plot a lattice square design
 data(LatticeSquare_t49.des)
-designGGPlot(LatticeSquare_t49.des, labels = "Lines", size = 5, 
+designGGPlot(LatticeSquare_t49.des, labels = "Lines", label.size = 5, 
              row.factors = c("Intervals", "Runs"), column.factors = "Times", 
              blockdefinition = cbind(7,7))
 }

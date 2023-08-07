@@ -77,7 +77,7 @@ split.lay <- within(split.lay,
                                               combine.levels = TRUE))
 plt <- designGGPlot(split.lay, labels = "Treatments", 
                     row.factors = "Tests", column.factors = c("Months", "Athletes"),
-                    colour.values = cell.colours[1:9], size = 6, 
+                    colour.values = cell.colours[1:9], label.size = 6, 
                     blockdefinition = rbind(c(3,1)), blocklinecolour = "darkgreen",
                     printPlot = FALSE)
 #Add Month boundaries

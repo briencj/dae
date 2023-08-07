@@ -8,19 +8,22 @@ test_that("interaction.ABC.plot", {
   #'# PBIBD(2) from p. 379 of Cochran and Cox (1957) Experimental Designs. 2nd edn Wiley, New York"
  
   data(ABC.Interact.dat)
-  testthat::expect_silent(interaction.ABC.plot(MOE, A, B, C, data=ABC.Interact.dat))
+  testthat::expect_silent(plt <- interaction.ABC.plot(MOE, A, B, C, data=ABC.Interact.dat))
+  vdiffr::expect_doppelganger("ABCInteract-Plain", plt)
   
-  testthat::expect_silent(interaction.ABC.plot(MOE, A, B, C, 
+  testthat::expect_silent(plt <- interaction.ABC.plot(MOE, A, B, C, 
                                                xlab = "Factor A", 
                                                ylab = "M.O.E.", data=ABC.Interact.dat))
+  vdiffr::expect_doppelganger("ABCInteract-Labs", plt)
   
   
   ABC.Interact.dat$se <- rep(c(0.5,1), each=4)
   testthat::expect_silent(
-    interaction.ABC.plot(MOE, A, B, C, data=ABC.Interact.dat,
-                         ggplotFunc=list(geom_errorbar(data=ABC.Interact.dat, 
-                                                       aes(ymax=MOE+se, ymin=MOE-se), 
-                                                       width=0.2))))
+    plt <- interaction.ABC.plot(MOE, A, B, C, data=ABC.Interact.dat,
+                                ggplotFunc=list(geom_errorbar(data=ABC.Interact.dat, 
+                                                              aes(ymax=MOE+se, ymin=MOE-se), 
+                                                              width=0.2))))
+  vdiffr::expect_doppelganger("ABCInteract-Error", plt)
 
 })
 

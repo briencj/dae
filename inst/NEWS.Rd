@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2.19 (2023-08-08)}{
+  \itemize{
+    \item{Fix CRAN errors and increment version number.}
+}}
 \section{Changes in dae version 3.2.18 (2023-08-07)}{
   \itemize{
     \item{Correct the DesignNotes vignette.}

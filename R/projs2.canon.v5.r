@@ -351,7 +351,7 @@ print.summary.p2canon <- function(x, ...)
 }
 
 
-"efficiencies.decomp" <- function(decomp, which = "adjusted", ...)
+"efficiencies_decomp" <- function(decomp, which = "adjusted", ...)
   #function to extract the efficiency factors from a p2canon object 
 { 
   options <- c("adjusted", "pairwise")
@@ -382,7 +382,7 @@ print.summary.p2canon <- function(x, ...)
   opt <- options[check.arg.values(which, options)]
   
   #Get efficiencies
-  efficiencies <- efficiencies.decomp(object$decomp, which = which)
+  efficiencies <- efficiencies_decomp(object$decomp, which = which)
   return(efficiencies)
 }  
 

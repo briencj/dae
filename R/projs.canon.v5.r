@@ -108,12 +108,13 @@
   {
     if (!is.list(marginality))
       stop("marginality must be a list")
-    if (!all(unlist(lapply(marginality, inherits, what="matrix")) || 
-             unlist(lapply(marginality, is.null))))
-      stop("marginality must contain a list of matrices or NULL components")
+    if (!(all(unlist(lapply(marginality, 
+                            function(marg) inherits(marg, what="matrix") || 
+                            is.null(marg))))))
+      stop("marginality must contain a list each component of which must be a matrix or NULL")
     #deal with the case that not all marginality matrices are supplied 
     if (length(marginality) != ntiers)
-      if (is.null(names(marginality)) | is.null(names(formulae)))
+      if (is.null(names(marginality)) || is.null(names(formulae)))
       {
         stop(paste("if the marginality list is not the same length as the formulae list, ",
                    "these two lists must be named", sep = ""))
@@ -826,7 +827,7 @@ print.summary.pcanon <- function(x, aliasing.print = TRUE, ...)
   ntiers <- length(object$Q)
   efficiencies <- vector(mode="list", length=(ntiers-1))
   for (k in 1:(ntiers-1))
-     efficiencies[[k]] <- efficiencies.decomp(object$Q[[k]], which=opt)
+     efficiencies[[k]] <- efficiencies_decomp(object$Q[[k]], which=opt)
   return(efficiencies)
 }  
 
