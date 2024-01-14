@@ -22,4 +22,5 @@ Description: The content falls into the following groupings: (i) Data, (ii)
   <http://chris.brien.name/rpackages/>.
 License: GPL (>=2)
 URL: http://chris.brien.name
+BugReports: https://github.com/briencj/dae/issues
 RoxygenNote: 5.0.1
