@@ -3,7 +3,7 @@
 efficiencies <- function(object, ...) UseMethod("efficiencies")
 marginality <- function(object, ...) UseMethod("marginality")
 pstructure <- function(formula, ...) UseMethod("pstructure")
-
+porthogonalize <- function(projectors, ...) UseMethod("porthogonalize")
 
 #"resid.errors" = function(object, ...) UseMethod("residuals")
 #fitted.errors = function(x) UseMethod("fitted.errors")

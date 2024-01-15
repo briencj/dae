@@ -55,6 +55,8 @@ export(Ameasures,
        mat.ar2,
        mat.ar3,
        mat.arma,
+       mat.cor,
+       mat.corg,
        mat.ma1,
        mat.ma2,
        mat.ncssvar,
@@ -65,6 +67,7 @@ export(Ameasures,
        mat.dirsum,
        mat.exp,
        mat.gau, 
+       mat.ginv, 
        mat.I,
        mat.J,
        mat.random,
@@ -72,6 +75,8 @@ export(Ameasures,
        mat.Vpredicts,
        mpone,
        no.reps,
+       porthogonalize, 
+       porthogonalize.list, 
        power.exp,
        print.aliasing,
        print.projector,
@@ -125,9 +130,10 @@ S3method(efficiencies, pcanon)
 S3method(efficiencies, p2canon)
 S3method(marginality, pcanon)
 S3method(marginality, pstructure)
+S3method(porthogonalize, list)
+S3method(pstructure, formula)
 S3method(residuals, aovlist)
 S3method(residuals, aovlist, resid.errors)
-S3method(pstructure, formula)
 S3method(rep, data.frame)
 S3method(summary, p2canon)
 S3method(summary, pcanon)

@@ -13,6 +13,29 @@
     sapply(1:n, function(i)eval(parse(text=paste("x[", paste(subscripts[i,], collapse=","), "]"))))
 }
 
+"mat.ginv" <- function(x, tol = .Machine$double.eps ^ 0.5)
+{ 
+  # computes Moore-Penrose inverse of a matrix
+  if (!is.matrix(x) | length(dim(x)) != 2 )
+    stop("x must be a matrix")
+  svd.x <- svd(x)
+  nonzero.x <- (svd.x$d > (svd.x$d[1] * tol))
+  rank.x <- sum(nonzero.x)
+  geninv.x <- matrix(0, dim(x)[1], dim(x)[2])
+  if (rank.x)
+  { 
+    i <- matrix((1:length(nonzero.x))[nonzero.x], rank.x, 2)
+    geninv.x[i] <- 1/svd.x$d[nonzero.x]
+    if (all(nonzero.x))
+      geninv.x <- svd.x$v %*% geninv.x %*% t(svd.x$u)
+    else 
+      geninv.x <- svd.x$v[, nonzero.x] %*% geninv.x[nonzero.x, nonzero.x] %*% 
+      t(svd.x$u[, nonzero.x])
+  }
+  attr(geninv.x, which = "rank") <- rank.x
+  geninv.x
+}
+
 "mat.I" <- function(order)
 { diag(rep(1, order))
 }
@@ -22,10 +45,41 @@
   matrix(rep(1, n), nrow=order, ncol=order)
 }
 
+"mat.cor" <- function(rho, order)
+  #Function to form a correlation matrix with all correlations having the same value
+{ 
+  if (abs(rho) > 1)
+    stop("abs(rho) must be less than 1")
+  n <- order*order
+  if (order < 2)
+    stop("The order must be 2 or more")
+  cor <-  rho * mat.J(order)
+  diag(cor) <- 1 
+  return(cor)
+}
+
+"mat.corg" <- function(rhos, order, byrow = FALSE)
+  #Function to form a correlation matrix in which all correlations are potentially different
+{ 
+  if (any(abs(rhos) > 1))
+    stop("all abs(rhos) must be less than 1")
+  n <- order*order
+  if (order < 2)
+    stop("The order must be 2 or more")
+  corg <- diag(0,nrow = order)
+  corg[lower.tri(corg, diag = FALSE)] <- rhos
+  corg <- corg +t(corg)
+  diag(corg) <- 1 
+  if (byrow)
+    corg <- t(corg)
+  return(corg)
+}
+
 "mat.banded" <- function(x, nrow, ncol)
   #Function to form a banded matrix from a vector of values
   #- band 1 is the diagonal, band 2 the first subdiagonal and so on
-{ nband <- length(x)
+{ 
+  nband <- length(x)
   if (nband > min(nrow, ncol))
     stop("Have supplied values for more than ",min(nrow, ncol) ," bands")
   matrix <- matrix(0, nrow=nrow, ncol=ncol)
@@ -37,7 +91,8 @@
 "mat.ar1" <- function(rho, order)
 #function to form the correlation matrix of size order with an ar1 pattern for
 #correlation parameter rho
-{ if (abs(rho) > 1)
+{ 
+  if (abs(rho) > 1)
     stop(paste("abs(rho) must be less than 1 \n",
                 "Note order of mat.ar1 arguments changed to (rho, order)",sep=""))
   n <- order*order
@@ -310,7 +365,7 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
   delta <- diag(as.vector(1/h), nrow = r, ncol = (r-2))
   delta[row(delta)==col(delta)+1] <- -(1/h[1:(r-2)] + 1/h[2:(r-1)])
   delta[row(delta)==col(delta)+2] <- 1/h[2:(r-1)]
-  Z <- delta %*% ginv(t(delta) %*% delta)
+  Z <- delta %*% mat.ginv(t(delta) %*% delta)
   if (print)
   {
     cat("\n\n#### delta\n\n")
@@ -347,8 +402,8 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
   if (Gg.zero)
     Gginv <- Gg
   else
-    Gginv <- ginv(Gg)
-  Vinv <- ginv(Vu + R)
+    Gginv <- mat.ginv(Gg)
+  Vinv <- mat.ginv(Vu + R)
   if (!missing(eliminate))
   {
     if (!inherits(eliminate, "projector"))
@@ -364,9 +419,9 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
   if (!all(X < 1e-08))
   {
     AX <- A%*%X
-    Vpred <- Vpred - AX%*%ginv(t(X)%*%Vinv%*%X)%*%t(AX)
+    Vpred <- Vpred - AX%*%mat.ginv(t(X)%*%Vinv%*%X)%*%t(AX)
   }
-  Vpred <- ginv(Vpred)
+  Vpred <- mat.ginv(Vpred)
   return(Vpred)
 }
 
@@ -528,12 +583,12 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
     if (Gt.zero)
       Gtinv <- Gt
     else
-      Gtinv <- ginv(Gt)
+      Gtinv <- mat.ginv(Gt)
     if (any(dim(Vu) != dim(R)))
       stop("The variance matrix for random effects has dimensions ",nrow(Vu),", ",ncol(Vu),
            " which is not conformable with R that has dimensions ", nrow(R),", ",ncol(R),
            "; also check target")
-    Vinv <- ginv(Vu + R)
+    Vinv <- mat.ginv(Vu + R)
     if (!missing(eliminate))
     {
       if (!inherits(eliminate, "projector"))
@@ -549,7 +604,7 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
     if (!all(X < 1e-08))
     {
       AX <- A%*%X
-      Cadj <- Cadj - AX%*%ginv(t(X)%*%Vinv%*%X)%*%t(AX)
+      Cadj <- Cadj - AX%*%mat.ginv(t(X)%*%Vinv%*%X)%*%t(AX)
     }
   } else #twostep
   {
@@ -572,12 +627,12 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
     }
     if (!missing(random) || Gt !=0)
       Ginv <- mat.dirsum(list(diag(0, nrow = ncol(X), ncol = ncol(X)), 
-                              ginv(G)))
+                              mat.ginv(G)))
     
     #Form the information matrix
     C <- cbind(X, Z)
-    C <- t(C) %*% ginv(R) %*% C + Ginv
-    V.p <- ginv(C)
+    C <- t(C) %*% mat.ginv(R) %*% C + Ginv
+    V.p <- mat.ginv(C)
     
     #Extract target
     subcols <- fix.cols + 1:target.cols
@@ -587,10 +642,10 @@ Zncsspline <- function(knot.points, Gpower = 0, print = FALSE)
     C11 <- C[subcols, subcols]
     C22 <- C[cols.nonT, cols.nonT]
     C12 <- C[subcols, cols.nonT]
-    Cadj <- C11 - (C12 %*% ginv(C22) %*% t(C12))
+    Cadj <- C11 - (C12 %*% mat.ginv(C22) %*% t(C12))
   }
   if (res.opt == "variance.matrix")
-    Cadj <- ginv(Cadj)
+    Cadj <- mat.ginv(Cadj)
   else #information matrix
   {
     svd.Cadj <- svd(Cadj)

@@ -129,12 +129,29 @@ designAnatomy(formulae, data, keep.order = TRUE, grandMean = FALSE,
          of projectors for the first two formulae. If there are further formulae, 
          the relationships between its projectors and the already established 
          decomposition is obtained using \code{\link{projs.2canon}}. The core 
-         of the analysis is the determination of eigenvalues of the product of 
+         of the analysis is the determination of eigenvalues of the products of 
          pairs of projectors using the results of James and Wilkinson (1971). 
          However, if the order of balance between two projection matrices is 
          10 or more or the James and Wilkinson (1971) methods fails to produce 
          an idempotent matrix, equation 5.3 of Payne and Tobias (1992) is used 
-         to obtain the projection matrices for their joint decompostion.}
+         to obtain the projection matrices for their joint decompostion.
+         
+        The \code{hybrid} method is recommended for general use. However, of the 
+        three methods, \code{eigenmethods} is least likely to fail, but it 
+        does not establish the marginality between the terms. It is often needed 
+        when there is nonorthogonality between terms, such as when there are 
+        several linear covariates. It can also be more efficeint in these 
+        circumstances.
+        
+        The process can be computationally expensive, particularly for a large data set 
+        (500 or more observations) and/or when many terms are to be orthogonalized. 
+             
+        If the error \code{Matrix is not idempotent} should occur then, especially 
+        if there are  many terms, one might try using \code{\link{set.daeTolerance}} 
+        to reduce the tolerance used in determining if values are either the same 
+        or are zero; it may be necessary to lower the tolerance to as low as 0.001. 
+        Also, setting \code{orthogonalize} to \code{eigenmethods} is worth a try.
+}
 \references{Brien, C. J. (2017) Multiphase experiments in practice: A look back. 
             \emph{Australian & New Zealand Journal of Statistics}, \bold{59}, 327-352.
 

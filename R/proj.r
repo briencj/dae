@@ -189,9 +189,9 @@ decomp.relate <- function(decomp1, decomp2)
           }
           #if have not got a projector, then compute the residual operator directly
           if (inherits(validProjector(Qres), what = "character"))
-            Qres <- Q1 - Q1 %*% ginv(Q2 %*% Q1 %*% Q2) %*% Q1
+            Qres <- Q1 - Q1 %*% mat.ginv(Q2 %*% Q1 %*% Q2) %*% Q1
         } else #compute projection operators for partially confounded case by inversion
-          Qres <- Q1 - Q1 %*% ginv(Q2 %*% Q1 %*% Q2) %*% Q1
+          Qres <- Q1 - Q1 %*% mat.ginv(Q2 %*% Q1 %*% Q2) %*% Q1
       
           #Form projectors
           Qres <- projector(Qres)

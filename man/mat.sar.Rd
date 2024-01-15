@@ -22,7 +22,8 @@
                       \code{gamma * corr[k-1] - (gamma * gamma/4) * corr[k-2].}}
 }
 \author{Chris Brien}
-\seealso{\code{\link{mat.I}}, \code{\link{mat.J}}, \code{\link{mat.banded}}, \code{\link{mat.exp}}, 
+\seealso{\code{\link{mat.I}}, \code{\link{mat.J}}, \code{\link{mat.cor}}, \code{\link{mat.corg}}, 
+\code{\link{mat.banded}}, \code{\link{mat.exp}}, 
 \code{\link{mat.gau}}, \code{\link{mat.ar1}}, \code{\link{mat.ar2}}, \code{\link{mat.ar3}}, 
 \code{\link{mat.sar2}}, \code{\link{mat.ma1}}, \code{\link{mat.ma2}}, \code{\link{mat.arma}}}
 \examples{

@@ -52,22 +52,10 @@
 \cr
 (ii) Factor manipulation functions \cr\cr
 
-\code{\link{as.numfac}}             
- \tab Convert a factor to a numeric vector \cr
+Forms a new or revised factor: \cr\cr
+
 \code{\link{fac.combine}}
   \tab Combines several factors into one \cr
-\code{\link{fac.divide}}
-  \tab Divides a factor into several separate factors\cr
-\code{\link{fac.gen}}
-  \tab Generate all combinations of several factors and, \cr
-  \tab optionally, replicate them\cr
-\code{\link{fac.gen}}
-  \tab Generate all combinations of the levels of the supplied \cr
-  \tab factors, without replication \cr
-\code{\link{fac.match}}
-  \tab Match, for each combination of a set of columns \cr
-  \tab in 'x', the row that has the same combination\cr
-  \tab in 'table'\cr
 \code{\link{fac.multinested}}
   \tab Creates several factors, one for each level of a nesting.fac \cr
   \tab and each of whose values are either generated within \cr 
@@ -83,24 +71,73 @@
 \code{\link{fac.recode}}
   \tab Recodes factor 'levels' using possibly nonunique \cr
   \tab values in a vector. (May be deprecated in future.)\cr
-\code{\link{fac.split}}
-  \tab Splits a factor whose levels consist of several delimited \cr
-  \tab strings into several factors.   \cr
-\code{\link{fac.uncombine}}
-  \tab Cleaves a single factor, each of whose levels has delimited \cr 
-  \tab strings, into several factors using the separated strings.  \cr
 \code{\link{fac.uselogical}}
   \tab Forms a two-level factor from a logical object \cr
 \code{\link{mpone}}
   \tab Converts the first two levels of a factor into\cr
   \tab the numeric values -1 and +1\cr
 \cr
+Forms multiple new factors:\cr\cr
+
+\code{\link{fac.divide}}
+  \tab Divides a factor into several separate factors\cr
+\code{\link{fac.gen}}
+  \tab Generate all combinations of several factors and, \cr
+  \tab optionally, replicate them\cr
+\code{\link{fac.genfactors}}
+  \tab Generate all combinations of the levels of the supplied \cr
+  \tab factors, without replication \cr
+\code{\link{fac.split}}
+  \tab Splits a factor whose levels consist of several delimited \cr
+  \tab strings into several factors.   \cr
+\code{\link{fac.uncombine}}
+  \tab Cleaves a single factor, each of whose levels has delimited \cr 
+  \tab strings, into several factors using the separated strings.  \cr
+\cr
+Operates on factors:\cr\cr
+
+\code{\link{as.numfac}}             
+ \tab Convert a factor to a numeric vector \cr
+\code{\link{fac.match}}
+  \tab Match, for each combination of a set of columns \cr
+  \tab in 'x', the row that has the same combination\cr
+  \tab in 'table'\cr
+\cr
 (iii) Design functions\cr\cr
+
+Designing experiments:\cr\cr
+\code{\link{designLatinSqrSys}}
+  \tab Generate a systematic plan for a Latin Square design.\cr
+\code{\link{designRandomize}}
+  \tab Randomize allocated to recipient factors to produce  \cr 
+  \tab a layout for an experiment. It supersedes \code{fac.layout}. \cr
+\code{\link{no.reps}}
+  \tab Computes the number of replicates for an experiment\cr
+\code{\link{detect.diff}}
+  \tab Computes the detectable difference for an experiment\cr
+\code{\link{power.exp}}
+  \tab Computes the power for an experiment\cr
+\cr
+Plotting designs:\cr\cr
 
 \code{\link{blockboundaryPlot}}
   \tab This function plots a block boundary on a plot \cr
   \tab produced by 'designPlot'. It supersedes  \cr
   \tab blockboundary.plot. \cr
+\code{\link{designBlocksGGPlot}}
+  \tab Adds block boundaries to a plot produced by \code{\link{designGGPlot}}. \cr
+\code{\link{designGGPlot}}
+  \tab Plots labels on a two-way grid of coloured cells using \code{ggplot2} \cr
+  \tab to represent an experimental design. \cr
+\code{\link{designPlot}}
+  \tab A graphical representation of an experimental design \cr 
+  \tab using labels stored in a matrix. \cr
+  \tab It superseded design.plot.\cr
+\code{\link{designPlotlabels}}
+  \tab Plots labels on a two-way grid using \code{ggplot2}. \cr
+\cr
+Assessing designs:\cr\cr
+
 \code{\link{designAmeasures}}
   \tab Calculates the A-optimality measures from the \cr
   \tab variance matrix for predictions.\cr
@@ -108,22 +145,6 @@
   \tab Given the layout for a design, obtain its anatomy via \cr 
   \tab the canonical analysis of its projectors to show the \cr
   \tab confounding and aliasing inherent in the design.\cr
-\code{\link{designBlocksGGPlot}}
-  \tab Adds block boundaries to a plot produced by \code{\link{designGGPlot}}. \cr
-\code{\link{designGGPlot}}
-  \tab Plots labels on a two-way grid of coloured cells using \code{ggplot2} \cr
-  \tab to represent an experimental design. \cr
-\code{\link{designLatinSqrSys}}
-  \tab Generate a systematic plan for a Latin Square design.\cr
-\code{\link{designPlot}}
-  \tab A graphical representation of an experimental design \cr 
-  \tab using labels stored in a matrix. \cr
-  \tab It superseded design.plot.\cr
-\code{\link{designPlotlabels}}
-  \tab Plots labels on a two-way grid using \code{ggplot2}. \cr
-\code{\link{designRandomize}}
-  \tab Randomize allocated to recipient factors to produce  \cr 
-  \tab a layout for an experiment. It supersedes \code{fac.layout}. \cr
 \code{\link{designTwophaseAnatomies}}
   \tab Given the layout for a design and three structure formulae, \cr
   \tab obtain the anatomies for the (i) two-phase,  \cr 
@@ -137,12 +158,6 @@
   \tab a \code{\link{pcanon.object}} \cr
 \code{\link{print.aliasing}} 
   \tab Prints an aliasing data.frame \cr
-\code{\link{no.reps}}
-  \tab Computes the number of replicates for an experiment\cr
-\code{\link{detect.diff}}
-  \tab Computes the detectable difference for an experiment\cr
-\code{\link{power.exp}}
-  \tab Computes the power for an experiment\cr
 \code{\link{summary.pcanon}}
   \tab Summarizes the anatomy of a design, being the \cr
   \tab decomposition of the sample space based on its \cr
@@ -173,9 +188,39 @@
 \cr
 (v) Matrix functions\cr\cr
 
+Operates on matrices:\cr\cr
+
 \code{\link{elements}}
   \tab Extract the elements of an array specified by\cr
   \tab the subscripts\cr
+\code{\link{mat.dirprod}}
+  \tab Forms the direct product of two matrices\cr
+\code{\link{mat.dirsum}}
+  \tab Forms the direct sum of a list of matrices\cr
+\code{\link{mat.ginv}}
+  \tab Computes the generalized inverse of a matrix \cr
+\code{\link{Zncsspline}}
+  \tab Forms the design matrix for fitting the \cr
+  \tab random effects for a natural cubic smoothing \cr
+  \tab spline. \cr
+\cr
+Compute variance matrices for \cr
+supplied variance component values:\cr\cr
+
+\code{\link{mat.random}}
+  \tab Calculates the variance matrix for the \cr
+  \tab random effects from a mixed model, based  \cr
+  \tab on a formula or a supplied matrix  \cr
+\code{\link{mat.Vpred}}
+  \tab Forms the variance matrix of predictions \cr
+  \tab based on supplied matrices \cr
+\code{\link{mat.Vpredicts}}
+  \tab Forms the variance matrix of predictions,\cr
+  \tab based  on supplied matrices or formulae. \cr
+\cr
+Forms matrices using factors \cr
+stored in a data.frame:\cr\cr
+
 \code{\link{fac.ar1mat}}
   \tab Forms the ar1 correlation matrix for a\cr
   \tab (generalized) factor\cr
@@ -185,10 +230,25 @@
 \code{\link{fac.vcmat}}
   \tab Forms the variance matrix for the variance\cr
   \tab component of a (generalized) factor\cr
+\cr
+Forms patterned matrices:\cr\cr
+
 \code{\link{mat.I}}
   \tab Forms a unit matrix\cr
 \code{\link{mat.J}}
   \tab Forms a square matrix of ones\cr
+\code{\link{mat.ncssvar}}
+  \tab Forms a variance matrix for random cubic \cr
+  \tab smoothing spline effects\cr
+\cr
+Forms correlation matrices:\cr\cr
+
+\code{\link{mat.cor}}
+  \tab Forms a correlation matrix in which all \cr
+  \tab correlations have the same value \cr
+\code{\link{mat.corg}}
+  \tab Forms a general correlation matrix in which \cr
+  \tab all correlations have different values \cr
 \code{\link{mat.ar1}}
   \tab Forms an ar1 correlation matrix\cr
 \code{\link{mat.ar2}}
@@ -207,30 +267,11 @@
   \tab Forms an ma1 correlation matrix\cr
 \code{\link{mat.ma2}}
   \tab Forms an ma2 correlation matrix\cr
-\code{\link{mat.ncssvar}}
-  \tab Forms a variance matrix for random cubic \cr
-  \tab smoothing spline effects\cr
 \code{\link{mat.sar}}
   \tab Forms an sar correlation matrix\cr
 \code{\link{mat.sar2}}
   \tab Forms an sar2 correlation matrix\cr
-\code{\link{mat.dirprod}}
-  \tab Forms the direct product of two matrices\cr
-\code{\link{mat.dirsum}}
-  \tab Forms the direct sum of a list of matrices\cr
-\code{\link{mat.random}}
-  \tab Calculates the variance matrix for the \cr
-  \tab random effects from a mixed model, based  \cr
-  \tab on a formula or a supplied matrix  \cr
-\code{\link{mat.Vpred}}
-  \tab Forms the variance matrix of predictions\cr
-\code{\link{mat.Vpredicts}}
-  \tab Forms the variance matrix of predictions,\cr
-  \tab based  on supplied matrices or formulae. \cr
-\code{\link{Zncsspline}}
-  \tab Forms the design matrix for fitting the \cr
-  \tab random effects for a natural cubic smoothing \cr
-  \tab spline. \cr
+
 \cr
 (vi) Projector and canonical efficiency functions\cr\cr
 \cr
@@ -294,6 +335,11 @@ Accepts a single formula:\cr\cr
   \tab Takes a formula and constructs a pstructure.object \cr
   \tab that includes the orthogonalized projectors for the \cr
   \tab terms in a formula\cr
+\code{\link{porthogonalize.list}}
+  \tab Takes a list of \code{\link{projector}s} and constructs \cr
+  \tab a \code{\link{pstructure.object}} that includes projectors, \cr
+  \tab each of which has been orthogonalized to all projectors \cr
+  \tab preceding it in the list.       \cr
 
 Others:\cr\cr
 

@@ -5,4 +5,6 @@ library(testthat)
 #test_check("dae", filter = "testOneStructure")
 #testthat::test_file("testthat/testDesignGGPlot.r")
 test_check("dae")
-
+#test_check("dae", filter = "DesignGGPlot")
+#test_file("testthat/testDesignGGPlot.r", package = "dae")
+#test_file("testthat/testInteractionABCplot.r", package = "dae")

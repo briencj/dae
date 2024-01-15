@@ -33,7 +33,8 @@
              \item the subsequent subdiagonal bands, (\code{k = 4:order}), of \code{corr} are equal to \cr
                       \code{phi[1]*corr[k-1] + phi[2]*corr[k-2] + phi[3]*corr[k-3]}.}}
 \author{Chris Brien}
-\seealso{\code{\link{mat.I}}, \code{\link{mat.J}}, \code{\link{mat.banded}}, \code{\link{mat.exp}}, 
+\seealso{\code{\link{mat.I}}, \code{\link{mat.J}}, \code{\link{mat.cor}}, \code{\link{mat.corg}}, 
+\code{\link{mat.banded}}, \code{\link{mat.exp}}, 
 \code{\link{mat.gau}}, \code{\link{mat.ar1}}, \code{\link{mat.ar2}}, \code{\link{mat.ar3}}, \code{\link{mat.sar}}, 
 \code{\link{mat.ma1}}, \code{\link{mat.ma2}}, \code{\link{mat.arma}}}
 \examples{

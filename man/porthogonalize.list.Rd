@@ -1,31 +1,34 @@
-\name{pstructure.formula}
-\alias{pstructure.formula}
-\alias{pstructure}
-\title{Takes a formula and constructs a \code{\link{pstructure.object}} that includes the orthogonalized projectors for the terms in a formula}
+\name{porthogonalize.list}
+\alias{porthogonalize.list}
+\alias{porthogonalize}
+\title{Takes a list of \code{\link{projector}s} and constructs a \code{\link{pstructure.object}} that includes projectors, each of which has been orthogonalized to all projectors preceding it in the list.}
 \description{Constructs a \code{\link{pstructure.object}} that includes a 
-             set of mutually orthogonal projectors, one for each 
-             term in the formula. These are used to specify a structure, 
-             or an orthogonal decomposition of the data space. 
-             There are three methods available for 
-             orthogonalizing the projectors corresponding to the terms 
-             in the \code{formula}: \code{differencing}, \code{eigenmethods} 
-             or the default \code{hybrid} method.  
-             
+             set of mutually orthogonal projectors, one for each of the 
+             \code{\link{projector}s} in the \code{\link{list}}. 
+             These specify a structure, or an orthogonal decomposition of the 
+             data space. This function externalizes the process previously performed 
+             within \code{\link{pstructure.formula}} to orthogonalize 
+             \code{\link{projector}}s. There are three methods 
+             available for carrying out orthogonalization: \code{differencing}, 
+             \code{eigenmethods} or the default \code{hybrid} method. 
+
              It is possible to use this function to find out what sources 
              are associated with the terms in a model and to determine the 
              marginality between terms in the model. The marginality matrix 
              can be saved.
 }
 \usage{
-\method{pstructure}{formula}(formula, keep.order = TRUE, grandMean = FALSE, 
-           orthogonalize = "hybrid", labels = "sources", 
-           marginality = NULL, check.marginality = TRUE, 
-           omit.projectors = FALSE, 
-           which.criteria = c("aefficiency","eefficiency","order"), 
-           aliasing.print = TRUE, data = NULL, ...)}
+\method{porthogonalize}{list}(projectors, formula = NULL, keep.order = TRUE, 
+               grandMean = FALSE, orthogonalize = "hybrid", labels = "sources", 
+               marginality = NULL, check.marginality = TRUE, 
+               omit.projectors = FALSE, 
+               which.criteria = c("aefficiency","eefficiency","order"), 
+               aliasing.print = TRUE, ...)}
 \arguments{
- \item{formula}{An object of class \code{\link{formula}} from which the terms will be 
-                obtained.}
+ \item{projectors}{A \code{\link{list}} each of whose components is a \code{\link{projector}}.}
+ \item{formula}{An object of class \code{\link{formula}} from which the 
+                \code{\link{projector}s} have been obtained. If \code{NULL}, then 
+                the \code{differencing} option of \code{orthogonalize} is not available.}
  \item{keep.order}{A \code{\link{logical}} indicating whether the terms should keep 
                    their position in the expanded \code{formula} projector, or 
                    reordered so that main effects precede two-factor 
@@ -36,7 +39,9 @@
  \item{orthogonalize}{A \code{\link{character}} vector indicating the method for orthogonalizing a 
                       projector to those for terms that occurred previously 
                       in the formula. Three options are available:  
-                      \code{hybrid}; \code{differencing}; \code{eigenmethods}.
+                      \code{hybrid}; \code{differencing}; \code{eigenmethods}, 
+                      unless \code{formula} is \code{NULL} in which case 
+                      \code{differencing} is not available.
                       The \code{hybrid} option is the most general and uses the 
                       relationships between the projection operators for the 
                       terms in the \code{formula} to decide which 
@@ -79,7 +84,7 @@
                        included for the grand mean even if \code{grandMean} is \code{TRUE}.}
  \item{check.marginality}{A \code{\link{logical}} indicating whether the marginality matrix, 
                        when it is supplied, is to be checked against that computed 
-                       by \code{\link{pstructure.formula}}. It is ignored when 
+                       by \code{\link{porthogonalize.list}}. It is ignored when 
                        \code{orthogonalize} is set to \code{eigenmethods}.}
 \item{omit.projectors}{A \code{\link{logical}}, which, if \code{TRUE}, 
            results in the \code{\link{projector}}s in the \code{Q} of the 
@@ -98,16 +103,16 @@
                        If \code{none}, no summary is printed.}
  \item{aliasing.print}{A \code{\link{logical}} indicating whether the aliasing between sources 
                        within the structure is to be printed.}
- \item{data}{A data frame contains the values of the factors and variables 
-             that occur in \code{formula}.}
  \item{...}{further arguments passed to \code{terms}.}
 }
 \value{A \code{\link{pstructure.object}}.}
-\details{Firstly, the primary projector \eqn{\mathbf{X(X'X)^-X'}}{X(X'X)^-X'}, 
-         where X is the design matrix for the term, is calculated for each term. 
-         Then each projector is made orthogonal to terms aliased with it using 
-         \code{\link{porthogonalize.list}}, either by \code{differencing}, 
-         \code{eigenmethods} or the default \code{hybrid} method. 
+\details{It is envisaged that the \code{\link{projector}s} in the \code{\link{list}} 
+        supplied to the \code{projectors} argument correspond to the terms in a 
+        linear model. One way to generate them is to obtain the design matrix \bold{X} 
+        for a term and then calculate its projector as 
+        \eqn{\mathbf{X(X'X)^-X'}}{X(X'X)^-X'}, There are three methods available for 
+        orhtogonalizing the supplied projectors: \code{differencing}, 
+        \code{eigenmethods} or the default \code{hybrid} method. 
 
          \code{Differencing} relies on 
          comparing the factors involved in two terms, one previous to the 
@@ -153,7 +158,7 @@
                \eqn{\mathbf{Q}_j}{Q_j} is orthogonalized to \eqn{\mathbf{Q}_i}{Q_i} 
                using eigenmethods.
          }
-         The order of terms is crucial in this process.
+         The order of projections matrices in the \code{\link{list}} is crucial in this process.
          
         Of the three methods, \code{eigenmethods} is least likely to fail, but it 
         does not establish the marginality between the terms. It is often needed 
@@ -173,9 +178,10 @@
             residual operator and canonical decomposition of nonorthogonal 
             factors in the analysis of variance. \emph{Biometrika}, \bold{58}, 279-294.}
 \author{Chris Brien}
-\seealso{\code{\link{porthogonalize.list}}, \code{\link{proj2.efficiency}}, 
-          \code{\link{proj2.combine}}, \code{\link{proj2.eigen}}, \cr
-           \code{\link{projs.2canon}} in package \pkg{dae}, \code{\link{eigen}}.
+\seealso{\code{\link{pstructure.formula}}, \code{\link{proj2.efficiency}}, 
+         \code{\link{proj2.combine}}, \code{\link{proj2.eigen}}, \cr
+         \code{\link{projs.2canon}} in package \pkg{dae}, 
+         \code{\link{eigen}}.
 
          \code{\link[=projector-class]{projector}} for further information about this class.}
 \examples{
@@ -189,24 +195,30 @@ PBIBD2.lay <- designRandomize(allocated = trt,
                               nested.recipients = PBIBD2.nest)
 ## manually obtain projectors for units
 Q.G <- projector(matrix(1, nrow=24, ncol=24)/24)                         
-Q.B <- projector(fac.meanop(PBIBD2.lay$Block) - Q.G)
-Q.BP <- projector(diag(1, nrow=24) - Q.B - Q.G)
+Q.B <- projector(fac.meanop(PBIBD2.lay$Block))
+Q.BU <- projector(diag(1, nrow=24))
 
 ## manually obtain projector for trt
 Q.T <- projector(fac.meanop(PBIBD2.lay$trt) - Q.G)
 
-##compute intrablock efficiency criteria
-effic <- proj2.efficiency(Q.BP, Q.T)
-effic
-efficiency.criteria(effic)
+##Orthogonalize the projectors using porthogonalize.list
+Qs <- list(Mean = Q.G, Block = Q.B, "Block:Unit" = Q.BU)
+struct <- porthogonalize(Qs, grandMean = TRUE)
+Qs <- struct$Q
+(lapply(Qs, degfree))
 
-##obtain projectors using pstructure.formula
-unit.struct <- pstructure(~ Block/Unit, data = PBIBD2.lay)
-trt.struct <- pstructure(~ trt, data = PBIBD2.lay)
-
-##obtain combined decomposition and summarize
-unit.trt.p2canon <- projs.2canon(unit.struct$Q, trt.struct$Q)
-summary(unit.trt.p2canon, which = c("aeff","eeff","order"))
+#Add a linear covariate
+PBIBD2.lay <- within(PBIBD2.lay,
+                     {
+                       cBlock <- as.numfac(Block)
+                       cBlock <- cBlock - mean(unique(cBlock))
+                     })
+X <- model.matrix(~ cBlock, data = PBIBD2.lay)
+Q.cB <- projector(X \%*\% mat.ginv(t(X) \%*\% X) \%*\% t(X))
+Qs <- list(cBlock = Q.cB, Block = Q.B, "Block:Unit" = Q.BU)
+struct <- porthogonalize(Qs, grandMean = FALSE)
+Qs <- struct$Q
+(lapply(Qs, degfree))
 }
 \keyword{array}
 \keyword{design}

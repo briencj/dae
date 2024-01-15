@@ -18,7 +18,7 @@
                     \code{vector} is to be set. If more than one value is 
                     supplied, only the first value is used. }
 }
-\value{The \code{vector} {daeTolerance} is returned invisibly.}
+\value{The \code{vector} \code{daeTolerance} is returned invisibly.}
 \author{Chris Brien}
 \seealso{\code{\link{get.daeTolerance}}.}
 \examples{

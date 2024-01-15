@@ -7,6 +7,6 @@ In this main-unit design, there are 24 lanes by 11 Positions, the lanes being bl
 }
 \usage{data(Exp249.munit.des)}
 \format{A data.frame containing 264 observations of 3 variables.}
-\source{Coombes, N. E. (2009) code{Digger}\emph{: design search tool in R}. {URL:} {\url{http://nswdpibiom.org/austatgen/software/}},
+\source{Coombes, N. E. (2009) \code{Digger}\emph{: design search tool in R}. {URL:} {\url{http://nswdpibiom.org/austatgen/software/}},
                  (accessed June 3, 2015).}
 \keyword{datasets}

@@ -8,10 +8,10 @@ can be separated to form the levels of the \code{new.factors}. That is, it rever
 of combining factors that \code{\link{fac.combine}} performs.}
 \usage{fac.uncombine(factor, new.factors, sep=",", ...)}
 \arguments{
- \item{factor}{A \code{\link{factor}} or \code{\link{character}} that has values that aare strings 
+ \item{factor}{A \code{\link{factor}} or \code{\link{character}} that has values that are strings 
    deleimited by the delimiter specified by \code{sep}.}
- \item{new.factors}{A \code{\link{list}}, the names of whose components are the names of the 
-   new \code{\link{factor}s} to be performed. If the contents of a component is not \code{NULL}, 
+ \item{new.factors}{A \code{\link{list}}, whose component names are the names of the 
+   new \code{\link{factor}s} to be formed. If a component is not \code{NULL}, 
    then they are used as the levels of the corresponding \code{factor}.}
  \item{sep}{A \code{character} string that separates the levels of the \code{new.factors} in the 
    levels \code{factor}.}

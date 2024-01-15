@@ -8,7 +8,7 @@
 \arguments{
  \item{combined.factor}{A \code{\link{factor}} to be split into several \code{\link{factor}s}.}
  \item{factor.names}{A \code{\link{list}} of names for factors and associated \code{levels}, if required.
-   The names of the componeonts of the \code{\link{list}} are used for the names of the new factors. 
+   The names of the components of the \code{\link{list}} are used for the names of the new factors. 
    Each component of the \code{\link{list}} should either be \code{NULL} or a vector of levels for 
    the new \code{\link{factor}}. If a component is \code{NULL} then the unique values  for the 
    supplied factor are used as the \code{levels}, which are sorted into alphabetical order. 
@@ -23,7 +23,7 @@
 \seealso{\code{\link{fac.divide}}, \code{\link{fac.uncombine}}, \code{\link{fac.combine}} in package \pkg{dae} and 
           \code{\link{strsplit}}.}
 \examples{
-## Forma combined factor to split
+## Form a combined factor to split
 data(Oats.dat)
 tmp <- within(Oats.dat, Trts <- fac.combine(list(Variety, Nitrogen), combine.levels = TRUE))
 

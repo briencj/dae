@@ -15,7 +15,8 @@
 \value{A correlation \code{\link{matrix}} whose elements depend on the power of the 
        absolute distance apart.}
 \author{Chris Brien}
-\seealso{\code{\link{mat.I}}, \code{\link{mat.J}}, \code{\link{mat.banded}}, \code{\link{mat.ar1}}, 
+\seealso{\code{\link{mat.I}}, \code{\link{mat.J}}, \code{\link{mat.cor}}, \code{\link{mat.corg}}, 
+         \code{\link{mat.banded}}, \code{\link{mat.ar1}}, 
          \code{\link{mat.ar2}}, \code{\link{mat.ar3}}, \code{\link{mat.sar2}}, 
          \code{\link{mat.ma1}}, \code{\link{mat.ma2}}, \code{\link{mat.arma}},
          \code{\link{mat.exp}} 

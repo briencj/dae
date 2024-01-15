@@ -25,7 +25,8 @@
              of \code{corr} are zero,}
          where \code{div = 1 + MMAparameters[1]*MAparameter[1] + MAparameters[2]*MAparameters[2]}.}
 \author{Chris Brien}
-\seealso{\code{\link{mat.I}}, \code{\link{mat.J}}, \code{\link{mat.exp}}, \code{\link{mat.gau}}, 
+\seealso{\code{\link{mat.I}}, \code{\link{mat.J}}, \code{\link{mat.cor}}, \code{\link{mat.corg}}, 
+\code{\link{mat.exp}}, \code{\link{mat.gau}}, 
 \code{\link{mat.banded}}, \code{\link{mat.ar1}}, \code{\link{mat.ar3}}, \code{\link{mat.sar2}}, 
 \code{\link{mat.ma1}}, \code{\link{mat.arma}}}
 \examples{
