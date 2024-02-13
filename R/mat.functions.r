@@ -29,8 +29,12 @@
     if (all(nonzero.x))
       geninv.x <- svd.x$v %*% geninv.x %*% t(svd.x$u)
     else 
-      geninv.x <- svd.x$v[, nonzero.x] %*% geninv.x[nonzero.x, nonzero.x] %*% 
-      t(svd.x$u[, nonzero.x])
+    {  
+      v <- svd.x$v[, nonzero.x]
+      if (rank.x == 1)
+        v <- matrix(v, ncol = 1)
+      geninv.x <- v %*% geninv.x[nonzero.x, nonzero.x] %*% t(v)
+    }
   }
   attr(geninv.x, which = "rank") <- rank.x
   geninv.x

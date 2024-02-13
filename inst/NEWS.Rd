@@ -1,5 +1,10 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2.22 (2024-02-13)}{
+  \itemize{
+  \item Add link to GitHub issues page for BugReports in DESCRIPTION file. 
+  \item Fixed problem in mat.ginv for inverting matrices of rank one that led to a conformability error caused by R returning a single column matrix as a vector. 
+}}
 \section{Changes in dae version 3.2.21 (2024-01-14)}{
   \itemize{
     \item Corrects some minor issues in the manual.
