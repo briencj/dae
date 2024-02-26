@@ -1,6 +1,6 @@
 Package: dae
-Version: 3.2.22
-Date: 2024-02-13
+Version: 3.2.23
+Date: 2024-02-25
 Title: Functions Useful in the Design and ANOVA of Experiments
 Authors@R: person("Chris","Brien", role = c("aut","cre"),
          comment = c(ORCID = "0000-0003-0581-1817"),
@@ -8,7 +8,7 @@ Authors@R: person("Chris","Brien", role = c("aut","cre"),
 Depends:
     R (>= 3.5.0),
     ggplot2
-Imports: ggpubr, graphics, methods, plyr, stats
+Imports: ggpubr, graphics, methods, plyr, stats, tryCatchLog
 Suggests: testthat, vdiffr, R.rsp
 VignetteBuilder: R.rsp
 Description: The content falls into the following groupings: (i) Data, (ii)

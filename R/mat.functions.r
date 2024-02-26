@@ -16,27 +16,36 @@
 "mat.ginv" <- function(x, tol = .Machine$double.eps ^ 0.5)
 { 
   # computes Moore-Penrose inverse of a matrix
-  if (!is.matrix(x) | length(dim(x)) != 2 )
+  if (!inherits(x, what = "matrix") || length(dim(x)) != 2)
     stop("x must be a matrix")
-  svd.x <- svd(x)
-  nonzero.x <- (svd.x$d > (svd.x$d[1] * tol))
-  rank.x <- sum(nonzero.x)
-  geninv.x <- matrix(0, dim(x)[1], dim(x)[2])
-  if (rank.x)
+  svd.x <- tryCatchLog(svd(x),
+                       error = function(e) 
+                       {print("Computing a generalized inverse using svd has failed; NA returned"); NA}, 
+                       include.full.call.stack = FALSE, include.compact.call.stack = TRUE)
+  if (all(!is.na(svd.x)))
   { 
-    i <- matrix((1:length(nonzero.x))[nonzero.x], rank.x, 2)
-    geninv.x[i] <- 1/svd.x$d[nonzero.x]
-    if (all(nonzero.x))
-      geninv.x <- svd.x$v %*% geninv.x %*% t(svd.x$u)
-    else 
-    {  
-      v <- svd.x$v[, nonzero.x]
-      if (rank.x == 1)
-        v <- matrix(v, ncol = 1)
-      geninv.x <- v %*% geninv.x[nonzero.x, nonzero.x] %*% t(v)
+    nonzero.x <- (svd.x$d > svd.x$d[1] * tol)
+    rank.x <- sum(nonzero.x)
+    geninv.x <- matrix(0, dim(x)[1], dim(x)[2])
+    if (rank.x)
+    { 
+      #set diagonal elements of geninv.x
+      i <- matrix((1:length(nonzero.x))[nonzero.x], rank.x, 2)
+      geninv.x[i] <- 1/svd.x$d[nonzero.x]
+      #form inverse
+      if (all(nonzero.x))
+        geninv.x <- svd.x$v %*% geninv.x %*% t(svd.x$u)
+      else 
+      {  
+        v <- svd.x$v[, nonzero.x]
+        if (rank.x == 1)
+          v <- matrix(v, ncol = 1)
+        geninv.x <- v %*% geninv.x[nonzero.x, nonzero.x] %*% t(v)
+      }
     }
-  }
-  attr(geninv.x, which = "rank") <- rank.x
+    attr(geninv.x, which = "rank") <- rank.x
+  } else
+    geninv.x <- NA
   geninv.x
 }
 

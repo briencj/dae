@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2.23 (2024-02-25)}{
+  \itemize{
+  \item Added trap for svd error so that only a warning will be given and an NA returned. 
+}}
 \section{Changes in dae version 3.2.22 (2024-02-13)}{
   \itemize{
   \item Add link to GitHub issues page for BugReports in DESCRIPTION file. 

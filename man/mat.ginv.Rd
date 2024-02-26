@@ -1,14 +1,15 @@
 \name{mat.ginv}
 \alias{mat.ginv}
 \title{Computes the generalized inverse of a matrix}
-\description{Computes the Moore-Penrose generalized invers of a matrix.}
+\description{Computes the Moore-Penrose generalized inverse of a matrix.}
 \usage{mat.ginv(x, tol = .Machine$double.eps ^ 0.5)}
 \arguments{
  \item{x}{A \code{\link{matrix}} whose generalized inversed is to be computed.}
  \item{tol}{A \code{\link{numeric}} specifying the relative tolerance to 
             determine whether an eigenvalue of \code{x} is nonzero.}
 }
-\value{A \code{matrix}.}
+\value{A \code{matrix}. An \code{NA} is returned if \code{\link{svd}} fails 
+       during the compution of the generalized inverse.}
 \author{Chris Brien}
 \examples{
 ## PBIBD(2) from p. 379 of Cochran and Cox (1957) Experimental Designs. 
