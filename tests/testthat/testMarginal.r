@@ -96,3 +96,82 @@ test_that("LRCCD", {
    
 })
 
+cat("#### Test for marginality when not all treatment combinations are observed\n")
+test_that("TwoxTwo3cells", {
+  skip_on_cran()
+  library(dae)
+  data("Exp720.des")
+  
+  print(tab <- with(Exp720.des, table(Treatment,Soil,Sterilized)), zero.print = ".")
+  testthat::expect_equal(sum(tab != 0), 14)
+   
+  #Simplified script for a case when the interaction is aliased with the main effects because only 3 or 2x2 cells
+  pstr <- pstructure( ~ Soil*(Sterilized/Microbe),
+                      data = subset(Exp720.des, Soil != "YP" & Nematode == "no"))
+  marg <- pstr$marginality
+  testthat::expect_equal(nrow(marg), 4)
+  testthat::expect_equal(ncol(marg), 4)
+  testthat::expect_true(all.equal(marg[upper.tri(marg, diag = TRUE)], c(1,0,1,0,1,1,1,1,1,1)))
+  
+  #Two Soils and Nematode = "no" -  smaller problem to investigate
+  testthat::expect_warning(
+    Exp720C.canon.part <- designAnatomy(formulae = list(unit = ~ Block/MainUnit/Cart,
+                                                        trt  = ~ Soil*(Sterilized/Microbe)),
+                                        data = subset(Exp720.des, Soil != "YP" & Nematode == "no")),
+    regexp = "Soil:Sterilized is aliased with previous terms in the formula and has been removed")
+  testthat::expect_true(all.equal(Exp720C.canon.part$aliasing$Alias, 
+                                  c("Soil", "## Information remaining", "Sterilized", "## Aliased")))
+  summ <- summary(Exp720C.canon.part)
+  testthat::expect_true(all.equal(summ$decomp$Source.trt[-1], 
+                                  c("Soil","Residual","Sterilized","Microbe[Sterilized]",
+                                    "Soil#Sterilized#Microbe","Residual")))
+  testthat::expect_true(all.equal(summ$decomp$Source.unit, 
+                                  c("Block", "MainUnit[Block]", "MainUnit[Block]", 
+                                    rep("Cart[Block:MainUnit]", 4))))
+})
+
+
+cat("#### Test for marginality when nested treatments\n")
+test_that("SprayerRates", {
+  skip_on_cran()
+  library(dae)
+  b <- 3
+  t <- 6
+  #'## Construct a systematic layout
+  RCBD.sys <- cbind(fac.gen(generate = list(Blocks=b, Plots=t)),
+                    fac.gen(generate = list(Pressure = c("140", "330"), 
+                                            Speed = c("3.6", "2.6", "1.8")), times = b))
+  
+  #'## Obtain the randomized layout
+  RCBD.lay <- designRandomize(allocated         = RCBD.sys[c("Pressure", "Speed")], 
+                              recipient         = RCBD.sys[c("Blocks", "Plots")], 
+                              nested.recipients = list(Plots = "Blocks"),
+                              seed              = 353441)
+  #'## Add nested factors
+  RCBD.lay <- within(RCBD.lay, 
+                     {
+                       Treatments <- fac.combine(list(Pressure, Speed), combine.levels = TRUE)
+                       Rates <- fac.recast(Treatments, 
+                                           newlevels = c("2090", "2930", "4120", 
+                                                         "2930", "4120", "5770"))
+                     })
+  RCBD.lay <- with(RCBD.lay, cbind(RCBD.lay, 
+                                   fac.multinested(nesting.fac = Rates, 
+                                                   nested.fac  = Treatments,
+                                                   fac.prefix  = "Rate")))
+  RCBD.canon <- designAnatomy(formulae  = list(units = ~ Blocks/Plots, 
+                                               trts  = ~ Rates/(Rate2090 + Rate2930 + Rate4120 +
+                                                                  Rate5770)),
+                              grandMean = TRUE, data = RCBD.lay)
+  summ <- summary(RCBD.canon, which.criteria = "aeff")
+  marg <- RCBD.canon$marginality$trts
+  testthat::expect_equal(nrow(marg), 3)
+  testthat::expect_equal(ncol(marg), 3)
+  testthat::expect_true(all.equal(marg[upper.tri(marg, diag = TRUE)], c(1,1,1,1,0,1)))
+  
+  testthat::expect_true(all.equal(summ$decomp$Source.units, c("Mean", "Blocks", rep("Plots[Blocks]",4))))
+  testthat::expect_true(all.equal(summ$decomp$Source.trts, 
+                                  c("Mean",NA,"Rates","Rate2930[Rates]","Rate4120[Rates]","Residual")))
+  testthat::expect_true(all.equal(summ$decomp$df2, c(1,NA,3,1,1,10)))
+})
+  

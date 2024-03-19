@@ -92,5 +92,5 @@ test_that("SPLGrass_designGGPlot", {
                       blockdefinition = cbind(5,5), printPlot = FALSE)
   plt2 <- designBlocksGGPlot(plt2, nrows = 2, ncolumns = 2, blockdefinition = rbind(c(2,2)),
                              facetstrips.placement = "outside.title")
-  vdiffr::expect_doppelganger("Using facetstrips.placement from designBlocksGGPlot", plt2)
+  vdiffr::expect_doppelganger("Using facetstrips.place from designBlocksGGPlot", plt2)
 })

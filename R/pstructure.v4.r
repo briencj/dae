@@ -266,13 +266,16 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
       if (any(kmarg))
       {
         kmarg <- rownames(fac.incidence)[kmarg]
-        implicit[[term]] <- !unlist(lapply(kmarg, 
-                                           function(kterm, term, fac.list)
-                                           {
-                                             is.subset <- (length(intersect(fac.list[[term]], 
-                                                                            fac.list[[kterm]])) > 0)
-                                             return(is.subset)
-                                           }, term = term, fac.list = fac.list))
+        if (length(kmarg) == 0) 
+          implicit[[term]] <- FALSE
+        else
+          implicit[[term]] <- !unlist(lapply(kmarg, 
+                                             function(kterm, term, fac.list)
+                                             {
+                                               is.subset <- (length(intersect(fac.list[[term]], 
+                                                                              fac.list[[kterm]])) > 0)
+                                               return(is.subset)
+                                             }, term = term, fac.list = fac.list))
         if (any(implicit[[term]]))
           for (kimpl in kmarg[implicit[[term]]])
             fac.incidence[term, ] <- fac.incidence[term, ] | fac.incidence[kimpl, ]
@@ -589,6 +592,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
       eff.crit <- vector(mode="list",length=length(criteria))
       names(eff.crit) <- criteria
       
+      
       #Loop over terms for first time to make orthogonal to marginal terms
       for (i in 2:length(terms))
       { 
@@ -601,15 +605,15 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
             Qji <- Q[[terms[j]]] %*% Q[[terms[i]]]
             if (!is.allzero(Qji)) # if not orthogonal then have to check if marginal or fully aliased
             {
-              if (is.allzero(Qji-Q[[terms[j]]])) #test marginality
+              if (is.allzero(Qji-Q[[terms[j]]])) #test if could be marginal
               {
-                if (is.allzero(Q[[terms[j]]] - Q[[terms[i]]])) #terms not equal, so i is a marginal term to j - difference                  {
+                if (is.allzero(Q[[terms[j]]] - Q[[terms[i]]])) #terms are equal, so aliased 
                 {
                   aliasstatus <- "full"
                   marg.mat[terms[i], terms[i]] <- 0
                   warning(paste(terms[[i]],"is aliased with previous terms in the formula",
                                 "and has been removed", sep=" "))
-                  eff.crit[criteria] <- 1 #0
+                  eff.crit[criteria] <- 1
                   aliasing <- rbind(aliasing,
                                     data.frame(c(list(Source = terms[[i]],
                                                       df = degfree(Q[[terms[i]]]), #0,
@@ -641,7 +645,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
         aliasstatus <- "none"
         #loop over terms to see if any are marginal to term i
         for (j in 1:(i-1))
-        { 
+        {
           if (marg.mat[j, j] == 1)
           {
             Q.jcum <- projector(Q.jcum + Q[[terms[j]]])
@@ -650,15 +654,15 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
               Qji <- Q[[terms[j]]] %*% Q.work
               if (!is.allzero(Qji)) # if not orthogonal then have to orthogonalize
               {
-                if (is.allzero(Qji-Q[[terms[j]]])) #test marginality
+                if (is.allzero(Qji-Q[[terms[j]]]) && !is.allzero(Q[[terms[j]]] - Q.work)) #test if is marginal
                 {
-                  # i is a marginal term to j - difference
-                  marg.mat[terms[j], terms[i]] <- 1
-                  Q.work <- projector(Q.work - Q[[terms[j]]])
-                  Q[[terms[i]]] <- Q.work
+                    # i is a marginal term to j - difference
+                    marg.mat[terms[j], terms[i]] <- 1
+                    Q.work <- projector(Q.work - Q[[terms[j]]])
+                    Q[[terms[i]]] <- Q.work
                 } else #aliased?
                 {
-                  if (is.allzero(Qji - Q.work)) #i is aliased with j
+                  if (is.allzero(Qji - Q.work) || is.allzero(Q[[terms[j]]] - Q.work)) #i is aliased with j
                   {
                     aliasstatus <- "full"
                     marg.mat[terms[i], terms[i]] <- 0
@@ -758,9 +762,24 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
       if (any(aliased))
       {
         marg.mat <- marg.mat[!aliased, !aliased]
-        Q <- Q[!aliased]
+        if (grandMean)
+          Q <- Q[c(TRUE, !aliased)] #include grandMean
+        else
+          Q <- Q[!aliased]
       }
       terms <- names(Q)
+      mterms <- nrow(marg.mat) 
+      #Ensure marg.mat is transitive for marginality
+      #Exp720c in testMarginal where this is needed to get the correct marginality
+      if (length(mterms) > 0 && mterms > 2)
+        for (i in 3:mterms)
+        { 
+          if (marg.mat[i-1, i] == 1) #current term is marginal to previous term
+            for (j in 1:(i-2))
+              if (marg.mat[j, i-1] == 1 && marg.mat[j, i] == 0) #previous term marginal to term j
+                marg.mat[j, i] <- 1
+        }
+
       if (is.null(marginality))
       {
         sources <- formSources(terms, marg.mat, grandMean = grandMean)
@@ -769,7 +788,7 @@ formSources <- function(term.names, marginality, grandMean = FALSE)
       else
       {
         if (check.marginality & all(marg.mat == marginality))
-          warning("Supplied marginality matrix differs from that computed by pstructure formula")
+          warning("Supplied marginality matrix differs from that computed by pstructure formula; using supplied matrix")
         sources <- formSources(terms, marginality, grandMean = grandMean)
       }
       if (lab.opt == "sources")
