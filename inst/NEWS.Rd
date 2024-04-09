@@ -1,8 +1,12 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2.25 (2024-04-09)}{
+  \itemize{
+  \item Update for submission to CRAN.
+}}
 \section{Changes in dae version 3.2.24 (2024-03-19)}{
   \itemize{
-  \item Fixed bug in pstructure, that also affects designAnatomy, where aliasing of two terms went undetected, nesting of sources was not correctly determined when aliasing was present, and computed marginality relationships were not transitive.
+  \item Fixed bug in pstructure, also affecting designAnatomy, that resulted aliasing of two terms going undetected, nesting of sources was not being correctly determined when aliasing was present, and computed marginality relationships not being transitive.
 }}
 \section{Changes in dae version 3.2.23 (2024-02-25)}{
   \itemize{
