@@ -26,12 +26,12 @@ validProjector <- function(object)
     isproj <- "Matrix is not square"
   else #if (!is.allzero(t(Q)-Q))
   {
-    if (!isTRUE(all.equal(t(Q), Q, tolerance=daeTolerance[["element.tol"]])))
+    if (!isTRUE(all.equal(t(Q), Q, tolerance=daeTolerance[["element.tol"]], check.attributes = FALSE)))
       isproj <- "Matrix is not symmetric"
     else 
     { 
       #if (!is.allzero(Q%*%Q - Q))
-      if (!isTRUE(all.equal(Q%*%Q, Q, tolerance=daeTolerance[["element.tol"]])))
+      if (!isTRUE(all.equal(Q%*%Q, Q, tolerance=daeTolerance[["element.tol"]], check.attributes = FALSE)))
         isproj <- "Matrix is not idempotent"
     }
   }

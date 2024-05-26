@@ -349,3 +349,41 @@ test_that("TwoPartRandomize", {
   testthat::expect_true(all(Exp.lay[55:60, "Soil"] == as.character(c(1:3,3,1,2))))
   
 })
+
+cat("#### Test for set.RNGkind\n")
+test_that("RNGkind", {
+  skip_on_cran()
+  library(dae)
+  
+  b <- 4
+  t <- 5
+  #'### Initialize with a randomized RCBD layout
+  #+ R4C5rcbd
+  R4C5.ini <- cbind(fac.gen(list(Rows=b, Columns=t)),
+                    Lines = factor(rep(1:t, times = b), labels = LETTERS[1:t]))
+  R4C5.lay <- designRandomize(allocated = R4C5.ini["Lines"], 
+                              recipient = R4C5.ini[c("Rows", "Columns")], 
+                              nested.recipients = list(Columns = "Rows"),
+                              seed      = 35166)
+  #'### Independently calculate the A-measure
+  AVPD <- designAmeasures(mat.Vpredicts(target = ~ Lines -1, 
+                                        fixed = ~ Rows + Columns, 
+                                        design = R4C5.lay))[1, 1]
+  testthat::expect_true(abs(AVPD - 0.7333333) < 0.001)
+  testthat::expect_equal(get.daeRNGkind(), "Mersenne-Twister")
+  
+  #Test different RNGkind
+  testthat::expect_equal(set.daeRNGkind("Super-Duper"), "Super-Duper")
+  
+  R4C5.lay <- designRandomize(allocated = R4C5.ini["Lines"], 
+                              recipient = R4C5.ini[c("Rows", "Columns")], 
+                              nested.recipients = list(Columns = "Rows"),
+                              seed      = 35166)
+  #'### Independently calculate the A-measure
+  AVPD <- designAmeasures(mat.Vpredicts(target = ~ Lines -1, 
+                                 fixed = ~ Rows + Columns, 
+                                 design = R4C5.lay))[1, 1]
+  testthat::expect_true(abs(AVPD - 0.8217054) < 0.001)
+  testthat::expect_equal(get.daeRNGkind(), "Super-Duper")
+  
+})

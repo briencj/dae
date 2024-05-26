@@ -305,7 +305,7 @@
     n <- 0
   #process seed argument
   if (!is.null(seed))
-    set.seed(seed)
+    set.seed(seed, kind = get.daeRNGkind())
   #process recipient argument, form recipient factor list and, 
   #if a data.frame, ensure in standard order  
   if (is.data.frame(recipient)) #for data.frame

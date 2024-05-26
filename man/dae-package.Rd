@@ -367,8 +367,11 @@ Others:\cr\cr
 
 \code{\link{extab}}
   \tab Expands the values in table to a vector\cr
+\code{\link{get.daeRNGkind}}
+  \tab Gets the value of daeRNGkind for the package dae from \cr
+  \tab the daeEnv environment.\cr
 \code{\link{get.daeTolerance}}
-  \tab Gets the value of daeTolerance for the package dae\cr
+  \tab Gets the value of daeTolerance for the package dae.\cr
 \code{\link{harmonic.mean}}
   \tab Calcuates the harmonic mean.\cr
 \code{\link{is.allzero}}
@@ -380,8 +383,11 @@ Others:\cr\cr
 \code{\link{rmvnorm}}
   \tab Generates a vector of random values from a\cr
   \tab multivariate normal distribution\cr
+\code{\link{set.daeRNGkind}}
+  \tab Sets the values of daeRNGkind for the package dae in \cr
+  \tab the daeEnv environment'\cr
 \code{\link{set.daeTolerance}}
-  \tab Sets the value of daeTolerance for the package dae\cr
+  \tab Sets the value of daeTolerance for the package dae.\cr
 }}
 \author{
 \packageAuthor{dae}

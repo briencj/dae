@@ -1,5 +1,13 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2.27 (2024-05-27)}{
+  \itemize{
+  \item Add the variable \code{daeRNGkind} to the \code{daeEnv}, with default \code{Mersenne-Twister}, and the functions set.daeRNGkind and get.RNGkind. This ensures tha the random number generator used by dae has been explicitly changed by the user.
+}}
+\section{Changes in dae version 3.2.26 (2024-04-21)}{
+  \itemize{
+  \item Fixed bugs in testing whether projectors are symmetric or idempotent caused by unimportant differences in attributes of objects involved in the testing.
+}}
 \section{Changes in dae version 3.2.25 (2024-04-09)}{
   \itemize{
   \item Update for submission to CRAN.

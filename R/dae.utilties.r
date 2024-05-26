@@ -2,17 +2,26 @@ daeEnv <- new.env()
 tol <- c(.Machine$double.eps ^ 0.5, .Machine$double.eps ^ 0.5)
 names(tol) <- c("element.tol", "eigen.tol")
 assign("daeTolerance",  tol, envir=daeEnv)
+assign("daeRNGkind", "Mersenne-Twister", envir=daeEnv)
 
-#set.daeTolerance <- function(tolerance = daeTolerance)
-#{ proj <- environment(set.daeTolerance)
-#  unlockBinding("daeTolerance", proj)
-#  daeTolerance <<- tolerance
-#  lockBinding("daeTolerance", proj)
-#  invisible(daeTolerance)
-#}
+#Set the kind of random number generator for dae
+set.daeRNGkind <- function(kind = "Mersenne-Twister")
+{
+  assign("daeRNGkind", kind, envir = daeEnv)
+  invisible(kind)
+}
 
+#Get the current setting of the random number generator for dae
+get.daeRNGkind <- function()
+{ 
+  kind <- get("daeRNGkind", envir=daeEnv)
+  return(kind)
+}
+
+#Set element and eigen tolerances for dae
 set.daeTolerance <- function(element.tol=NULL, eigen.tol=NULL)
-{ tol <- get("daeTolerance", envir=daeEnv)
+{ 
+  tol <- get("daeTolerance", envir=daeEnv)
   
   #Set value for element.tol, if one supplied
   if (!is.null(element.tol))
