@@ -865,8 +865,7 @@ test_that("Exp249", {
   #'## Add factors and variates for new analysis
   Exp249.lay <- within(Exp249.lay, 
                        { 
-                         xMainPosn <- as.numfac(MainPosn)
-                         xMainPosn <- -(xMainPosn - mean(xMainPosn))
+                         xMainPosn <- as.numfac(MainPosn, center = TRUE)
                          Mainplots <- fac.combine(list(Rows,MainPosn))
                        })
 
@@ -917,8 +916,7 @@ test_that("Exp249_All", {
   
   Exp249.lay <- within(Exp249.lay, 
                        { 
-                         xMainPosn <- as.numfac(MainPosn)
-                         xMainPosn <- -(xMainPosn - mean(xMainPosn))
+                         xMainPosn <- as.numfac(MainPosn, center = TRUE)
                          Mainplots <- fac.combine(list(Rows,MainPosn))
                          AMainplots <- fac.combine(list(Zones, Mainplots))
                          ASubplots <- fac.combine(list(AMainplots,Subplots))

@@ -934,9 +934,9 @@ test_that("Exp249", {
   
   #'## Add factors and variates for new analysis
   Exp249.lay <- within(Exp249.lay, 
-                       { xMainPosn <- as.numfac(MainPosn)
-                       xMainPosn <- -(xMainPosn - mean(xMainPosn))
-                       Mainplots <- fac.combine(list(Rows,MainPosn))
+                       { 
+                         xMainPosn <- as.numfac(MainPosn, center = TRUE)
+                         Mainplots <- fac.combine(list(Rows,MainPosn))
                        })
 
   #'## Check properties if only linear trend fitted

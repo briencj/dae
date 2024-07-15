@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2.29 (2024-07-15)}{
+  \itemize{
+  \item Add arguments \code{center} and \code{scale} to as.numfac to centre and scale the numeric.
+}}
 \section{Changes in dae version 3.2.28 (2024-06-12)}{
   \itemize{
   \item Update for submission to CRAN.

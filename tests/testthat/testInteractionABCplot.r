@@ -12,8 +12,8 @@ test_that("interaction.ABC.plot", {
   vdiffr::expect_doppelganger("ABCInteract-Plain", plt)
   
   testthat::expect_silent(plt <- interaction.ABC.plot(MOE, A, B, C, 
-                                               xlab = "Factor A", 
-                                               ylab = "M.O.E.", data=ABC.Interact.dat))
+                                                      xlab = "Factor A", 
+                                                      ylab = "M.O.E.", data=ABC.Interact.dat))
   vdiffr::expect_doppelganger("ABCInteract-Labs", plt)
   
   
@@ -24,6 +24,6 @@ test_that("interaction.ABC.plot", {
                                                               aes(ymax=MOE+se, ymin=MOE-se), 
                                                               width=0.2))))
   vdiffr::expect_doppelganger("ABCInteract-Error", plt)
-
+  
 })
 

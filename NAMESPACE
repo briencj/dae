@@ -118,7 +118,7 @@ importFrom("plyr", "is.formula")
 importFrom("stats", "aov", "as.formula", "coef", "fitted", "formula",
              "lm", "model.frame", "model.matrix", "na.omit", "optimize",
              "pf", "ppoints", "proj", "qf", "qnorm", "qqplot",
-             "residuals", "rnorm", "runif", "var")
+             "residuals", "rnorm", "runif", "sd", "var")
 importFrom("tryCatchLog", "tryCatchLog")
 import(ggplot2)
 S3method(as.data.frame, pstructure)

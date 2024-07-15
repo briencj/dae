@@ -1,14 +1,69 @@
 #"as.numfac" <- function(factor) {as.numeric(as.vector(factor))}
 
-"as.numfac" <- function(factor)
-{ if (!is.numeric(factor))
-  { levs <- levels(factor)
+"as.numfac" <- function(factor, center = FALSE, scale = FALSE)
+{ 
+  if (is.numeric(factor))
+    x <- factor
+  else 
+  { 
+    levs <- levels(factor)
     if (any(is.na(suppressWarnings(as.numeric(levs[!is.na(levs)])))))
       warning("Some levels do not have values that are numeric in nature")
     #see factor help
-    factor <- as.numeric(levels(factor))[factor]
+    x <- as.numeric(levels(factor))[factor]
   }
-  return(factor)
+  
+  #Centre x
+  if (is.logical(center))
+  {
+    if (center)
+    {  
+      center <- mean(unique(x), na.rm = TRUE)
+      x <- x - center
+      if (is.logical(scale) && scale)
+        scale <- sd(unique(x), na.rm = TRUE)
+    } else
+      center <- NULL
+    
+  } else
+  {
+    if (!is.numeric(center))
+      center <- as.numeric(center)
+    if (length(center) == 1)
+      x <- x - center
+    else
+      stop("If center is not a logical, its length must be 1")
+  }
+  
+  #Scale x
+  if (is.logical(scale)) #if centered scale has been made numeric
+  {
+    if (scale)
+    { 
+      scale <- unique(x[!is.na(x)])
+      scale <- sqrt(sum(scale^2)/(length(scale) - 1))
+      x <- x / scale 
+    } else 
+      scale <- NULL
+  } else
+  {
+    if (!is.numeric(scale))
+      scale <- as.numeric(scale)
+    if (length(scale) == 1)
+      x <- x / scale
+    else
+      stop("If scale is not a logical, its length must be 1")
+  }
+  
+  if (!is.null(center) || !is.null(scale))
+  {
+    if (!is.null(center))  
+      attr(x, which = "center") <- center
+    if (!is.null(scale))  
+      attr(x, which = "scale") <- scale
+  }
+  
+  return(x)
 }
 
 "mpone" <- function(factor) {2*as.numeric(factor)-3}
