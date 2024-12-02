@@ -12,7 +12,7 @@ designBlocksGGPlot(ggplot.obj, blockdefinition = NULL, blocksequence = FALSE,
                    facetstrips.placement = "inside", 
                    printPlot = TRUE)}
 \arguments{
- \item{ggplot.obj}{An object produced by \code{ggplot}.}
+ \item{ggplot.obj}{An object produced by \pkg{ggplot2}.}
  \item{blockdefinition}{A \code{\link{matrix}} of block sizes:
     \itemize{
        \item if there is only one row, then the first element is interpreted as the no. rows in 

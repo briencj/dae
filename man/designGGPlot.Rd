@@ -1,6 +1,6 @@
 \name{designGGPlot}
 \alias{designGGPlot}
-\title{Plots labels on two-way grids of coloured cells using \code{ggplot2} to represent an experimental design}
+\title{Plots labels on two-way grids of coloured cells using \pkg{ggplot2} to represent an experimental design}
 \description{Plots the \code{labels} in a grid of cells specified by  
        \code{row.factors} and \code{column.factors}. The cells can be coloured by the values of 
        the column specified by \code{column.name} and can be divided into facets by 
@@ -92,7 +92,8 @@ designGGPlot(design, labels = NULL, label.size = NULL,
  \item{title}{Title for plot window. By default it is "Plot of labels".}
  \item{labeller}{A \code{function} for specifying the formatting of the strip labels of 
                  the facet grids used when there is more than one \code{row.factors} or 
-                 \code{column.factors}. (See \code{\link{labellers}} for \code{ggplot2}.)}
+                 \code{column.factors}. (See \code{\link[ggplot2]{labellers}} from 
+                 \pkg{ggplot2}.)}
  \item{title.size}{A \code{numeric} giving the size for all titles: \code{xlab}, 
               \code{ylab} and \code{title}.}
  \item{axis.text.size}{A \code{numeric} giving the size for tick labels.}
@@ -118,11 +119,11 @@ designGGPlot(design, labels = NULL, label.size = NULL,
         plotted.}
  \item{printPlot}{A \code{\link{logical}} indicating whether to print the plot produced.}
  \item{ggplotFuncs}{A \code{\link{list}}, each element of which contains the 
-                results of evaluating a \code{ggplot} function. 
+                results of evaluating a \pkg{ggplot2} function. 
                 It is created by calling the \code{\link{list}} function with 
-                a \code{ggplot} function call for each element.
+                a \pkg{ggplot2} function call for each element.
                 These functions are applied in creating the \code{ggplot} object.}
- \item{\dots}{Other arguments that are passed down to the \code{geom_text} call that plots the \code{labels}.}
+ \item{\dots}{Other arguments that are passed down to the \code{\link[ggplot2]{geom_text}} call that plots the \code{labels}.}
 }
 \value{An object of class "\code{ggplot}", which can be plotted using \code{print}.}
 \author{Chris Brien}

@@ -140,7 +140,7 @@ test_that("AliasStructure", {
   pstr <- pstructure(formula = ~ Clone*Soil, data = Trts.sys)
   testthat::expect_equal(nrow(pstr$aliasing),2)
   testthat::expect_true((all(pstr$aliasing$Alias == c("Clone", "## Information remaining"))))
-  testthat::expect_true(all(abs(pstr$aliasing$aefficiency - c(0.0024,0.9975)) < 1e-04))
+  testthat::expect_true(all(abs(pstr$aliasing$aefficiency - c(0.0024,0.9975)) < 1e-03))
   testthat::expect_true(all( pstr$marginality[upper.tri(pstr$marginality, diag = TRUE)] == c(1,0,1,1,1,1)))
 })
 

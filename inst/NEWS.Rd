@@ -1,5 +1,10 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2.30 (2024-12-01)}{
+  \itemize{
+  \item Minor manual and vignette revisions.
+  \item Remove links to functions in other libraries. 
+}}
 \section{Changes in dae version 3.2.29 (2024-07-23)}{
   \itemize{
   \item Add arguments \code{center} and \code{scale} to as.numfac to centre and scale the numeric.

@@ -1,6 +1,6 @@
 \name{designPlotlabels}
 \alias{designPlotlabels}
-\title{Plots labels on a two-way grid using \code{ggplot2}}
+\title{Plots labels on a two-way grid using \pkg{ggplot2}}
 \description{Plots the \code{labels} in a grid specified by  
        \code{grid.x}and \code{grid.y}. The labels can be coloured by the values of 
        the column specified by \code{column.name}.}
@@ -33,11 +33,11 @@ designPlotlabels(data, labels, grid.x = "Columns", grid.y = "Rows",
  \item{title}{Title for plot window. By default it is "Plot of labels".}
  \item{printPlot}{A \code{\link{logical}} indicating whether to print the plot.}
  \item{ggplotFuncs}{A \code{\link{list}}, each element of which contains the 
-                results of evaluating a \code{ggplot} function. 
+                results of evaluating a \pkg{ggplot2} function. 
                 It is created by calling the \code{\link{list}} function with 
-                a \code{ggplot} function call for each element.
+                a \pkg{ggplot2} function call for each element.
                 These functions are applied in creating the \code{ggplot} object.}
- \item{\dots}{Other arguments that are passed down to the \code{geom_text} call that plots the \code{labels}.}
+ \item{\dots}{Other arguments that are passed down to the \code{\link[ggplot2]{geom_text}} call that plots the \code{labels}.}
 }
 \value{An object of class "\code{ggplot}", which can be plotted using \code{print}.}
 \author{Chris Brien}

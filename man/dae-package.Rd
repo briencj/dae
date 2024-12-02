@@ -80,10 +80,10 @@ Forms multiple new factors:\cr\cr
   \tab Generate all combinations of the levels of the supplied \cr
   \tab factors, without replication \cr
 \code{\link{fac.multinested}}
-  \tab Creates several factors, one for each level of a nesting.fac \cr
-  \tab and each of whose values are either generated within \cr 
-  \tab those of the level of nesting.fac or using the values \cr
-  \tab of a nested.fac\cr
+  \tab Creates several factors, one for each level of the nesting factor \cr
+  \tab and each of whose values are either generated within those of \cr
+  \tab a level of the nesting factor or using the values of the nested \cr
+  \tab factor within  the levels of the nesting factor. \cr
 \code{\link{fac.split}}
   \tab Splits a factor whose levels consist of several delimited \cr
   \tab strings into several factors.   \cr
@@ -128,14 +128,14 @@ Plotting designs:\cr\cr
 \code{\link{designBlocksGGPlot}}
   \tab Adds block boundaries to a plot produced by \code{\link{designGGPlot}}. \cr
 \code{\link{designGGPlot}}
-  \tab Plots labels on a two-way grid of coloured cells using \code{ggplot2} \cr
+  \tab Plots labels on a two-way grid of coloured cells using \pkg{ggplot2} \cr
   \tab to represent an experimental design. \cr
 \code{\link{designPlot}}
   \tab A graphical representation of an experimental design \cr 
   \tab using labels stored in a matrix. \cr
   \tab It superseded design.plot.\cr
 \code{\link{designPlotlabels}}
-  \tab Plots labels on a two-way grid using \code{ggplot2}. \cr
+  \tab Plots labels on a two-way grid using \pkg{ggplot2}. \cr
 \cr
 Assessing designs:\cr\cr
 

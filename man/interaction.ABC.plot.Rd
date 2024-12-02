@@ -41,11 +41,11 @@
  \item{columns}{The number of columns for arranging the several plots for the
                  levels of the \code{groups.factor}. By default it is 2.}
  \item{ggplotFuncs}{A \code{\link{list}}, each element of which contains the 
-                results of evaluating a \code{ggplot} function. 
+                results of evaluating a \pkg{ggplot2} function. 
                 It is created by calling the \code{\link{list}} function with 
-                a \code{ggplot} function call for each element.
+                a \pkg{ggplot2} function call for each element.
                 These functions are applied in creating the \code{ggplot} object.}
- \item{\dots}{Other arguments that are passed down to \code{ggplot} methods.}
+ \item{\dots}{Other arguments that are passed down to \pkg{ggplot2} methods.}
 }
 \value{An object of class "\code{ggplot}", which can be plotted using \code{print}.}
 \author{Chris Brien}
