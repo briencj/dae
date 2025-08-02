@@ -26,6 +26,7 @@ test_that("fac.nested", {
   testthat::expect_true(all(table(Watering) == c(33478, 523)))
   
 })
+
 cat("#### Test for fac.multinested\n")
 test_that("Multiple nesting", {
   skip_on_cran()
@@ -108,3 +109,53 @@ test_that("Multiple nesting", {
   testthat::expect_true(all(c(2,2,6,5,12,3,8) == summ$decomp$df))
 })
 
+
+cat("#### Test for fac.multinested\n")
+test_that("Multiple nesting Exp832", {
+  skip_on_cran()
+  library(dae)
+  genID <- function(str, nums, ndigit = 2) 
+  { paste0(str, stringi::stri_pad_left(nums, ndigit, pad="0"))}
+  
+  #'### Treatment constants
+  salt.levs <- c(0, 200)
+  nsalt <- length(salt.levs)
+  geno.levs <- genID("G", 1:21)
+  (ngenos <- length(geno.levs))
+  type.levs <- c("low","high")
+  type.levs.abbrv <- c("L", "H")
+  ntypes <- length(type.levs)
+  
+  #'### Units constants
+  nblks <- 4
+  nmain <- nsalt
+  ncells <- ngenos
+  (nunits <- nblks*nmain*ncells)
+  
+  plant.list <- list(Replicate = nblks, Salinity = salt.levs, Genotype = geno.levs)
+  plants.dat <- fac.gen(plant.list)
+  plants.dat <- within(plants.dat, NaType <- fac.recast(Genotype, 
+                                                        newlevels = rep(type.levs[c(2,1)], c(11, 10)),
+                                                        levels.order = type.levs))
+  testthat::expect_equal(levels(plants.dat$NaType), type.levs)
+  testthat::expect_equal(as.character(plants.dat$NaType[1]), type.levs[2])
+  
+  #Test a prefix and subsitute fac.levs for naming the nested facs
+  tmp.dat <- with(plants.dat, 
+                  fac.multinested(NaType, Genotype, 
+                                  fac.prefix = "Genotype", fac.levs = type.levs.abbrv))
+  testthat::expect_equal(names(tmp.dat), paste0("Genotype", type.levs.abbrv))
+  
+  #Test a suffix and subsitute fac.levs for naming the nested facs
+  tmp.dat <- with(plants.dat, 
+                  fac.multinested(NaType, Genotype, 
+                                  fac.suffix = "Genotype", fac.levs = type.levs.abbrv))
+  testthat::expect_equal(names(tmp.dat), paste0(type.levs.abbrv, "Genotype"))
+  
+  #Test a prefix, a suffix and subsitute fac.levs for naming the nested facs
+  tmp.dat <- with(plants.dat, 
+                  fac.multinested(NaType, Genotype, 
+                                  fac.prefix = "Genotype", fac.levs = type.levs.abbrv, 
+                                  fac.suffix = "All"))
+  testthat::expect_equal(names(tmp.dat), paste0("Genotype", type.levs.abbrv, "All"))
+})

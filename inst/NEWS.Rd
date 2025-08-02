@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2.31 (2025-08-02)}{
+  \itemize{
+  \item Add arguments \code{fac.levs} and \code{fac.suffix} to the function fac.multinested.
+}}
 \section{Changes in dae version 3.2.30 (2024-12-01)}{
   \itemize{
   \item Minor manual and vignette revisions.

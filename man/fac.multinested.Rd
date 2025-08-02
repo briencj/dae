@@ -1,9 +1,10 @@
 \name{fac.multinested}
 \alias{fac.multinested}
 \title{Creates several factors, one for each level of the nesting factor and each of whose values are either generated within those of a level of the nesting factor or using the values of the nested factor within  the levels of the nesting factor.}
-\description{Creates several \code{\link{factor}}s, one for each level of \code{nesting.fac} and each of whose values are either (i) generated within those of the level of \code{nesting.fac} or (ii) using the values of \code{nested.fac} within the levels of the \code{nesting.fac}. For (i), all elements having the same level of \code{nesting.fac} are numbered from 1 to the number of different elements having that level. For (ii), the values of \code{nested.fac} for a level of \code{nesting.fac} are copied. In both cases, for the values of \code{nested.fac} not equal to the level of the values of \code{nested.fac} for which a nested \code{\link{factor}} is being created, the levels are set to \code{outlevel} and labelled using \code{outlabel}. A \code{\link{factor}} is not created for a level of \code{nesting.fac} with label equal to \code{outlabel}. The names of the \code{\link{factor}}s are equal to the levels of \code{nesting.fac}; optionally \code{fac.prefix} is added to the beginning of the names of the \code{\link{factor}}s. The function is used to split up a nested term into separate terms for each level of \code{nesting.fac}.}
+\description{Creates several \code{\link{factor}}s, one for each level of \code{nesting.fac}; the levels of each new \code{\link{factor}} are obtained using the different values of the \code{nested.fac} within its level of the \code{nesting.fac} by either (i) numbering the different values from 1 to the number of different values or (ii) copying the different values. In both cases, for the values of \code{nested.fac} not equal to the level of the values of \code{nested.fac} for which a nested \code{\link{factor}} is being created, the levels are set to \code{outlevel} and labelled using \code{outlabel}. A \code{\link{factor}} is not created for a level of \code{nesting.fac} with label equal to \code{outlabel}. The names of the \code{\link{factor}}s are equal to the levels of \code{nesting.fac}; optionally \code{fac.prefix} is added to the beginning of the names of the \code{\link{factor}}s. The function is used to split up a nested term into separate terms for each level of \code{nesting.fac}.}
 \usage{
-fac.multinested(nesting.fac, nested.fac = NULL, fac.prefix = NULL, 
+fac.multinested(nesting.fac, nested.fac = NULL, 
+                fac.prefix = NULL, fac.levs, fac.suffix = NULL, 
                 nested.levs = NA, nested.labs = NA, 
                 outlevel = 0, outlabel = "rest", ...)}
 \arguments{
@@ -14,6 +15,8 @@ fac.multinested(nesting.fac, nested.fac = NULL, fac.prefix = NULL,
                    numbers from 1 to the replication of the level of \code{nesting.fac}, 
                    represented as characters.}
  \item{fac.prefix}{The prefix to be added to a level in naming a nested \code{\link{factor}}.}
+ \item{fac.levs}{The levels to be used in naming the nested \code{\link{factor}s}.}
+ \item{fac.suffix}{The suffix to be added to a level in naming a nested \code{\link{factor}}.}
  \item{nested.levs}{Optional \code{vector} of levels for the nested \code{\link{factor}}s. Any data 
        value that does not match a value in \code{nested.levs} will be \code{NA} in 
        the nested \code{\link{factor}} being generated. The default value of \code{nested.levs} is 

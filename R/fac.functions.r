@@ -95,10 +95,10 @@
   {
     if (is.null(levels.order))
       levels.order <- oldlevs
-    if (!all(oldlevs %in% levels.order) | length(unique(levels.order)) < length(levels.order))
+    if (!all(oldlevs %in% levels.order) || length(unique(levels.order)) < length(levels.order))
       stop("The set of levels.order must be unique and contain all the levels in the factor being recast")
     if (!is.null(newlabels))
-      if (length(newlabels) != length(oldlevs) | length(unique(newlabels)) < length(newlabels))
+      if (length(newlabels) != length(oldlevs) || length(unique(newlabels)) < length(newlabels))
         stop("The newlabels must be a set of unique values equal in length to the number of levels in the factor being recast")
     
     #Recast the factor
@@ -339,7 +339,8 @@ fac.uncombine <- function(factor, new.factors, sep = ",", ...)
 	return(nested.fac)
 }
 
-"fac.multinested" <- function(nesting.fac, nested.fac = NULL, fac.prefix = NULL, 
+"fac.multinested" <- function(nesting.fac, nested.fac = NULL, 
+                              fac.prefix = NULL, fac.levs = NULL, fac.suffix = NULL, 
                               nested.levs = NA, nested.labs = NA, outlevel = 0, outlabel = "rest", ...)
 {
   n <- length(nesting.fac)
@@ -401,6 +402,8 @@ fac.uncombine <- function(factor, new.factors, sep = ",", ...)
                         outlevel = outlevel, outlabel = outlabel)
   }
   nest.facs <- data.frame(nest.facs)
-  names(nest.facs) <- paste0(fac.prefix, levs)
+  if (all(is.null(fac.levs)))
+    fac.levs <- levs
+  names(nest.facs) <- paste0(fac.prefix, fac.levs, fac.suffix)
   return(nest.facs)
 }
