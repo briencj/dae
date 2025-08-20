@@ -322,18 +322,18 @@
 <text transform='translate(18.67,492.19) rotate(-90)' text-anchor='middle' style='font-size: 15.00px; font-weight: bold; fill: #1A1A1A; font-family: sans;' textLength='54.20px' lengthAdjust='spacingAndGlyphs'>Rows: 3</text>
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<polyline points='114.76,86.86 114.76,89.60 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='221.81,86.86 221.81,89.60 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <text x='114.76' y='84.67' text-anchor='middle' style='font-size: 15.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='8.34px' lengthAdjust='spacingAndGlyphs'>1</text>
 <text x='221.81' y='84.67' text-anchor='middle' style='font-size: 15.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='8.34px' lengthAdjust='spacingAndGlyphs'>2</text>
-<polyline points='114.76,89.60 114.76,86.86 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
-<polyline points='221.81,89.60 221.81,86.86 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='334.35,86.86 334.35,89.60 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='441.40,86.86 441.40,89.60 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <text x='334.35' y='84.67' text-anchor='middle' style='font-size: 15.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='8.34px' lengthAdjust='spacingAndGlyphs'>1</text>
 <text x='441.40' y='84.67' text-anchor='middle' style='font-size: 15.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='8.34px' lengthAdjust='spacingAndGlyphs'>2</text>
-<polyline points='334.35,89.60 334.35,86.86 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
-<polyline points='441.40,89.60 441.40,86.86 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='553.94,86.86 553.94,89.60 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='660.99,86.86 660.99,89.60 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <text x='553.94' y='84.67' text-anchor='middle' style='font-size: 15.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='8.34px' lengthAdjust='spacingAndGlyphs'>1</text>
 <text x='660.99' y='84.67' text-anchor='middle' style='font-size: 15.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='8.34px' lengthAdjust='spacingAndGlyphs'>2</text>
-<polyline points='553.94,89.60 553.94,86.86 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
-<polyline points='660.99,89.60 660.99,86.86 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <text x='56.30' y='212.25' text-anchor='end' style='font-size: 15.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='8.34px' lengthAdjust='spacingAndGlyphs'>2</text>
 <text x='56.30' y='133.92' text-anchor='end' style='font-size: 15.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='8.34px' lengthAdjust='spacingAndGlyphs'>1</text>
 <polyline points='58.49,207.09 61.23,207.09 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
@@ -346,8 +346,8 @@
 <text x='56.30' y='458.19' text-anchor='end' style='font-size: 15.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='8.34px' lengthAdjust='spacingAndGlyphs'>1</text>
 <polyline points='58.49,531.36 61.23,531.36 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <polyline points='58.49,453.03 61.23,453.03 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
-<text x='387.88' y='60.33' text-anchor='middle' style='font-size: 15.00px; font-weight: bold; font-family: sans;' textLength='85.90px' lengthAdjust='spacingAndGlyphs'>SubColumns</text>
-<text transform='translate(35.72,330.06) rotate(-90)' text-anchor='middle' style='font-size: 15.00px; font-weight: bold; font-family: sans;' textLength='64.22px' lengthAdjust='spacingAndGlyphs'>SubRows</text>
+<text x='387.88' y='64.19' text-anchor='middle' style='font-size: 15.00px; font-weight: bold; font-family: sans;' textLength='85.90px' lengthAdjust='spacingAndGlyphs'>SubColumns</text>
+<text transform='translate(31.87,330.06) rotate(-90)' text-anchor='middle' style='font-size: 15.00px; font-weight: bold; font-family: sans;' textLength='64.22px' lengthAdjust='spacingAndGlyphs'>SubRows</text>
 <text x='61.23' y='17.87' style='font-size: 18.00px; font-weight: bold; font-family: sans;' textLength='138.07px' lengthAdjust='spacingAndGlyphs'>Plot of Treatment</text>
 </g>
 </svg>

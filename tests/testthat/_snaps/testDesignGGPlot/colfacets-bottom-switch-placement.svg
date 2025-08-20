@@ -125,7 +125,7 @@
 <text x='36.98' y='134.70' text-anchor='end' style='font-size: 20.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='11.12px' lengthAdjust='spacingAndGlyphs'>1</text>
 <polyline points='39.17,372.49 41.91,372.49 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <polyline points='39.17,127.82 41.91,127.82 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
-<text x='378.22' y='542.51' text-anchor='middle' style='font-size: 20.00px; font-weight: bold; font-family: sans;' textLength='72.28px' lengthAdjust='spacingAndGlyphs'>Patients</text>
+<text x='378.22' y='538.50' text-anchor='middle' style='font-size: 20.00px; font-weight: bold; font-family: sans;' textLength='72.28px' lengthAdjust='spacingAndGlyphs'>Patients</text>
 <text transform='translate(19.24,250.15) rotate(-90)' text-anchor='middle' style='font-size: 20.00px; font-weight: bold; font-family: sans;' textLength='93.41px' lengthAdjust='spacingAndGlyphs'>Occasions</text>
 </g>
 </svg>

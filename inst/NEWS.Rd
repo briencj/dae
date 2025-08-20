@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2.32 (2025-08-20)}{
+  \itemize{
+  \item Corrections to documentation for function Zncsspline.
+}}
 \section{Changes in dae version 3.2.31 (2025-08-02)}{
   \itemize{
   \item Add arguments \code{fac.levs} and \code{fac.suffix} to the function fac.multinested.

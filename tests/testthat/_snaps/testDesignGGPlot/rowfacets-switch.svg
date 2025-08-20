@@ -18,7 +18,7 @@
   </clipPath>
 </defs>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<rect x='0.000000000000064' y='0.00' width='720.00' height='576.00' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
+<rect x='0.00' y='0.00' width='720.00' height='576.00' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
 </g>
 <defs>
   <clipPath id='cpNzEuNjF8NzE0LjUyfDQ4Ljk4fDMwNy4wMQ=='>
@@ -109,10 +109,10 @@
 <text transform='translate(46.36,441.51) rotate(-90)' text-anchor='middle' style='font-size: 20.00px; font-weight: bold; fill: #1A1A1A; font-family: sans;' textLength='162.35px' lengthAdjust='spacingAndGlyphs'>Expressiveness: 2</text>
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<polyline points='232.34,46.24 232.34,48.98 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='553.79,46.24 553.79,48.98 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <text x='232.34' y='44.05' text-anchor='middle' style='font-size: 20.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='11.12px' lengthAdjust='spacingAndGlyphs'>1</text>
 <text x='553.79' y='44.05' text-anchor='middle' style='font-size: 20.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='11.12px' lengthAdjust='spacingAndGlyphs'>2</text>
-<polyline points='232.34,48.98 232.34,46.24 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
-<polyline points='553.79,48.98 553.79,46.24 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <text x='66.68' y='281.64' text-anchor='end' style='font-size: 20.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='11.12px' lengthAdjust='spacingAndGlyphs'>4</text>
 <text x='66.68' y='217.13' text-anchor='end' style='font-size: 20.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='11.12px' lengthAdjust='spacingAndGlyphs'>3</text>
 <text x='66.68' y='152.63' text-anchor='end' style='font-size: 20.00px; font-weight: bold; fill: #4D4D4D; font-family: sans;' textLength='11.12px' lengthAdjust='spacingAndGlyphs'>2</text>
