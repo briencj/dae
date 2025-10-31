@@ -1,6 +1,26 @@
 #devtools::test("dae")
 context("Factors")
 
+
+cat("#### Test for makeLevsPadNums\n")
+test_that("makeLevsPadNums", {
+  skip_on_cran()
+  library(dae)
+  
+  #multiple prefixes
+  levs <- testthat::expect_warning(
+    sort(makeLevsPadNums(c("A","B"), 1:4)),
+    regexp = "The length of prefix is not one")
+  testthat::expect_equal(levs, c("A01","A03","B02","B04"))
+  #multiple prefixes and character nums
+  levs <- testthat::expect_warning(
+    sort(makeLevsPadNums(c("A","B"), c("B","C"))))
+  testthat::expect_equal(levs, c("A0B", "B0C"))
+  levs <- makeLevsPadNums(15, 1:4)
+  #numeric prefix
+  testthat::expect_equal(levs, c("1501", "1502", "1503", "1504"))
+})
+
 cat("#### Test for factor manipulation\n")
 test_that("fac.recast", {
   skip_on_cran()

@@ -114,13 +114,11 @@ cat("#### Test for fac.multinested\n")
 test_that("Multiple nesting Exp832", {
   skip_on_cran()
   library(dae)
-  genID <- function(str, nums, ndigit = 2) 
-  { paste0(str, stringi::stri_pad_left(nums, ndigit, pad="0"))}
   
   #'### Treatment constants
   salt.levs <- c(0, 200)
   nsalt <- length(salt.levs)
-  geno.levs <- genID("G", 1:21)
+  geno.levs <- makeLevsPadNums("G", 1:21)
   (ngenos <- length(geno.levs))
   type.levs <- c("low","high")
   type.levs.abbrv <- c("L", "H")

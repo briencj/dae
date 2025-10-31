@@ -1,6 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^.archive$
+^.github$
 ^.tests$
 ^.vignettes$
 ^CRANlogs$

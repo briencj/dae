@@ -1,5 +1,9 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2.33 (2025-10-31)}{
+  \itemize{
+  \item Add the function makeLevsPadNukms.
+}}
 \section{Changes in dae version 3.2.32 (2025-08-20)}{
   \itemize{
   \item Corrections to documentation for function Zncsspline.

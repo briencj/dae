@@ -377,6 +377,9 @@ Others:\cr\cr
   \tab Calcuates the harmonic mean.\cr
 \code{\link{is.allzero}}
   \tab Tests whether all elements are approximately zero\cr
+\code{\link{makeLevsPadNums}}
+  \tab Make a set of levels that consist of a prefix combined  \cr 
+  \tab with padded numeric values. \cr
 \code{\link{rep.data.frame}}
   \tab Replicate the rows of a data.frame by repeating  \cr 
   \tab each row consecutively and/or repeating all rows \cr

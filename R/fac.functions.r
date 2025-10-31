@@ -68,6 +68,28 @@
 
 "mpone" <- function(factor) {2*as.numeric(factor)-3}
 
+"makeLevsPadNums" <- function(prefix, nums, ndigits = 2, pad.char = "0", pad.direction = "left") 
+{ 
+  #Function to make a set of levels that consist of a prefix combined with padded numeric values
+  opts <- c("left", "right")
+  dir <- opts[check.arg.values(pad.direction, opts)]
+  if (length(prefix) != 1) warning("The length of prefix is not one")
+  if (!is.numeric(nums)) warning("The values supplied to nums are not numeric")
+  #Allow for mixture of numbers with and without decimal paces being right padded
+  nums.ch <- as.character(nums)
+  if (pad.char == "0" & dir == "right")  
+  {  
+    ints <- trunc(nums) == nums
+    if (any(ints) && !all(ints))
+      nums.ch[ints] <- paste0(nums.ch[ints], ".")
+  } 
+  if (dir == "left")
+    levs <- paste0(prefix, stringi::stri_pad_left(nums.ch, ndigits, pad=pad.char))
+  else
+    levs <- paste0(prefix, stringi::stri_pad_right(nums.ch, ndigits, pad=pad.char))
+  return(levs)
+}
+
 "fac.recode" <- function(factor, newlevels, ...)
 #function to form a new factor by changing the levels of factor
 { 
