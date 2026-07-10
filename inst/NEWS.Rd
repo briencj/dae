@@ -1,8 +1,16 @@
 \name{news}
 \title{News for Package dae}
+\section{Changes in dae version 3.2.35 (2026-07-09)}{
+  \itemize{
+  \item Put CRAN urls in canonical form.
+}}
+\section{Changes in dae version 3.2.34 (2026-07-08)}{
+  \itemize{
+  \item Update to build  for R 4.6.1 and upload to CRAN.
+}}
 \section{Changes in dae version 3.2.33 (2025-10-31)}{
   \itemize{
-  \item Add the function makeLevsPadNukms.
+  \item Add the function makeLevsPadNums.
 }}
 \section{Changes in dae version 3.2.32 (2025-08-20)}{
   \itemize{
